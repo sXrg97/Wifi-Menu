@@ -19,8 +19,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
         ) : (
           <Skeleton className="w-full h-full bg-black" />
         )}
-
-        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20"></div>
+        
         {/* {menu && (
           <div className="absolute top-0 left-0 text-white flex items-center justify-between w-full px-4 py-3">
             <span className="text-2xl">{menu.restaurantName}</span>
