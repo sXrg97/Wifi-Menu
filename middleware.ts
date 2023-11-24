@@ -2,7 +2,7 @@ import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
   // "/" will be accessible to all users
-  publicRoutes: ["/", "/menu/:id"]
+  publicRoutes: ["/", "/menu/:id", "/api/uploadthing"], //remove api/uploadthing
 });
  
 export const config = {

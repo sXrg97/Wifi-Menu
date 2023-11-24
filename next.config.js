@@ -4,6 +4,9 @@ const nextConfig = {
         serverActions: true,
         serverComponentsExternalPackages: ["mongoose"],
     },
+    images: {
+        domains: ["utfs.io"],
+    },
 }
 
 module.exports = nextConfig

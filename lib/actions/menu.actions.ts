@@ -102,3 +102,21 @@ export const addProductToCategory = async (menuId: string, categoryName: string,
         console.log("Error adding product to category: ", error);
     }
 }
+
+export const uploadMenuPreviewImage = async (menuId: string, menuPreviewImage: string) => {
+    try {
+        connectToDB();
+
+        const updatedMenu = await Menu.findByIdAndUpdate(
+            menuId,
+            { $set: { menuPreviewImage: menuPreviewImage } },
+            { new: true } // This option returns the updated document
+        );
+
+        return JSON.parse(JSON.stringify(updatedMenu));
+
+        
+    } catch (error) {
+        console.error("Error uploading menu preview image: ", error);
+    }
+}

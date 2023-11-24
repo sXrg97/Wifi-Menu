@@ -8,6 +8,7 @@ const menuSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    menuPreviewImage: String,
     categories: [{
         name: String,
         products: [{

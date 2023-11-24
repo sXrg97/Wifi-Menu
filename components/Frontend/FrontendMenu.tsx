@@ -1,15 +1,16 @@
-"use client"
+"use client";
 
 import { fetchMenu } from "@/lib/actions/menu.actions";
-import { Menu } from "@/types/types";
+import { MenuType } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
-
+import RestaurantInfo from "../Dashboard/RestaurantInfo";
+import ShowRestaurant from "./ShowRestaurant";
 
 const FrontendMenu = () => {
     const { id } = useParams();
-    const [menu, setMenu] = useState<null | Menu>(null);
+    const [menu, setMenu] = useState<null | MenuType>(null);
 
     useEffect(() => {
         const getMenu = async () => {
@@ -23,23 +24,22 @@ const FrontendMenu = () => {
         };
         getMenu();
     }, [id]);
-  return (
-    <>
-        {menu ? (
-            <div className="mx-auto max-w-7xl p-8">
-                <h1 className="text-5xl text-center">Pagina meniului {menu.restaurantName}</h1>
-            </div>
-        ) : (
-        <div className="mx-auto max-w-7xl p-8">
-            <h1 className="text-5xl text-center">
-                Fetching menu...
-                <Skeleton className="h-12 w-full bg-slate-400" />
-            </h1>
-        </div>
-        )}
-    </>
-    
-  )
-}
+    return (
+        <>
+            {menu ? (
+                <div className="mx-auto max-w-full">
+                    {id && <ShowRestaurant menu={menu} />}
+                </div>
+            ) : (
+                <div className="mx-auto max-w-7xl p-8">
+                    <h1 className="text-5xl text-center">
+                        Fetching menu...
+                        <Skeleton className="h-12 w-full bg-slate-400" />
+                    </h1>
+                </div>
+            )}
+        </>
+    );
+};
 
-export default FrontendMenu
+export default FrontendMenu;
