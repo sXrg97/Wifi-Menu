@@ -18,8 +18,9 @@ import { toast } from "../ui/use-toast";
 import { MenuType } from "@/types/types";
 import { UpdateMenuInfo } from "@/lib/actions/menu.actions";
 import { Loader2 } from "lucide-react";
+import { generateSlug } from "@/lib/utils";
 
-const EditRestaurantModal = ({menu}:{menu: MenuType}) => {
+const EditRestaurantModal = ({menu, setMenu}:{menu: MenuType, setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>}) => {
 
     const {_id, restaurantName, slug} = menu;
 
@@ -32,8 +33,9 @@ const EditRestaurantModal = ({menu}:{menu: MenuType}) => {
 
     const handleSave = async () => {
         setIsUpdating(true);
+        console.log("updating true")
 
-        const res = await UpdateMenuInfo(_id, restaurantName, slug);
+        const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug);
 
         console.log(res);
 
@@ -49,14 +51,18 @@ const EditRestaurantModal = ({menu}:{menu: MenuType}) => {
                 title: `Success! 🎉`,
                 description: `Meniul a fost actualizay cu succes!`,
             });
+
+            setMenu(res.jsonifiedUpdatedMenu)
         }
 
         setIsUpdating(false);
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        e.target.name === "slug" ? 
+        setFormFields((prev) => ({ ...prev, [e.target.name]: generateSlug(e.target.value) })) 
+        :
         setFormFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-        console.log(formFields);
     };
 
   return (
@@ -107,7 +113,7 @@ const EditRestaurantModal = ({menu}:{menu: MenuType}) => {
             </div>
             <DialogFooter>
                 <DialogClose asChild>
-                    <Button>
+                    <Button onClick={() => setFormFields({restaurantName, slug})}>
                         Inchide
                     </Button>
                 </DialogClose>

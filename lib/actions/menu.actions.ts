@@ -17,8 +17,22 @@ export const fetchMenu = async (menuId: string) => {
     }
 }
 
+export const fetchMenuBySlug = async (slug: string) => {
+    if (!slug) return null;
+    try {
+        connectToDB();
+        const menu = await Menu.findOne({slug});
+
+        return jsonify(menu);
+    } catch (error) {
+        console.log("fetchMenu error: ", error);
+    }
+}
+
 export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, slug: string) => {
     if (!menuId) return { status: 400, message: "Invalid menuId" };
+
+    console.log(menuId, newRestaurantName, slug);
 
     try {
         connectToDB();
@@ -30,21 +44,41 @@ export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, 
             return { status: 400, message: "Menu not found" };
         }
 
+        console.log("menu exists")
+
         // Check if the new slug is already in use (excluding the current document)
         const slugExists = await Menu.exists({ slug, _id: { $ne: existingMenu._id } });
 
+        console.log(slugExists);
+
+
         if (slugExists) {
+            console.log("slug exists")
             return { status: 400, message: "This slug is already in use" };
+
+
         }
 
+        console.log("menu")
+        console.log(existingMenu)
+
         // If the slug is unique, update the restaurantName and slug
-        existingMenu.restaurantName = newRestaurantName;
-        existingMenu.slug = slug;
+        const updatedMenu = await Menu.findByIdAndUpdate(
+            menuId,
+            { $set: { restaurantName: newRestaurantName, slug: slug } },
+            { new: true }
+        );
 
-        // Save the updated document
-        const updatedMenu = await existingMenu.save();
+        console.log("updated menu: ")
+        console.log(updatedMenu)
 
-        return { status: 200, message: "Menu updated successfully", updatedMenu };
+        const jsonifiedUpdatedMenu = await jsonify(updatedMenu);
+
+        console.log("josnified menu")
+        console.log(jsonifiedUpdatedMenu)
+
+
+        return { status: 200, message: "Menu updated successfully", jsonifiedUpdatedMenu };
     } catch (error) {
         console.error(error);
         return { status: 500, message: "Internal Server Error" };

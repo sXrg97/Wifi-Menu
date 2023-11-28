@@ -35,7 +35,7 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
 
             const savedUser = await newUser.save();
 
-            const updateOwner = await Menu.findByIdAndUpdate(savedMenu._id, { $set: { owner: new mongoose.Types.ObjectId(savedUser._id) } });
+            const updateOwner = await Menu.findByIdAndUpdate(savedMenu._id, { $set: { owner: new mongoose.Types.ObjectId(savedUser._id), slug: savedMenu._id } });
 
             updateOwner.save();
 

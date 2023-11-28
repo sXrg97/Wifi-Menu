@@ -59,7 +59,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 {menu && (
                     <div className="absolute top-0 left-0 text-white flex items-center justify-between w-full px-4 py-3">
                         <span className="text-2xl">{menu.restaurantName}</span>
-                        <Link className="flex" href={`/menu/${menuId}`}>
+                        <Link className="flex" href={`/menu/${menu.slug}`}>
                             <span>Go to website</span>
                             <LinkIcon size={12} />
                         </Link>
@@ -67,7 +67,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 )}
             </div>
 
-            {menu && <EditRestaurantModal menu={menu} />}
+            {menu && <EditRestaurantModal menu={menu} setMenu={setMenu}/>}
 
             <div className="flex items-center gap-4">{menuId && 
             <>
