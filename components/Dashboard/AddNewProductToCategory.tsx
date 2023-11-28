@@ -33,7 +33,6 @@ const AddNewProductToCategory = ({
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-        console.log(product);
     };
 
     const handleSave = async () => {

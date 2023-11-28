@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchMenu, updateRestaurantName, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
+import { fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
 import { Check, LinkIcon, Pencil, X } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
@@ -9,10 +9,10 @@ import Link from "next/link";
 import AddNewProductToCategory from "./AddNewProductToCategory";
 import { UploadButton } from "@/utils/uploadthing";
 import { Skeleton } from "../ui/skeleton";
+import EditRestaurantModal from "../Backend/EditRestaurantModal";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
-    const [editable, setEditable] = useState(false);
     const [restaurantNameInput, setRestaurantNameInput] = useState("");
     const { toast } = useToast();
 
@@ -33,34 +33,11 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
         getMenu();
     }, [menuId]);
 
-    const handleUpdateName = async () => {
-        try {
-            if (!menuId) return;
-
-            await updateRestaurantName(menuId, restaurantNameInput);
-
-            // Fetch the updated restaurant name from the server
-            const updatedMenu = await fetchMenu(menuId);
-
-            // Update the state with the new restaurant name
-            setMenu(updatedMenu);
-
-            toast({
-                variant: "success",
-                title: `Success!`,
-                description: `Updated name to ${restaurantNameInput}`,
-            });
-        } catch (err) {
-            console.log(err);
-        }
-        setEditable(false);
-    };
-
-    const handleCancelEdit = () => {
-        // Reset the input field value and set editable to false
-        setRestaurantNameInput(menu?.restaurantName || "");
-        setEditable(false);
-    };
+    // const handleCancelEdit = () => {
+    //     // Reset the input field value and set editable to false
+    //     setRestaurantNameInput(menu?.restaurantName || "");
+    //     setEditable(false);
+    // };
 
     return (
         <div>
@@ -89,50 +66,9 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     </div>
                 )}
             </div>
-            {editable ? (
-                <>
-                    <div className={`flex mb-2 items-center`}>
-                        <input
-                            className={`italic text-xl mr-4 leading-7 p-2 flex-1 focus-visible:outline-none ${
-                                editable && "bg-gray-200 rounded-sm"
-                            }`}
-                            type="text"
-                            value={restaurantNameInput}
-                            onChange={(e) => setRestaurantNameInput(e.target.value)}
-                        />
-                        <button
-                            className="flex items-center justify-center w-10 h-10 text-green-600 bg-green-200 rounded-sm mr-2"
-                            onClick={handleUpdateName}
-                        >
-                            <Check size={24} /> {/* "Tick" icon */}
-                        </button>
-                        <button
-                            className="flex items-center justify-center w-10 h-10 text-red-600 bg-red-200 rounded-sm"
-                            onClick={handleCancelEdit}
-                        >
-                            <X size={24} /> {/* "X" icon */}
-                        </button>
-                    </div>
-                </>
-            ) : (
-                <div className="flex items-center">
-                    {menu && (
-                        <>
-                            <span className="flex-1 mb-2 italic text-xl text-muted-foreground p-2 mr-4 rounded-sm">
-                                {menu.restaurantName}
-                            </span>
-                            <button
-                                className="flex items-center justify-center w-10 h-10 text-gray-600 bg-gray-200 rounded-sm"
-                                onClick={() => setEditable(true)}
-                            >
-                                <Pencil size={24} />
-                            </button>
-                        </>
-                    )}
-                </div>
-            )}
 
-            <div>User Actions:</div>
+            {menu && <EditRestaurantModal menu={menu} />}
+
             <div className="flex items-center gap-4">{menuId && 
             <>
                 <AddCategoryButton menuId={menuId} setMenu={setMenu} />
@@ -141,6 +77,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     endpoint="imageUploader"
                     onClientUploadComplete={(res) => {
                     // Do something with the response
+                    if (!res) return;
                     console.log("Files: ", res[0].url);
                     uploadMenuPreviewImage(menuId ,res[0].url)
                     }}

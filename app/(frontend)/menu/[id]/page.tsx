@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import FrontendMenu from "@/components/Frontend/FrontendMenu";
-import { getAuth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
-    title: "eMenu - hello",
+    title: "eMenu",
     description: "Your menu in the digital world",
 };
 
