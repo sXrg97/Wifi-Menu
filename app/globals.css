@@ -79,3 +79,13 @@
   width: 40px;
   height: 40px;
 }
+
+.product-box:hover .product-image img {
+  transform: scale(1.1);
+  transition: transform 500ms ease-in-out;
+}
+
+.product-box .product-image img {
+  transform: scale(1);
+  transition: transform 500ms ease-in-out;
+}

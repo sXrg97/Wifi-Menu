@@ -36,6 +36,17 @@ const AddNewProductToCategory = ({
     };
 
     const handleSave = async () => {
+        // Manual validation
+        if (!product.name || !product.price || !product.description) {
+            // Display an error message or prevent the save action
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Please fill out all required fields.",
+            });
+            return;
+        }
+    
         try {
             const res = await addProductToCategory(menuId, categoryName, product);
             if (res) {
@@ -56,11 +67,12 @@ const AddNewProductToCategory = ({
             console.log("Error adding category: ", error);
         }
     };
+    
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Adauga Produs +</Button>
+                <Button variant="outline" className="border-dashed border-gray-400 h-full">Adauga Produs +</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -95,12 +107,15 @@ const AddNewProductToCategory = ({
                             name="price"
                             type="number"
                             id="price"
+                            step={0.01}  // Adjusted step for two decimal places
+                            pattern="^\d*(\.\d{0,2})?$"
                             placeholder="ex. 23"
                             className="col-span-3"
-                            onChange={(e) => onChangeHandler(e)}
+                            onChange={(e) => {onChangeHandler(e)}}
                             value={product.price}
                             required
                         />
+
                     </div>
                 </div>
                 <div className="grid gap-4 py-4">

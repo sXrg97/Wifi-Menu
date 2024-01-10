@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
-import { Check, LinkIcon, Pencil, X } from "lucide-react";
+import { Check, ImageIcon, LinkIcon, Pencil, X } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
@@ -10,10 +10,10 @@ import AddNewProductToCategory from "./AddNewProductToCategory";
 import { UploadButton } from "@/utils/uploadthing";
 import { Skeleton } from "../ui/skeleton";
 import EditRestaurantModal from "../Backend/EditRestaurantModal";
+import ProductBox from "../Backend/ProductBox";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
-    const [restaurantNameInput, setRestaurantNameInput] = useState("");
     const { toast } = useToast();
 
     useEffect(() => {
@@ -24,7 +24,6 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 if (responseMenu) {
                     setMenu(responseMenu);
                     console.log(responseMenu);
-                    setRestaurantNameInput(responseMenu.restaurantName);
                 }
             } catch (error) {
                 console.error("Error getting menu:", error);
@@ -32,12 +31,6 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
         };
         getMenu();
     }, [menuId]);
-
-    // const handleCancelEdit = () => {
-    //     // Reset the input field value and set editable to false
-    //     setRestaurantNameInput(menu?.restaurantName || "");
-    //     setEditable(false);
-    // };
 
     return (
         <div>
@@ -67,43 +60,83 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 )}
             </div>
 
-            {menu && <EditRestaurantModal menu={menu} setMenu={setMenu}/>}
 
-            <div className="flex items-center gap-4">{menuId && 
-            <>
-                <AddCategoryButton menuId={menuId} setMenu={setMenu} />
+            <div className="flex items-center gap-4 mb-4">
+                {menuId && 
+                    <>
+                        {menu && <EditRestaurantModal menu={menu} setMenu={setMenu}/>}
 
-                <UploadButton
-                    endpoint="imageUploader"
-                    onClientUploadComplete={(res) => {
-                    // Do something with the response
-                    if (!res) return;
-                    console.log("Files: ", res[0].url);
-                    uploadMenuPreviewImage(menuId ,res[0].url)
-                    }}
-                    onUploadError={(error: Error) => {
-                    // Do something with the error.
-                    alert(`ERROR! ${error.message}`);
-                    }}
-                />
-            </>
-                
+                        <UploadButton className="ml-auto"
+                        content={{
+                            button: <div className="flex"><ImageIcon className="mr-1"/>Incarca poza de coperta</div>
+                        }}
+                            appearance={{
+                                button: {
+                                    width: '100%',
+                                    padding: '8px 16px'
+                                },
+                                allowedContent: {
+                                    display: 'none',
+                                    width: "100%"
+                                }
+                            }}
+                            endpoint="imageUploader"
+                            onClientUploadComplete={async (res) => {
+                                if (!res) return;
+                                    try {
+                                        const newMenu = await uploadMenuPreviewImage(menuId ,res[0].url)
+                                        setMenu(newMenu);
+
+                                        toast({
+                                            variant: "success",
+                                            title: `Success! 🎉`,
+                                            description: `Poza de coperta a fost modificata cu succes!`,
+                                        });
+                                    } catch (error) {
+                                        console.log(error);
+
+                                        toast({
+                                            variant: "destructive",
+                                            title: `Ceva nu a mers bine! 😕`,
+                                            description: `Poza de coperta nu a putut fi modificata!`,
+                                        });
+                                    }
+                                    
+                                }
+                            }
+                            onUploadError={(error: Error) => {
+                                console.log(`ERROR! ${error.message}`);
+
+                                toast({
+                                    variant: "destructive",
+                                    title: `Ceva nu a mers bine! 😕`,
+                                    description: `Poza de coperta nu a putut fi modificata!`,
+                                });
+                            }}
+                        />
+                    </>
                 }
             </div>
+
+            <div className="flex items-center gap-4 mb-4">
+                {menuId && <AddCategoryButton menuId={menuId} setMenu={setMenu} />}
+            </div>
+
             {menu &&
                 menu.categories.map((category, i) => (
-                    <div key={`category_${i}`} className={`category-${category.name}-wrapper mb-4`}>
+                    <div key={`category_${i}`}>
                         <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
-                        {category.products.map((product) => (
-                            <div className="mb-4" key={product.name}>
-                                <span className="text-lg font-semibold block text-gray-800">{product.name}</span>
-                                <span className="text-base font-normal block text-gray-600">{product.description}</span>
-                                <span className="text-base font-normal block text-red-500">{product.price} RON</span>
-                            </div>
-                        ))}
-                        <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} />
+
+                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-3 gap-y-2 gap-x-4`}>
+                            {category.products.map((product, j) => (
+                                <ProductBox key={`${product.name}_${j}`} product={product} admin={true} />
+                            ))}
+
+                            <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} />
+                        </div>
                     </div>
-                ))}
+                )                
+            )}
         </div>
     );
 };

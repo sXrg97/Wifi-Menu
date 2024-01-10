@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { MenuType } from '@/types/types';
 import Link from "next/link";
 import { Skeleton } from '../ui/skeleton';
+import ProductBox from '../Backend/ProductBox';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   return (
@@ -41,19 +42,19 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       {/* Remove the editable and upload functionality */}
       {/* Display categories and products */}
       <div className='flex max-w-7xl flex-col p-8 mx-auto'>
-        {menu &&
-            menu.categories.map((category, i) => (
-            <div key={`category_${i}`} className={`category-${category.name}-wrapper mb-4`}>
-                <h3 className="categoryName font-bold text-2xl mb-2 pb-1 border-b-2">{category.name}</h3>
-                {category.products.map((product) => (
-                <div className="mb-4" key={product.name}>
-                    <span className="text-lg font-semibold block text-gray-800">{product.name}</span>
-                    <span className="text-base font-normal block text-gray-600">{product.description}</span>
-                    <span className="text-base font-normal block text-red-500">{product.price} RON</span>
-                </div>
-                ))}
-            </div>
-            ))}
+      {menu &&
+                menu.categories.map((category, i) => (
+                    <div key={`category_${i}`}>
+                        <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
+
+                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-3 gap-y-2 gap-x-4`}>
+                            {category.products.map((product, j) => (
+                                <ProductBox key={`${product.name}_${j}`} product={product} admin={false} />
+                            ))}
+                        </div>
+                    </div>
+                )                
+            )}
         </div>
     </div>
   );

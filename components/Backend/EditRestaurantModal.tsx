@@ -17,7 +17,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { toast } from "../ui/use-toast";
 import { MenuType } from "@/types/types";
 import { UpdateMenuInfo } from "@/lib/actions/menu.actions";
-import { Loader2 } from "lucide-react";
+import { Loader2, PenIcon } from "lucide-react";
 import { generateSlug } from "@/lib/utils";
 
 const EditRestaurantModal = ({menu, setMenu}:{menu: MenuType, setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>}) => {
@@ -67,8 +67,8 @@ const EditRestaurantModal = ({menu, setMenu}:{menu: MenuType, setMenu: React.Dis
 
   return (
     <Dialog>
-        <DialogTrigger asChild>
-            <Button variant="outline">Editeaza meniu</Button>
+        <DialogTrigger asChild className="flex">
+            <Button variant="outline"><PenIcon className="mr-1"/>Editeaza meniu</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
