@@ -18,7 +18,7 @@ const Header = () => {
             <div className="image-wrapper w-16 h-auto object-contain">
               <Image alt="Wifi Menu Logo" className="w-16 h-auto" src={"/wifi-menu-logo-white.svg"} width={1359} height={873}></Image>
             </div>
-             <span className={`${cabin.className} uppercase font-bold italic text-2xl`}>Wifi Menu</span>
+             <span className={`${cabin.className} hidden sm:block uppercase font-bold italic text-2xl`}>Wifi Menu</span>
           </Link>
 
           <div className="flex items-center gap-4">

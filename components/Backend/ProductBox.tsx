@@ -95,7 +95,7 @@ const ProductBox = ({ product, admin }: { product: ProductType, admin: boolean }
                     </DialogContent>
                 </Dialog>
 
-                <button className="bg-red-500 text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-600 transition-colors">
+                <button className="bg-red-500 text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-600 transition-colors" onClick={() => console.log(product.id)}>
                     <Trash2Icon />
                 </button>
             </div>}
