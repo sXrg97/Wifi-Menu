@@ -137,7 +137,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     <div key={`category_${i}`}>
                         <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
 
-                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-3 gap-y-2 gap-x-4`}>
+                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4`}>
                             {category.products.map((product, j) => (
                                 <ProductBox key={`${product.name}_${j}`} product={product} admin={true} />
                             ))}
