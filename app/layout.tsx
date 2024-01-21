@@ -10,7 +10,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "eMenu",
+    title: "Wifi Menu",
     description: "Your menu in the digital world",
 };
 
