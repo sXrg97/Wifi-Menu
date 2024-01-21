@@ -18,6 +18,8 @@
     "@uploadthing/react": "^6.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "embla-carousel-autoplay": "^8.0.0-rc19",
+    "embla-carousel-react": "^8.0.0-rc19",
     "lucide-react": "^0.286.0",
     "mongodb": "^6.1.0",
     "mongoose": "^7.6.1",

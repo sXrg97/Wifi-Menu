@@ -22,7 +22,7 @@ export default function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en">
-                <body className={`${inter.className} min-h-screen flex flex-col`}>
+                <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth`}>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"

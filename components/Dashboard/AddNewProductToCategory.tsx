@@ -19,6 +19,7 @@ import { toast } from "../ui/use-toast";
 import { MenuType } from "@/types/types";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import { Loader2, PlusIcon } from "lucide-react";
 
 const AddNewProductToCategory = ({
     categoryName,
@@ -29,6 +30,8 @@ const AddNewProductToCategory = ({
     menuId: string | null;
     setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
 }) => {
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [product, setProduct] = useState({ name: "", price: 0, description: "" });
     const [selectedImage, setSelectedImage] = useState<any>(null);
     const [imagePreview, setImagePreview] = useState<any>(null);
@@ -67,6 +70,7 @@ const AddNewProductToCategory = ({
         }
 
         try {
+            setIsUpdating(true);
             const newFileName = `product_picture_${product.name}_${clerkUser.user?.id}_${Date.now()}.png`;
 
             const renamedImage = new File([selectedImage], newFileName, {
@@ -84,6 +88,9 @@ const AddNewProductToCategory = ({
                     description: `Produsul ${product.name} a fost adaugat cu succes!`,
                 });
                 setMenu(res);
+                setIsOpen(false);
+                setProduct({ name: "", price: 0, description: "" });
+                setImagePreview(null);
             } else {
                 toast({
                     variant: "destructive",
@@ -93,14 +100,16 @@ const AddNewProductToCategory = ({
             }
         } catch (error) {
             console.log("Error adding category: ", error);
+        } finally {
+            setIsUpdating(false);
         }
     };
     
 
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" className="border-dashed border-gray-400 h-full">Adauga Produs +</Button>
+                <Button variant="outline" className="border-dashed border-gray-400 h-full" onClick={() => setIsOpen(true)}><PlusIcon /> Adauga Produs</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -185,12 +194,12 @@ const AddNewProductToCategory = ({
                 </div>
                 <DialogFooter>
                     <DialogClose asChild onClick={() => {console.log("hello")}}>
-                        <Button>
+                        <Button onClick={() => setIsOpen(false)}>
                             Inchide
                         </Button>
                     </DialogClose>
                     <Button type="submit" onClick={handleSave}>
-                        Salveaza
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

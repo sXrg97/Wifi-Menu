@@ -17,6 +17,7 @@ import { MenuType } from "@/types/types";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { ChangeEvent, useState } from "react";
 import { useToast } from "../ui/use-toast";
+import { PlusIcon } from "lucide-react";
 
 const AddCategoryButton = ({
     menuId,
@@ -64,7 +65,7 @@ const AddCategoryButton = ({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Adauga Categorie +</Button>
+                <Button variant="outline"><PlusIcon /> Adauga Categorie</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>

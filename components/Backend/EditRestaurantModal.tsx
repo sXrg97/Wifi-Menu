@@ -49,7 +49,7 @@ const EditRestaurantModal = ({menu, setMenu}:{menu: MenuType, setMenu: React.Dis
             toast({
                 variant: "success",
                 title: `Success! 🎉`,
-                description: `Meniul a fost actualizay cu succes!`,
+                description: `Meniul a fost actualizat cu succes!`,
             });
 
             setMenu(res.jsonifiedUpdatedMenu)

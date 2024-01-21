@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
-import {  ImageIcon, LinkIcon } from "lucide-react";
+import { deleteCategory, fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
+import {  ImageIcon, LinkIcon, Loader2Icon, PenIcon, Trash2Icon } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
@@ -12,9 +12,12 @@ import { Skeleton } from "../ui/skeleton";
 import EditRestaurantModal from "../Backend/EditRestaurantModal";
 import ProductBox from "../Backend/ProductBox";
 import { useUser } from "@clerk/nextjs";
+import { Button } from "../ui/button";
+import EditCategoryNameButton from "../Backend/EditCategoryNameButton";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
+    const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -33,6 +36,37 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
         getMenu();
     }, [menuId]);
 
+    const handleDeleteCategory = async (menuId: string, categoryName: string) => {
+        if (!menuId) return;
+        if (!categoryName) return;
+
+        if (!confirm("Sunteti sigur ca doriti sa stergeti aceasta categorie?")) return;
+
+        try {
+            setIsPageLoading(true);
+            const response = await deleteCategory(menuId, categoryName);
+
+            if (response) {
+                setMenu(response);
+
+                toast({
+                    variant: "success",
+                    title: `Success! 🎉`,
+                    description: `Categoria ${categoryName} a fost stearsa cu succes!`,
+                });
+            }
+        } catch (err) {
+            console.log("Error deleting category:", err);
+            toast({
+                variant: "destructive",
+                title: `Ceva nu a mers bine! 😕`,
+                description: `Categoria ${categoryName} nu a putut fi stearsa!`,
+            });
+        } finally {
+            setIsPageLoading(false);
+        }
+
+    }
     
     const clerkUser = useUser();
 
@@ -41,7 +75,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg relative mb-4">
                 {menu ? 
                 <Image
-                className="bg-black"
+                className="bg-black w-full object-cover h-full"
                 alt="Restaurant Cover Image"
                 src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
                 // to fix the image showing the preview before loading the menu
@@ -135,11 +169,26 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             {menu &&
                 menu.categories.map((category, i) => (
                     <div key={`category_${i}`}>
-                        <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
+                        <div className="flex items-center justify-between mb-2">
+                            <h3 className="categoryName font-bold text-2xl">{category.name}</h3>
+
+                            <div className="category-actions flex gap-2">
+                                {menuId && 
+                                <EditCategoryNameButton menuId={menuId} categoryName={category.name} setMenu={setMenu} setIsPageLoading={setIsPageLoading} />
+                                }
+
+                                {menuId && 
+                                <Button className="bg-red-500 text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-600 transition-colors w-10" onClick={() => handleDeleteCategory(menuId, category.name)}>
+                                    <Trash2Icon />
+                                </Button>}
+
+                            </div>
+
+                        </div>
 
                         <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4`}>
-                            {category.products.map((product, j) => (
-                                <ProductBox key={`${product.name}_${j}`} product={product} admin={true} />
+                            {menuId && category.products.map((product, j) => (
+                                <ProductBox key={`${product.name}_${j}`} product={product} admin={true} menuId={menuId} categoryName={category.name} setMenu={setMenu}  />
                             ))}
 
                             <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} />
@@ -147,6 +196,11 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     </div>
                 )                
             )}
+            {isPageLoading && 
+                <div className="overlay-loading fixed top-0 left-0 right-0 bottom-0 backdrop-blur-md flex items-center justify-center">
+                    <Loader2Icon className="animate-spin text-black" size={64}/>
+                </div>
+            }
         </div>
     );
 };

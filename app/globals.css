@@ -75,6 +75,18 @@
   }
 }
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
 .userButton .cl-userButtonAvatarBox {
   width: 40px;
   height: 40px;
@@ -99,3 +111,6 @@
   /* Optional: Add ellipsis for better visual indication */
   text-overflow: ellipsis;
 }
+
+html {
+  scroll-behavior: smooth;}

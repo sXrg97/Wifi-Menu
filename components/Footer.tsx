@@ -11,7 +11,7 @@ const cabin = Cabin({
 const Footer = () => {
   return (
     <div className="w-full bg-purple-500 text-zinc-800 z-50 dark:bg-gray-900 dark:text-white">
-        <div className="mx-auto max-w-6xl py-2 lg:py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 flex items-center justify-between">
         <Link href={"/"} className="text-lg flex items-center gap-2 text-white">
             <div className="image-wrapper w-16 h-auto object-contain">
               <Image alt="Wifi Menu Logo" className="w-16 h-auto" src={"/wifi-menu-logo-white.svg"} width={1359} height={873}></Image>

@@ -5,6 +5,7 @@ import { Menu } from "../models/menu.model";
 import { MenuType } from "@/types/types";
 import { jsonify } from "../utils";
 import { UTApi } from "uploadthing/server";
+import mongoose from "mongoose";
 
 export const fetchMenu = async (menuId: string) => {
     if (!menuId) return null;
@@ -165,6 +166,7 @@ export const addProductToCategory = async (menuId: string, categoryName: string,
         const productWithPicture = {
             ...product,
             image: productPictureUrl,
+            _id: new mongoose.Types.ObjectId(),
         }
 
         category.products.push(productWithPicture);
@@ -196,7 +198,7 @@ export const uploadMenuPreviewImage = async (menuId: string, menuPreviewImage: s
         const updatedMenu = await Menu.findByIdAndUpdate(
             menuId,
             { $set: { menuPreviewImage: menuPreviewImage } },
-            { new: true } // This option returns the updated document
+            { new: true } 
         );
 
         console.log("updated menu: ", updatedMenu);
@@ -211,5 +213,77 @@ export const uploadMenuPreviewImage = async (menuId: string, menuPreviewImage: s
         
     } catch (error) {
         console.error("Error uploading menu preview image: ", error);
+    }
+}
+
+export const deleteProduct = async (menuId: string, categoryName: string, productId: string) => {
+    console.log("INFO ON DELETE PRODUCT")
+    console.log(menuId, categoryName, productId)
+    try {
+        connectToDB();
+
+        const menu = await Menu.findOneAndUpdate(
+            { "categories.products._id": productId },
+            { $pull: { "categories.$.products": { _id: productId } } },
+            { new: true }
+          );
+
+        const updatedMenu = await menu.save();
+
+        return jsonify(updatedMenu);
+
+    } catch (error) {
+        console.log("Error deleting product: ", error);
+    }
+}
+
+export const deleteCategory = async (menuId: string, categoryName: string) => {
+    try {
+        connectToDB();
+
+        const menu = await Menu.findById(menuId);
+
+        const categoryIndex = menu.categories.findIndex((cat: any) => cat.name === categoryName);
+
+        menu.categories.splice(categoryIndex, 1);
+
+        const updatedMenu = await menu.save();
+
+        return jsonify(updatedMenu);
+
+    } catch (error) {
+        console.log("Error deleting category: ", error);
+    }
+}
+
+export const renameCategory = async (menuId: string, categoryName: string, newCategoryName: string) => {
+    try {
+        connectToDB();
+
+        const menu = await Menu.findById(menuId);
+
+        const category = menu.categories.find((cat: any) => cat.name === categoryName);
+
+        category.name = newCategoryName;
+
+        const updatedMenu = await menu.save();
+
+        return jsonify(updatedMenu);
+
+    } catch (error) {
+        console.log("Error renaming category: ", error);
+    }
+}
+
+export const getRandomMenus = async (limit: number) => {
+    try {
+        connectToDB();
+
+        const menus = await Menu.aggregate([{ $sample: { size: limit } }]);
+
+        return jsonify(menus);
+
+    } catch (error) {
+        console.log("Error getting random menus: ", error);
     }
 }
