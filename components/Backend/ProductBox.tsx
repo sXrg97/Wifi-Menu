@@ -23,7 +23,7 @@ const ProductBox = ({ product, admin }: { product: ProductType, admin: boolean }
             <div className="flex">
                 <div className="product-info flex-1">
                     <span className="text-lg font-semibold block text-gray-800">{product.name}</span>
-                    <span className="text-base font-normal block text-gray-600">{product.description}</span>
+                    <span className="text-base font-normal block text-gray-600 clamp-text pr-2">{product.description}</span>
                     <span className="text-base font-normal block text-red-500">{product.price} RON</span>
                 </div>
 
