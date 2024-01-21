@@ -17,6 +17,8 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { addProductToCategory } from "@/lib/actions/menu.actions";
 import { toast } from "../ui/use-toast";
 import { MenuType } from "@/types/types";
+import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
 
 const AddNewProductToCategory = ({
     categoryName,
@@ -28,6 +30,23 @@ const AddNewProductToCategory = ({
     setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
 }) => {
     const [product, setProduct] = useState({ name: "", price: 0, description: "" });
+    const [selectedImage, setSelectedImage] = useState<any>(null);
+    const [imagePreview, setImagePreview] = useState<any>(null);
+    const clerkUser = useUser();
+  
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files && e.target.files[0];
+        setSelectedImage(file);
+  
+        // Display a preview of the selected image
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePreview(reader.result);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
 
     if (!menuId) return null;
 
@@ -46,9 +65,18 @@ const AddNewProductToCategory = ({
             });
             return;
         }
-    
+
         try {
-            const res = await addProductToCategory(menuId, categoryName, product);
+            const newFileName = `product_picture_${product.name}_${clerkUser.user?.id}_${Date.now()}.png`;
+
+            const renamedImage = new File([selectedImage], newFileName, {
+                type: selectedImage.type,
+              });
+
+            const formData = new FormData();
+            formData.append('productPicture', renamedImage);
+
+            const res = await addProductToCategory(menuId, categoryName, product, formData);
             if (res) {
                 toast({
                     variant: "success",
@@ -83,6 +111,24 @@ const AddNewProductToCategory = ({
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="productPicture" className="text-right">
+                            Imagine
+                        </Label>
+                        <Input
+                            type="file"
+                            accept="image/*"
+                            name="productPicture"
+                            id="productPicture"
+                            placeholder="Incarca imaginea ta"
+                            className="col-span-3"
+                            onChange={handleImageChange}
+                        />
+                        {imagePreview &&<><span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-right"></span> <Image alt="product image" src={imagePreview} width={100} height={100} /></>}
+                    </div>
+                </div>
+
+                <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name" className="text-right">
                             Nume
                         </Label>
@@ -98,6 +144,7 @@ const AddNewProductToCategory = ({
                         />
                     </div>
                 </div>
+
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="price" className="text-right">
@@ -118,6 +165,7 @@ const AddNewProductToCategory = ({
 
                     </div>
                 </div>
+
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="description" className="text-right">
@@ -136,11 +184,14 @@ const AddNewProductToCategory = ({
                     </div>
                 </div>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="submit" onClick={handleSave}>
-                            Salveaza
+                    <DialogClose asChild onClick={() => {console.log("hello")}}>
+                        <Button>
+                            Inchide
                         </Button>
                     </DialogClose>
+                    <Button type="submit" onClick={handleSave}>
+                        Salveaza
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

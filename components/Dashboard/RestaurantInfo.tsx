@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
-import { Check, ImageIcon, LinkIcon, Pencil, X } from "lucide-react";
+import {  ImageIcon, LinkIcon } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
@@ -11,6 +11,7 @@ import { UploadButton } from "@/utils/uploadthing";
 import { Skeleton } from "../ui/skeleton";
 import EditRestaurantModal from "../Backend/EditRestaurantModal";
 import ProductBox from "../Backend/ProductBox";
+import { useUser } from "@clerk/nextjs";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
@@ -23,7 +24,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 const responseMenu = await fetchMenu(menuId);
                 if (responseMenu) {
                     setMenu(responseMenu);
-                    console.log(responseMenu);
+                    console.log("menu", responseMenu);
                 }
             } catch (error) {
                 console.error("Error getting menu:", error);
@@ -31,6 +32,9 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
         };
         getMenu();
     }, [menuId]);
+
+    
+    const clerkUser = useUser();
 
     return (
         <div>
@@ -60,13 +64,19 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 )}
             </div>
 
-
             <div className="flex items-center gap-4 mb-4">
                 {menuId && 
                     <>
                         {menu && <EditRestaurantModal menu={menu} setMenu={setMenu}/>}
 
-                        <UploadButton className="ml-auto"
+                        <UploadButton
+                            onBeforeUploadBegin={(files) => {
+                                // Preprocess files before uploading (e.g. rename them)
+                                return files.map(
+                                    (f) => new File([f], "coverImage_" + clerkUser.user?.id + "_" + Date.now() + "_" + f.name , { type: f.type }),
+                                );
+                            }}
+                         className="ml-auto"
                         content={{
                             button: <div className="flex"><ImageIcon className="mr-1"/>Incarca poza de coperta</div>
                         }}

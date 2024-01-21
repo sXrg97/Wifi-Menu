@@ -10,6 +10,8 @@ export type MenuType = {
         name: string;
         price: number;
         description: string;
+        image?: string;
+        _id: string;
       }[];
     }[];
   };

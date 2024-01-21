@@ -16,6 +16,8 @@ const menuSchema = new mongoose.Schema({
             name: String,
             price: Number,
             description: String,
+            image: String,
+            _id: mongoose.Schema.Types.ObjectId,
         }]
     }]
 })

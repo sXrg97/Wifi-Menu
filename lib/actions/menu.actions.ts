@@ -4,6 +4,7 @@ import { connectToDB } from "@/utils/mongoose"
 import { Menu } from "../models/menu.model";
 import { MenuType } from "@/types/types";
 import { jsonify } from "../utils";
+import { UTApi } from "uploadthing/server";
 
 export const fetchMenu = async (menuId: string) => {
     if (!menuId) return null;
@@ -128,7 +129,7 @@ export const addCategory = async (menuId: string, categoryName: string) => {
     }
 }
 
-export const addProductToCategory = async (menuId: string, categoryName: string, product: object) => {
+export const addProductToCategory = async (menuId: string, categoryName: string, product: object, formData: FormData) => {
     try {
         connectToDB();
 
@@ -146,7 +147,27 @@ export const addProductToCategory = async (menuId: string, categoryName: string,
 
         if (!category) throw new Error(`Category "${categoryName}" not found in the menu`);
 
-        category.products.push(product);
+        //Now that the category is found, upload the image to UploadThing
+        const utapi = new UTApi();
+        const response = await utapi.uploadFiles([formData.get('productPicture')]);
+        console.log("UT response: ", response);
+
+        let productPictureUrl;
+
+        // Check if response is an array and has the expected structure
+        if (Array.isArray(response) && response.length > 0 && response[0]?.data?.url) {
+        productPictureUrl = response[0].data.url;
+        } else {
+        console.error("Unexpected response format from UTApi:", response);
+        // Handle the error or set a default value for productPictureUrl
+        }
+
+        const productWithPicture = {
+            ...product,
+            image: productPictureUrl,
+        }
+
+        category.products.push(productWithPicture);
         console.log(category.products);
 
         console.log({category})
@@ -154,6 +175,7 @@ export const addProductToCategory = async (menuId: string, categoryName: string,
         const updatedMenu = await menu.save();
 
         return jsonify(updatedMenu);
+
     } catch (error) {
         console.log("Error adding product to category: ", error);
     }
@@ -163,14 +185,29 @@ export const uploadMenuPreviewImage = async (menuId: string, menuPreviewImage: s
     try {
         connectToDB();
 
+        const utapi = new UTApi();
+
+        const menu = await Menu.findById(menuId);
+        const existingMenuPreviewImage = menu.menuPreviewImage;
+        const existingImageFilename = existingMenuPreviewImage.replace("https://utfs.io/f/", "");
+        console.log("preview img: ", existingImageFilename);
+
+        
         const updatedMenu = await Menu.findByIdAndUpdate(
             menuId,
             { $set: { menuPreviewImage: menuPreviewImage } },
             { new: true } // This option returns the updated document
         );
 
-        return jsonify(updatedMenu);
+        console.log("updated menu: ", updatedMenu);
 
+        if (existingMenuPreviewImage) {
+            await utapi.deleteFiles([existingImageFilename]);
+        }
+
+
+        return jsonify(updatedMenu);
+        
         
     } catch (error) {
         console.error("Error uploading menu preview image: ", error);

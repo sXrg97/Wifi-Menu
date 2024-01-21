@@ -11,6 +11,7 @@ type ProductType = {
     description: string,
     price: number,
     image?: string
+    _id?: string
 }
 
 
@@ -26,19 +27,17 @@ const ProductBox = ({ product, admin }: { product: ProductType, admin: boolean }
                     <span className="text-base font-normal block text-red-500">{product.price} RON</span>
                 </div>
 
-                <div className="product-image flex-1 w-full h-full object-cover overflow-hidden">
-                    <Image src={product.image || "/dashboard-cover.webp"} alt={product.description} width={320} height={180} />
+                <div className="product-image flex-1 w-full h-full object-cover overflow-hidden aspect-square">
+                    <Image className="h-full object-cover" src={product.image || "/dashboard-cover.webp"} alt={product.description} width={320} height={180} />
                 </div>
             </div>
 
             {admin && <div className="flex w-full mt-2 gap-5">
 
                 <Dialog>
-                    <DialogTrigger asChild className="flex">
+                    <DialogTrigger asChild className="flex flex-1 p-1 rounded-sm items-center justify-center transition-color">
                         <Button variant="outline">
-                            <button className="bg-gray-300 text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-gray-400 transition-colors">
                                 <PenIcon />
-                            </button>
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
