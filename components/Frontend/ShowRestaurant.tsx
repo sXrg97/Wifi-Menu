@@ -11,7 +11,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4">
         {menu ? (
           <Image
-            className="bg-black w-full"
+            className="bg-black w-full object-cover h-full"
             alt="Restaurant Cover Image"
             src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
             width={1600}
@@ -47,7 +47,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
                     <div key={`category_${i}`}>
                         <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
 
-                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-3 gap-y-2 gap-x-4`}>
+                        <div className={`category-${category.name}-wrapper  mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4`}>
                             {category.products.map((product, j) => (
                                 <ProductBox key={`${product.name}_${j}`} product={product} admin={false} />
                             ))}
