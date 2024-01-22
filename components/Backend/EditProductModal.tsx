@@ -1,6 +1,7 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { Loader2, PenIcon } from "lucide-react";
+import { Button } from "../ui/button";
 import {
     Dialog,
     DialogContent,
@@ -10,48 +11,40 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { addProductToCategory } from "@/lib/actions/menu.actions";
-import { toast } from "../ui/use-toast";
-import { MenuType } from "@/types/types";
+import { MenuType, ProductType } from "@/types/types";
+import { Switch } from "../ui/switch";
+import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
-import { Loader2, PlusIcon } from "lucide-react";
-import { Switch } from "../ui/switch";
-import { set } from "mongoose";
-import { DEFAULT_PRODUCT } from "@/lib/constants";
+import { toast } from "../ui/use-toast";
+import { editProduct, editProductAndImage, editProductImage } from "@/lib/actions/menu.actions";
 
-const AddNewProductToCategory = ({
-    categoryName,
+const EditProductModal = ({
+    product,
     menuId,
+    categoryName,
     setMenu,
 }: {
-    categoryName: string;
-    menuId: string | null;
-    setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
+    product: ProductType;
+    menuId: string | undefined;
+    categoryName: string | undefined;
+    setMenu: React.Dispatch<React.SetStateAction<MenuType | null>> | undefined;
 }) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [product, setProduct] = useState({...DEFAULT_PRODUCT});
-    const [selectedImage, setSelectedImage] = useState<any>(null);
+    const [editedProduct, setEditedProduct] = useState({ ...product });
     const [imagePreview, setImagePreview] = useState<any>(null);
+    const [selectedImage, setSelectedImage] = useState<any>(null);
     const clerkUser = useUser();
 
     useEffect(() => {
         if (!isOpen) {
             // Dialog was closed, reset your state here
             setImagePreview(null);
-            setProduct({
-                name: "",
-                price: 0,
-                description: "",
-                isReduced: false,
-                reducedPrice: 0,
-                isDiscountProcentual: false,
-            });
+            setEditedProduct({ ...product });
             setSelectedImage(null);
         }
     }, [isOpen]);
@@ -70,82 +63,145 @@ const AddNewProductToCategory = ({
         }
     };
 
-    if (!menuId) return null;
-
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setEditedProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSave = async () => {
-        // Manual validation
-        if (!product.name || !product.price || !product.description) {
-            // Display an error message or prevent the save action
+    const handleEdit = async () => {
+        console.log("editedProduct", editedProduct);
+        console.log("product", product);
+
+        let notModified =
+            editedProduct.name === product.name &&
+            editedProduct.price === product.price &&
+            editedProduct.description === product.description &&
+            editedProduct.isReduced === product.isReduced &&
+            editedProduct.reducedPrice === product.reducedPrice &&
+            editedProduct.isDiscountProcentual === product.isDiscountProcentual;
+
+        if (notModified && !selectedImage) {
+            setIsOpen(false);
             toast({
-                variant: "destructive",
-                title: "Error",
-                description: "Please fill out all required fields.",
+                variant: "default",
+                title: `Nimic de editat!`,
+                description: `Nu ati modificat nimic!`,
             });
             return;
         }
 
-        try {
-            setIsUpdating(true);
+        setIsUpdating(true);
+        let formData = new FormData();
+
+        if (selectedImage) {
             const newFileName = `product_picture_${product.name}_${clerkUser.user?.id}_${Date.now()}.png`;
 
             const renamedImage = new File([selectedImage], newFileName, {
                 type: selectedImage.type,
             });
 
-            const formData = new FormData();
             formData.append("productPicture", renamedImage);
+        }
 
-            const res = await addProductToCategory(menuId, categoryName, product, formData);
-            if (res) {
-                toast({
-                    variant: "success",
-                    title: `Success! 🎉`,
-                    description: `Produsul ${product.name} a fost adaugat cu succes!`,
-                });
-                setMenu(res);
-                setIsOpen(false);
-                setProduct({
-                    name: "",
-                    price: 0,
-                    description: "",
-                    isReduced: false,
-                    reducedPrice: 0,
-                    isDiscountProcentual: false,
-                });
-                setImagePreview(null);
-            } else {
+        if (formData.get("productPicture") && notModified) {
+            setIsUpdating(true);
+            try {
+                const responseMenu = await editProductImage(menuId!, categoryName!, product._id!, formData);
+                if (responseMenu) {
+                    toast({
+                        variant: "success",
+                        title: `Success! 🎉`,
+                        description: `Imaginea produsului ${product.name} a fost modificata cu succes!`,
+                    });
+                    setMenu && setMenu(responseMenu);
+                    setIsOpen(false);
+                    setIsUpdating(false);
+                }
+            } catch (err) {
+                console.log("Error updating product:", err);
                 toast({
                     variant: "destructive",
                     title: `Ceva nu a mers bine! 😕`,
-                    description: `Produsul ${product.name} nu a putut fi adaugat!`,
+                    description: `Produsul ${product.name} nu a fost modificat!`,
                 });
             }
-        } catch (error) {
-            console.log("Error adding category: ", error);
-        } finally {
-            setIsUpdating(false);
+        } else if (!formData.get("productPicture") && !notModified) {
+            setIsUpdating(true);
+            try {
+                const responseMenu = await editProduct(menuId!, categoryName!, product._id!, editedProduct);
+                if (responseMenu) {
+                    toast({
+                        variant: "success",
+                        title: `Success! 🎉`,
+                        description: `Produsul ${product.name} a fost modificat!`,
+                    });
+                    setMenu && setMenu(responseMenu);
+                    setIsOpen(false);
+                    setIsUpdating(false);
+                }
+            } catch (err) {
+                console.log("Error updating product:", err);
+                toast({
+                    variant: "destructive",
+                    title: `Ceva nu a mers bine! 😕`,
+                    description: `Produsul ${product.name} nu a fost modificat!`,
+                });
+            }
+        } else {
+            setIsUpdating(true);
+            try {
+                const responseMenu = await editProductAndImage(
+                    menuId!,
+                    categoryName!,
+                    product._id!,
+                    editedProduct,
+                    formData
+                );
+                if (responseMenu) {
+                    toast({
+                        variant: "success",
+                        title: `Success! 🎉`,
+                        description: `Produsul ${product.name} a fost modificat!`,
+                    });
+                    setMenu && setMenu(responseMenu);
+                    setIsOpen(false);
+                    setIsUpdating(false);
+                }
+            } catch (err) {
+                console.log("Error updating product:", err);
+                toast({
+                    variant: "destructive",
+                    title: `Ceva nu a mers bine! 😕`,
+                    description: `Produsul ${product.name} nu a fost modificat!`,
+                });
+            }
         }
     };
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button
-                    variant="outline"
-                    className="border-dashed border-gray-400 h-full"
-                    onClick={() => setIsOpen(true)}
-                >
-                    <PlusIcon /> Adauga Produs
+                <Button variant="outline" className="flex-1 border-gray-400 h-full" onClick={() => setIsOpen(true)}>
+                    <PenIcon />
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Adauga produs nou in {categoryName}</DialogTitle>
-                    <DialogDescription>Introduceti datele si salvati.</DialogDescription>
+                    <DialogTitle>Editeaza produsul {product.name}</DialogTitle>
+                    <DialogDescription className="flex items-start flex-col">
+                        <span className="mb-2 block">Introduceti datele si salvati.</span>
+                        
+                        {product.image && (
+                            <div className="h-32 w-[50%] object-cover overflow-hidden">
+                                <Image
+                                    className="h-full w-full object-cover"
+                                    alt="product image"
+                                    src={product.image}
+                                    width={100}
+                                    height={100}
+                                />
+                            </div>
+                        )}
+                    </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -182,7 +238,7 @@ const AddNewProductToCategory = ({
                             placeholder="ex. Carbonara"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
-                            value={product.name}
+                            value={editedProduct.name}
                             required
                         />
                     </div>
@@ -204,7 +260,7 @@ const AddNewProductToCategory = ({
                             onChange={(e) => {
                                 onChangeHandler(e);
                             }}
-                            value={product.price}
+                            value={editedProduct.price}
                             required
                         />
                     </div>
@@ -222,7 +278,7 @@ const AddNewProductToCategory = ({
                             placeholder="ex. Cele mai bune paste din lume 😍"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
-                            value={product.description}
+                            value={editedProduct.description}
                             required
                         />
                     </div>
@@ -232,13 +288,13 @@ const AddNewProductToCategory = ({
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label className="text-right">Is reduced?</Label>
                         <Switch
-                            checked={product.isReduced}
-                            onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isReduced: e }))}
+                            checked={editedProduct.isReduced}
+                            onCheckedChange={(e) => setEditedProduct((prev) => ({ ...prev, isReduced: e }))}
                         />
                     </div>
                 </div>
 
-                <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
+                <div className={`${editedProduct.isReduced ? "grid" : "hidden"} gap-2`}>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="reducedPrice" className="text-right">
                             Reducere
@@ -254,30 +310,25 @@ const AddNewProductToCategory = ({
                             onChange={(e) => {
                                 onChangeHandler(e);
                             }}
-                            value={product.reducedPrice}
+                            value={editedProduct.reducedPrice}
                         />
                     </div>
                 </div>
 
-                <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
+                <div className={`${editedProduct.isReduced ? "grid" : "hidden"} gap-2`}>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label className="text-right">Is discount procentual?</Label>
                         <Switch
-                            checked={product.isDiscountProcentual}
-                            onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
+                            checked={editedProduct.isDiscountProcentual}
+                            onCheckedChange={(e) => setEditedProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
                         />
                     </div>
                 </div>
                 <DialogFooter>
-                    <DialogClose
-                        asChild
-                        onClick={() => {
-                            console.log("hello");
-                        }}
-                    >
+                    <DialogClose asChild>
                         <Button onClick={() => setIsOpen(false)}>Inchide</Button>
                     </DialogClose>
-                    <Button type="submit" onClick={handleSave}>
+                    <Button type="submit" onClick={handleEdit}>
                         {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
                     </Button>
                 </DialogFooter>
@@ -286,4 +337,4 @@ const AddNewProductToCategory = ({
     );
 };
 
-export default AddNewProductToCategory;
+export default EditProductModal;

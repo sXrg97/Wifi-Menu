@@ -87,7 +87,7 @@ const EditCategoryNameButton = ({
                         Introduceti numele categoriei. Apasati Salveaza cand ati terminat.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="category" className="text-right">
                             Nume Categorie

@@ -65,7 +65,9 @@ const AddCategoryButton = ({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline"><PlusIcon /> Adauga Categorie</Button>
+                <Button variant="outline">
+                    <PlusIcon /> Adauga Categorie
+                </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -74,7 +76,7 @@ const AddCategoryButton = ({
                         Introduceti numele categoriei. Apasati Salveaza cand ati terminat.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="category" className="text-right">
                             Categorie

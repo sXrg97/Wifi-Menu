@@ -1,32 +1,11 @@
-import { Loader2, PenIcon, Trash2Icon } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 import Image from "next/image";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { deleteProduct } from "@/lib/actions/menu.actions";
-import { MenuType } from "@/types/types";
+import { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
+import EditProductModal from "./EditProductModal";
 
-type ProductType = {
-    name: string;
-    description: string;
-    price: number;
-    image?: string;
-    _id?: string | null;
-    isReduced?: boolean;
-    reducedPrice?: number;
-    isDiscountProcentual?: boolean;
-};
 
 const ProductBox = ({
     product,
@@ -68,19 +47,19 @@ const ProductBox = ({
     };
 
     return (
-        <div className={`border-gray-300 product-box border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden`} key={product.name}>
+        <div className={`border-gray-300 product-box border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden flex flex-col justify-between gap-4`} key={product.name}>
             <div className={`${product.isReduced ? "block" : "hidden"} product-flags absolute top-7 -right-10 bg-red-500 rotate-45 z-30 py-1 px-10 text-white font-bold`}>
                 DISCOUNT!
             </div>
             <div className="flex">
                 <div className="product-info flex-1 flex flex-col">
                     <span className="text-lg font-semibold block text-gray-800 pr-2">{product.name}</span>
-                    <span className="text-base font-normal block text-gray-600 clamp-text pr-2 min-h-16">
+                    <span className="text-base font-normal block text-gray-600 clamp-text pr-2 min-h-16 mb-8">
                         {product.description}
                     </span>
                     <div className="price-container mt-auto">
                         {product.isReduced ? 
-                        <div className="flex gap-4">
+                        <div className="flex flex-col">
                         <span className="font-bold text-red-500">{product.isDiscountProcentual ? `${product.reducedPrice && product.price - ((product.price / 100) * product.reducedPrice)}` : `${product.reducedPrice && product.price - product.reducedPrice}`} RON</span>
                         <span className="text-base block line-through text-gray-500">{product.price} RON</span>
                         </div>
@@ -102,65 +81,7 @@ const ProductBox = ({
 
             {admin && (
                 <div className="flex w-full mt-2 gap-5">
-                    <Dialog>
-                        <DialogTrigger
-                            asChild
-                            className="flex flex-1 p-1 rounded-sm items-center justify-center transition-color"
-                        >
-                            <Button variant="outline">
-                                <PenIcon />
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Setari meniu</DialogTitle>
-                                <DialogDescription>Faceti modificarile dorite iar apoi salvati.</DialogDescription>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="restaurantName" className="text-right">
-                                        Nume restaurant
-                                    </Label>
-                                    <Input
-                                        name="restaurantName"
-                                        type="text"
-                                        id="restaurantName"
-                                        placeholder="ex. McDonalds"
-                                        className="col-span-3"
-                                        onChange={(e) => {}}
-                                        // value={}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="slug" className="text-right">
-                                        Slug
-                                    </Label>
-                                    <Input
-                                        name="slug"
-                                        type="text"
-                                        id="slug"
-                                        placeholder=""
-                                        className="col-span-3"
-                                        onChange={(e) => {}}
-                                        // value={}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <DialogFooter>
-                                <DialogClose asChild>
-                                    <Button onClick={() => {}}>Inchide</Button>
-                                </DialogClose>
-
-                                {/* <Button type="submit" onClick={}> */}
-                                {/* {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"} */}
-                                {/* </Button> */}
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
+                    <EditProductModal product={product} menuId={menuId} categoryName={categoryName} setMenu={setMenu} />
 
                     {product._id && menuId && categoryName && (
                         <Button

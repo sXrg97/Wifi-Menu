@@ -2,7 +2,7 @@
 
 import { connectToDB } from "@/utils/mongoose";
 import { Menu } from "../models/menu.model";
-import { MenuType } from "@/types/types";
+import { MenuType, ProductType } from "@/types/types";
 import { jsonify } from "../utils";
 import { UTApi } from "uploadthing/server";
 import mongoose from "mongoose";
@@ -306,5 +306,96 @@ export const increaseMenuViews = async (menuId: string) => {
         console.log(updatedMenu);
     } catch (error) {
         console.log("Error increasing menu views: ", error);
+    }
+}
+
+export const editProductImage = async (menuId: string, categoryName: string, productId: string, formData: FormData) => {
+    console.log("edit product image")
+
+    try {
+        connectToDB();
+        const menu = await Menu.findById(menuId);
+        const category = menu.categories.find((cat: any) => cat.name === categoryName);
+        const product = category.products.find((prod: any) => prod._id.toString() === productId);
+        const utapi = new UTApi();
+        let existingImageFilename = product.image.replace("https://utfs.io/f/", "");
+
+        const uploadNewImageResponse = await utapi.uploadFiles([formData.get("productPicture")]);
+
+        let newImageUrl;
+
+        if (uploadNewImageResponse[0]?.data?.url) {
+            newImageUrl = uploadNewImageResponse[0].data.url;
+        }
+
+        product.image = newImageUrl;
+
+        const updatedMenu = await menu.save();
+
+        await utapi.deleteFiles([existingImageFilename]);
+
+        return jsonify(updatedMenu);
+    } catch (err) {
+        console.log("Error editing product image: ", err);
+    }
+}
+
+export const editProduct = async (menuId: string, categoryName: string, productId: string , editedProduct: ProductType) => {
+    console.log("edit product")
+
+    try {
+        connectToDB();
+        const menu = await Menu.findById(menuId);
+        const category = menu.categories.find((cat: any) => cat.name === categoryName);
+        const product = category.products.find((prod:any) => prod._id.toString() === productId);
+
+        product.name = editedProduct.name;
+        product.description = editedProduct.description;
+        product.price = editedProduct.price;
+        product.isReduced = editedProduct.isReduced;
+        product.reducedPrice = editedProduct.reducedPrice;
+        product.isDiscountProcentual = editedProduct.isDiscountProcentual;
+
+        const updatedMenu = await menu.save();
+
+        return jsonify(updatedMenu);
+    } catch (err) {
+        console.log("Error editing product: ", err);
+    }
+}
+
+export const editProductAndImage = async (menuId: string, categoryName: string, productId: string, editedProduct: ProductType, formData: FormData) => {
+    try {
+        connectToDB();
+        const menu = await Menu.findById(menuId);
+        const category = menu.categories.find((cat: any) => cat.name === categoryName);
+        const product = category.products.find((prod: any) => prod._id.toString() === productId);
+        const utapi = new UTApi();
+        let existingImageFilename = product.image.replace("https://utfs.io/f/", "");
+
+        const uploadNewImageResponse = await utapi.uploadFiles([formData.get("productPicture")]);
+
+        let newImageUrl;
+
+        if (uploadNewImageResponse[0]?.data?.url) {
+            newImageUrl = uploadNewImageResponse[0].data.url;
+        }
+
+        product.image = newImageUrl;
+
+        await utapi.deleteFiles([existingImageFilename]);
+        
+        product.name = editedProduct.name;
+        product.description = editedProduct.description;
+        product.price = editedProduct.price;
+        product.isReduced = editedProduct.isReduced;
+        product.reducedPrice = editedProduct.reducedPrice;
+        product.isDiscountProcentual = editedProduct.isDiscountProcentual;
+        
+        const updatedMenu = await menu.save();
+        
+        return jsonify(updatedMenu);
+    } catch (err) {
+        console.log("Error editing product and image: ", err);
     }
 }

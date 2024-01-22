@@ -7,12 +7,17 @@ export type MenuType = {
     menuPreviewImage: string,
     categories: {
       name: string;
-      products: {
-        name: string;
-        price: number;
-        description: string;
-        image?: string;
-        _id: string;
-      }[];
+      products: ProductType[];
     }[];
   };
+
+  export type ProductType = {
+    name: string;
+    description: string;
+    price: number;
+    image?: string;
+    _id?: string | null;
+    isReduced?: boolean;
+    reducedPrice?: number;
+    isDiscountProcentual?: boolean;
+};

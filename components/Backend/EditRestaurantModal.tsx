@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { ChangeEvent, useState } from "react";
 import {
@@ -20,20 +20,25 @@ import { UpdateMenuInfo } from "@/lib/actions/menu.actions";
 import { Loader2, PenIcon } from "lucide-react";
 import { generateSlug } from "@/lib/utils";
 
-const EditRestaurantModal = ({menu, setMenu}:{menu: MenuType, setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>}) => {
-
-    const {_id, restaurantName, slug} = menu;
+const EditRestaurantModal = ({
+    menu,
+    setMenu,
+}: {
+    menu: MenuType;
+    setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
+}) => {
+    const { _id, restaurantName, slug } = menu;
 
     const [formFields, setFormFields] = useState({
         restaurantName,
-        slug
-    })
+        slug,
+    });
 
-    const [isUpdating, setIsUpdating] = useState(false)
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const handleSave = async () => {
         setIsUpdating(true);
-        console.log("updating true")
+        console.log("updating true");
 
         const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug);
 
@@ -52,79 +57,77 @@ const EditRestaurantModal = ({menu, setMenu}:{menu: MenuType, setMenu: React.Dis
                 description: `Meniul a fost actualizat cu succes!`,
             });
 
-            setMenu(res.jsonifiedUpdatedMenu)
+            setMenu(res.jsonifiedUpdatedMenu);
         }
 
         setIsUpdating(false);
-    }
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        e.target.name === "slug" ? 
-        setFormFields((prev) => ({ ...prev, [e.target.name]: generateSlug(e.target.value) })) 
-        :
-        setFormFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-  return (
-    <Dialog>
-        <DialogTrigger asChild className="flex">
-            <Button variant="outline"><PenIcon className="mr-1"/>Editeaza meniu</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-                <DialogTitle>Setari meniu</DialogTitle>
-                <DialogDescription>
-                    Faceti modificarile dorite iar apoi salvati.
-                </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="restaurantName" className="text-right">
-                        Nume restaurant
-                    </Label>
-                    <Input
-                        name="restaurantName"
-                        type="text"
-                        id="restaurantName"
-                        placeholder="ex. McDonalds"
-                        className="col-span-3"
-                        onChange={(e) => onChangeHandler(e)}
-                        value={formFields.restaurantName}
-                        required
-                    />
-                </div>
-            </div>
-            <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="slug" className="text-right">
-                        Slug
-                    </Label>
-                    <Input
-                        name="slug"
-                        type="text"
-                        id="slug"
-                        placeholder=""
-                        className="col-span-3"
-                        onChange={(e) => onChangeHandler(e)}
-                        value={formFields.slug}
-                        required
-                    />
-                </div>
-            </div>
-            <DialogFooter>
-                <DialogClose asChild>
-                    <Button onClick={() => setFormFields({restaurantName, slug})}>
-                        Inchide
-                    </Button>
-                </DialogClose>
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        e.target.name === "slug"
+            ? setFormFields((prev) => ({ ...prev, [e.target.name]: generateSlug(e.target.value) }))
+            : setFormFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    };
 
-                <Button type="submit" onClick={handleSave}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+    return (
+        <Dialog>
+            <DialogTrigger asChild className="flex">
+                <Button variant="outline">
+                    <PenIcon className="mr-1" />
+                    Editeaza meniu
                 </Button>
-            </DialogFooter>
-        </DialogContent>
-    </Dialog>
-);
-}
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>Setari meniu</DialogTitle>
+                    <DialogDescription>Faceti modificarile dorite iar apoi salvati.</DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-2">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="restaurantName" className="text-right">
+                            Nume restaurant
+                        </Label>
+                        <Input
+                            name="restaurantName"
+                            type="text"
+                            id="restaurantName"
+                            placeholder="ex. McDonalds"
+                            className="col-span-3"
+                            onChange={(e) => onChangeHandler(e)}
+                            value={formFields.restaurantName}
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="grid gap-2">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="slug" className="text-right">
+                            Slug
+                        </Label>
+                        <Input
+                            name="slug"
+                            type="text"
+                            id="slug"
+                            placeholder=""
+                            className="col-span-3"
+                            onChange={(e) => onChangeHandler(e)}
+                            value={formFields.slug}
+                            required
+                        />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button onClick={() => setFormFields({ restaurantName, slug })}>Inchide</Button>
+                    </DialogClose>
 
-export default EditRestaurantModal
+                    <Button type="submit" onClick={handleSave}>
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
+export default EditRestaurantModal;
