@@ -1,10 +1,9 @@
 "use client";
 
-import { fetchMenu, fetchMenuBySlug } from "@/lib/actions/menu.actions";
+import { fetchMenuBySlug } from "@/lib/actions/menu.actions";
 import { MenuType } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Skeleton } from "../ui/skeleton";
 import ShowRestaurant from "./ShowRestaurant";
 import { Loader2 } from "lucide-react";
 

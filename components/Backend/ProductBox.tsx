@@ -51,7 +51,7 @@ const ProductBox = ({
             <div className={`${product.isReduced ? "block" : "hidden"} product-flags absolute top-7 -right-10 bg-red-500 rotate-45 z-30 py-1 px-10 text-white font-bold`}>
                 DISCOUNT!
             </div>
-            <div className="flex">
+            <div className="flex h-full">
                 <div className="product-info flex-1 flex flex-col">
                     <span className="text-lg font-semibold block text-gray-800 pr-2">{product.name}</span>
                     <span className="text-base font-normal block text-gray-600 clamp-text pr-2 min-h-16 mb-8">
