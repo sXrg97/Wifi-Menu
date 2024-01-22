@@ -68,17 +68,17 @@ const ProductBox = ({
     };
 
     return (
-        <div className="product-box border-gray-300 border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden" key={product.name}>
+        <div className={`border-gray-300 product-box border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden`} key={product.name}>
             <div className={`${product.isReduced ? "block" : "hidden"} product-flags absolute top-7 -right-10 bg-red-500 rotate-45 z-30 py-1 px-10 text-white font-bold`}>
                 DISCOUNT!
             </div>
             <div className="flex">
-                <div className="product-info flex-1">
+                <div className="product-info flex-1 flex flex-col">
                     <span className="text-lg font-semibold block text-gray-800 pr-2">{product.name}</span>
-                    <span className="text-base font-normal block text-gray-600 clamp-text pr-2">
+                    <span className="text-base font-normal block text-gray-600 clamp-text pr-2 min-h-16">
                         {product.description}
                     </span>
-                    <div className="price-container">
+                    <div className="price-container mt-auto">
                         {product.isReduced ? 
                         <div className="flex gap-4">
                         <span className="font-bold text-red-500">{product.isDiscountProcentual ? `${product.reducedPrice && product.price - ((product.price / 100) * product.reducedPrice)}` : `${product.reducedPrice && product.price - product.reducedPrice}`} RON</span>
