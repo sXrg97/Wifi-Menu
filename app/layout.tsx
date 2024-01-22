@@ -12,6 +12,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "Wifi Menu",
     description: "Your menu in the digital world",
+    icons: {
+        icon: "/wifi-menu-logo-white.svg"
+    }
 };
 
 export default function RootLayout({
