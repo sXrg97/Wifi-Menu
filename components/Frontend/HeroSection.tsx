@@ -3,6 +3,8 @@ import AnimatedWave from './AnimatedWave';
 import { Cabin } from 'next/font/google';
 import { Button } from '../ui/button';
 import ClientsCarousel from './ClientsCarousel';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 const cabin = Cabin({
   subsets: ['latin'],
@@ -22,7 +24,9 @@ const HeroSection = () => {
             pentru mesele dumneavoastră cu ușurință.
           </p>
 
-          <Button className='bg-purple-500 text-xl hover:bg-purple-600'>Incepe acum</Button>
+          <Link href='/dashboard'>
+            <Button className='bg-purple-500 text-xl hover:bg-purple-600 create-your-menu-cta-btn'>Creeaza meniul tau <ArrowRight className='ml-1' /></Button>
+          </Link>
         </div>
 
         <div className="hero-image flex-1">

@@ -98,6 +98,8 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 )}
             </div>
 
+            {menu && menu.lifetimeViews && <span className="italic text-gray-400 mb-4 block">Lifetime Views: {menu.lifetimeViews}</span>}
+
             <div className="flex items-center gap-4 mb-4">
                 {menuId && 
                     <>
@@ -168,7 +170,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
             {menu &&
                 menu.categories.map((category, i) => (
-                    <div key={`category_${i}`}>
+                    <div className="mb-8" key={`category_${i}`}>
                         <div className="flex items-center justify-between mb-2">
                             <h3 className="categoryName font-bold text-2xl">{category.name}</h3>
 
@@ -186,7 +188,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
                         </div>
 
-                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4`}>
+                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4`}>
                             {menuId && category.products.map((product, j) => (
                                 <ProductBox key={`${product.name}_${j}`} product={product} admin={true} menuId={menuId} categoryName={category.name} setMenu={setMenu}  />
                             ))}

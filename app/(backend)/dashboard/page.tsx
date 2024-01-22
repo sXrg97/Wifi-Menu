@@ -42,6 +42,7 @@ const Dashboard = () => {
         <h1 className='text-4xl font-bold mb-4'>
           Dashboard
         </h1>
+        
         <main>
           <RestaurantInfo menuId={menuId} />
         </main>

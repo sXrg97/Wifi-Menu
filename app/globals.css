@@ -114,3 +114,11 @@
 
 html {
   scroll-behavior: smooth;}
+
+.create-your-menu-cta-btn svg {
+  transition: margin-left 0.1s ease-in-out;
+}
+
+.create-your-menu-cta-btn:hover svg {
+  margin-left: 0.75rem;
+}

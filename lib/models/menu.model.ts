@@ -9,6 +9,7 @@ const menuSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    lifetimeViews: Number,
     menuPreviewImage: String,
     categories: [{
         name: String,

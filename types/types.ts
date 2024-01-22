@@ -3,6 +3,7 @@ export type MenuType = {
     restaurantName: string;
     isLive: boolean;
     slug: string;
+    lifetimeViews?: number;
     menuPreviewImage: string,
     categories: {
       name: string;

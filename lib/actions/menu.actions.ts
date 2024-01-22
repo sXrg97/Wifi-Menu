@@ -1,6 +1,6 @@
-"use server"
+"use server";
 
-import { connectToDB } from "@/utils/mongoose"
+import { connectToDB } from "@/utils/mongoose";
 import { Menu } from "../models/menu.model";
 import { MenuType } from "@/types/types";
 import { jsonify } from "../utils";
@@ -17,19 +17,19 @@ export const fetchMenu = async (menuId: string) => {
     } catch (error) {
         console.log("fetchMenu error: ", error);
     }
-}
+};
 
 export const fetchMenuBySlug = async (slug: string) => {
     if (!slug) return null;
     try {
         connectToDB();
-        const menu = await Menu.findOne({slug});
+        const menu = await Menu.findOne({ slug });
 
         return jsonify(menu);
     } catch (error) {
         console.log("fetchMenu error: ", error);
     }
-}
+};
 
 export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, slug: string) => {
     if (!menuId) return { status: 400, message: "Invalid menuId" };
@@ -46,23 +46,20 @@ export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, 
             return { status: 400, message: "Menu not found" };
         }
 
-        console.log("menu exists")
+        console.log("menu exists");
 
         // Check if the new slug is already in use (excluding the current document)
         const slugExists = await Menu.exists({ slug, _id: { $ne: existingMenu._id } });
 
         console.log(slugExists);
 
-
         if (slugExists) {
-            console.log("slug exists")
+            console.log("slug exists");
             return { status: 400, message: "This slug is already in use" };
-
-
         }
 
-        console.log("menu")
-        console.log(existingMenu)
+        console.log("menu");
+        console.log(existingMenu);
 
         // If the slug is unique, update the restaurantName and slug
         const updatedMenu = await Menu.findByIdAndUpdate(
@@ -71,14 +68,13 @@ export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, 
             { new: true }
         );
 
-        console.log("updated menu: ")
-        console.log(updatedMenu)
+        console.log("updated menu: ");
+        console.log(updatedMenu);
 
         const jsonifiedUpdatedMenu = await jsonify(updatedMenu);
 
-        console.log("josnified menu")
-        console.log(jsonifiedUpdatedMenu)
-
+        console.log("josnified menu");
+        console.log(jsonifiedUpdatedMenu);
 
         return { status: 200, message: "Menu updated successfully", jsonifiedUpdatedMenu };
     } catch (error) {
@@ -87,101 +83,103 @@ export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, 
     }
 };
 
-
 export const addCategory = async (menuId: string, categoryName: string) => {
     try {
         connectToDB();
 
-        const existingMenu = await Menu.findById(menuId) as MenuType;
+        const existingMenu = (await Menu.findById(menuId)) as MenuType;
 
-// Check if a category with the same name already exists
-        const categoryExists = existingMenu.categories.some(category => category.name === categoryName);
+        // Check if a category with the same name already exists
+        const categoryExists = existingMenu.categories.some((category) => category.name === categoryName);
 
         if (categoryExists) {
-        // Handle the case where the category already exists (e.g., return an error)
+            // Handle the case where the category already exists (e.g., return an error)
             const res = {
                 success: false,
-                error: "Aceasta categorie exista deja"
-            }
-            return res
+                error: "Aceasta categorie exista deja",
+            };
+            return res;
         } else {
-        // If the category doesn't exist, add it to the categories array
-        const updatedMenu = await Menu.findByIdAndUpdate(
-            menuId,
-            { $push: { categories: { name: categoryName, products: [] } } },
-            { new: true } // This option returns the updated document
-        );
-        // Handle success
-        if (updatedMenu) {
-            // Update the component's state with the updated menu
-            console.log('Category added:', updatedMenu);
-            const res = {
-                success: true,
-                updatedMenu: jsonify(updatedMenu)
+            // If the category doesn't exist, add it to the categories array
+            const updatedMenu = await Menu.findByIdAndUpdate(
+                menuId,
+                { $push: { categories: { name: categoryName, products: [] } } },
+                { new: true } // This option returns the updated document
+            );
+            // Handle success
+            if (updatedMenu) {
+                // Update the component's state with the updated menu
+                console.log("Category added:", updatedMenu);
+                const res = {
+                    success: true,
+                    updatedMenu: jsonify(updatedMenu),
+                };
+                return res;
+            } else {
+                console.log("Menu not found or category not added.");
             }
-            return res
-        } else {
-            console.log('Menu not found or category not added.');
         }
-        }
-
     } catch (error) {
-        console.log("Failed to add category: ", error)
+        console.log("Failed to add category: ", error);
     }
-}
+};
 
-export const addProductToCategory = async (menuId: string, categoryName: string, product: object, formData: FormData) => {
+export const addProductToCategory = async (
+    menuId: string,
+    categoryName: string,
+    product: object,
+    formData: FormData
+) => {
     try {
         connectToDB();
 
-        console.log({menuId, categoryName, product})
+        console.log({ menuId, categoryName, product });
 
         const menu = await Menu.findById(menuId);
 
-        console.log({menu})
+        console.log({ menu });
 
         if (!menu) throw new Error("Menu not found");
 
         const category = menu.categories.find((cat: any) => cat.name === categoryName);
 
-        console.log({category})
+        console.log({ category });
 
         if (!category) throw new Error(`Category "${categoryName}" not found in the menu`);
 
         //Now that the category is found, upload the image to UploadThing
         const utapi = new UTApi();
-        const response = await utapi.uploadFiles([formData.get('productPicture')]);
+        const response = await utapi.uploadFiles([formData.get("productPicture")]);
         console.log("UT response: ", response);
 
         let productPictureUrl;
 
         // Check if response is an array and has the expected structure
         if (Array.isArray(response) && response.length > 0 && response[0]?.data?.url) {
-        productPictureUrl = response[0].data.url;
+            productPictureUrl = response[0].data.url;
         } else {
-        console.error("Unexpected response format from UTApi:", response);
-        // Handle the error or set a default value for productPictureUrl
+            console.error("Unexpected response format from UTApi:", response);
+            // Handle the error or set a default value for productPictureUrl
         }
 
         const productWithPicture = {
             ...product,
             image: productPictureUrl,
             _id: new mongoose.Types.ObjectId(),
-        }
+        };
 
         category.products.push(productWithPicture);
         console.log(category.products);
 
-        console.log({category})
+        console.log({ category });
 
         const updatedMenu = await menu.save();
 
         return jsonify(updatedMenu);
-
     } catch (error) {
         console.log("Error adding product to category: ", error);
     }
-}
+};
 
 export const uploadMenuPreviewImage = async (menuId: string, menuPreviewImage: string) => {
     try {
@@ -190,35 +188,41 @@ export const uploadMenuPreviewImage = async (menuId: string, menuPreviewImage: s
         const utapi = new UTApi();
 
         const menu = await Menu.findById(menuId);
-        const existingMenuPreviewImage = menu.menuPreviewImage;
-        const existingImageFilename = existingMenuPreviewImage.replace("https://utfs.io/f/", "");
-        console.log("preview img: ", existingImageFilename);
 
-        
+        if (!menu) {
+            throw new Error("Menu not found");
+        }
+
+        const existingMenuPreviewImage = menu.menuPreviewImage;
+
+        let existingImageFilename;
+
+        if (existingMenuPreviewImage) {
+            existingImageFilename = existingMenuPreviewImage.replace("https://utfs.io/f/", "");
+            console.log("preview img: ", existingImageFilename);
+        }
+
         const updatedMenu = await Menu.findByIdAndUpdate(
             menuId,
             { $set: { menuPreviewImage: menuPreviewImage } },
-            { new: true } 
+            { new: true }
         );
 
         console.log("updated menu: ", updatedMenu);
 
-        if (existingMenuPreviewImage) {
+        if (existingImageFilename) {
             await utapi.deleteFiles([existingImageFilename]);
         }
 
-
         return jsonify(updatedMenu);
-        
-        
     } catch (error) {
         console.error("Error uploading menu preview image: ", error);
     }
-}
+};
 
 export const deleteProduct = async (menuId: string, categoryName: string, productId: string) => {
-    console.log("INFO ON DELETE PRODUCT")
-    console.log(menuId, categoryName, productId)
+    console.log("INFO ON DELETE PRODUCT");
+    console.log(menuId, categoryName, productId);
     try {
         connectToDB();
 
@@ -226,16 +230,15 @@ export const deleteProduct = async (menuId: string, categoryName: string, produc
             { "categories.products._id": productId },
             { $pull: { "categories.$.products": { _id: productId } } },
             { new: true }
-          );
+        );
 
         const updatedMenu = await menu.save();
 
         return jsonify(updatedMenu);
-
     } catch (error) {
         console.log("Error deleting product: ", error);
     }
-}
+};
 
 export const deleteCategory = async (menuId: string, categoryName: string) => {
     try {
@@ -250,11 +253,10 @@ export const deleteCategory = async (menuId: string, categoryName: string) => {
         const updatedMenu = await menu.save();
 
         return jsonify(updatedMenu);
-
     } catch (error) {
         console.log("Error deleting category: ", error);
     }
-}
+};
 
 export const renameCategory = async (menuId: string, categoryName: string, newCategoryName: string) => {
     try {
@@ -269,11 +271,10 @@ export const renameCategory = async (menuId: string, categoryName: string, newCa
         const updatedMenu = await menu.save();
 
         return jsonify(updatedMenu);
-
     } catch (error) {
         console.log("Error renaming category: ", error);
     }
-}
+};
 
 export const getRandomMenus = async (limit: number) => {
     try {
@@ -282,8 +283,30 @@ export const getRandomMenus = async (limit: number) => {
         const menus = await Menu.aggregate([{ $sample: { size: limit } }]);
 
         return jsonify(menus);
-
     } catch (error) {
         console.log("Error getting random menus: ", error);
+    }
+};
+
+export const increaseMenuViews = async (menuId: string) => {
+    try {
+        connectToDB();
+
+        const menu = await Menu.findById(menuId);
+
+        if (!menu) {
+            throw new Error("Menu not found");
+        }
+
+        if (!menu.lifetimeViews) {
+            menu.lifetimeViews = 1;
+        } else {
+            menu.lifetimeViews++;
+        }
+
+        const updatedMenu = await menu.save();
+        console.log(updatedMenu);
+    } catch (error) {
+        console.log("Error increasing menu views: ", error);
     }
 }

@@ -20,6 +20,7 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
                 restaurantName: "My Restaurant",
                 isLive: false,
                 categories: [],
+                lifetimeViews: 0,
             });
 
             const savedMenu = await newMenu.save();
