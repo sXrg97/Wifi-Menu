@@ -23,6 +23,9 @@ type ProductType = {
     price: number;
     image?: string;
     _id?: string | null;
+    isReduced?: boolean;
+    reducedPrice?: number;
+    isDiscountProcentual?: boolean;
 };
 
 const ProductBox = ({
@@ -65,14 +68,25 @@ const ProductBox = ({
     };
 
     return (
-        <div className="product-box border-gray-300 border p-4 rounded-sm hover:shadow-lg transition-shadow" key={product.name}>
+        <div className="product-box border-gray-300 border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden" key={product.name}>
+            <div className={`${product.isReduced ? "block" : "hidden"} product-flags absolute top-7 -right-10 bg-red-500 rotate-45 z-30 py-1 px-10 text-white font-bold`}>
+                DISCOUNT!
+            </div>
             <div className="flex">
                 <div className="product-info flex-1">
                     <span className="text-lg font-semibold block text-gray-800 pr-2">{product.name}</span>
                     <span className="text-base font-normal block text-gray-600 clamp-text pr-2">
                         {product.description}
                     </span>
-                    <span className="text-base font-normal block text-red-500">{product.price} RON</span>
+                    <div className="price-container">
+                        {product.isReduced ? 
+                        <div className="flex gap-4">
+                        <span className="font-bold text-red-500">{product.isDiscountProcentual ? `${product.reducedPrice && product.price - ((product.price / 100) * product.reducedPrice)}` : `${product.reducedPrice && product.price - product.reducedPrice}`} RON</span>
+                        <span className="text-base block line-through text-gray-500">{product.price} RON</span>
+                        </div>
+                        : <span className="text-base block font-bold">{product.price} RON</span>}
+                        
+                    </div>
                 </div>
 
                 <div className="product-image flex-1 w-full h-full object-cover overflow-hidden aspect-square">

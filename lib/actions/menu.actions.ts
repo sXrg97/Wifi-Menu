@@ -132,6 +132,7 @@ export const addProductToCategory = async (
 ) => {
     try {
         connectToDB();
+        console.log(product);
 
         console.log({ menuId, categoryName, product });
 
@@ -169,9 +170,6 @@ export const addProductToCategory = async (
         };
 
         category.products.push(productWithPicture);
-        console.log(category.products);
-
-        console.log({ category });
 
         const updatedMenu = await menu.save();
 

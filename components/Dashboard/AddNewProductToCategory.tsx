@@ -20,6 +20,8 @@ import { MenuType } from "@/types/types";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { Loader2, PlusIcon } from "lucide-react";
+import { Switch } from "../ui/switch";
+import { set } from "mongoose";
 
 const AddNewProductToCategory = ({
     categoryName,
@@ -32,7 +34,7 @@ const AddNewProductToCategory = ({
 }) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [product, setProduct] = useState({ name: "", price: 0, description: "" });
+    const [product, setProduct] = useState({ name: "", price: 0, description: "", isReduced: false, reducedPrice: 0, isDiscountProcentual: false});
     const [selectedImage, setSelectedImage] = useState<any>(null);
     const [imagePreview, setImagePreview] = useState<any>(null);
     const clerkUser = useUser();
@@ -89,7 +91,7 @@ const AddNewProductToCategory = ({
                 });
                 setMenu(res);
                 setIsOpen(false);
-                setProduct({ name: "", price: 0, description: "" });
+                setProduct({ name: "", price: 0, description: "", isReduced: false, reducedPrice: 0, isDiscountProcentual: false});
                 setImagePreview(null);
             } else {
                 toast({
@@ -189,6 +191,51 @@ const AddNewProductToCategory = ({
                             onChange={(e) => onChangeHandler(e)}
                             value={product.description}
                             required
+                        />
+                    </div>
+                </div>
+
+                <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">
+                            Is reduced?
+                        </Label>
+                        <Switch
+                            checked={product.isReduced}
+                            onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isReduced: e }))}
+                        />
+                    </div>
+                </div>
+
+                <div className={`${product.isReduced ? "grid" : "hidden" } gap-4 py-4`}>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="reducedPrice" className="text-right">
+                            Reducere
+                        </Label>
+                        <Input
+                            name="reducedPrice"
+                            type="number"
+                            id="price"
+                            step={0.01}  // Adjusted step for two decimal places
+                            pattern="^\d*(\.\d{0,2})?$"
+                            placeholder="ex. 23"
+                            className="col-span-3"
+                            onChange={(e) => {onChangeHandler(e)}}
+                            value={product.reducedPrice}
+
+                        />
+
+                    </div>
+                </div>
+
+                <div className={`${product.isReduced ? "grid" : "hidden" } gap-4 py-4`}>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">
+                            Is discount procentual?
+                        </Label>
+                        <Switch
+                            checked={product.isDiscountProcentual}
+                            onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
                         />
                     </div>
                 </div>

@@ -18,6 +18,9 @@ const menuSchema = new mongoose.Schema({
             price: Number,
             description: String,
             image: String,
+            isReduced: Boolean,
+            reducedPrice: Number,
+            isDiscountProcentual: Boolean,
             _id: mongoose.Schema.Types.ObjectId,
         }]
     }]
