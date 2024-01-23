@@ -5,7 +5,7 @@ import { deleteProduct } from "@/lib/actions/menu.actions";
 import { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import EditProductModal from "./EditProductModal";
-
+import {  calculateDiscountedPrice } from "@/lib/utils";
 
 const ProductBox = ({
     product,
@@ -47,8 +47,15 @@ const ProductBox = ({
     };
 
     return (
-        <div className={`border-gray-300 product-box border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden flex flex-col justify-between gap-4`} key={product.name}>
-            <div className={`${product.isReduced ? "block" : "hidden"} product-flags absolute top-7 -right-10 bg-red-500 rotate-45 z-30 py-1 px-10 text-white font-bold`}>
+        <div
+            className={`border-gray-300 product-box border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden flex flex-col justify-between gap-4`}
+            key={product.name}
+        >
+            <div
+                className={`${
+                    product.isReduced ? "block" : "hidden"
+                } product-flags absolute top-7 -right-10 bg-red-500 rotate-45 z-30 py-1 px-10 text-white font-bold`}
+            >
                 DISCOUNT!
             </div>
             <div className="flex h-full">
@@ -58,13 +65,25 @@ const ProductBox = ({
                         {product.description}
                     </span>
                     <div className="price-container mt-auto">
-                        {product.isReduced ? 
-                        <div className="flex flex-col">
-                        <span className="font-bold text-red-500">{product.isDiscountProcentual ? `${product.reducedPrice && product.price - ((product.price / 100) * product.reducedPrice)}` : `${product.reducedPrice && product.price - product.reducedPrice}`} RON</span>
-                        <span className="text-base block line-through text-gray-500">{product.price} RON</span>
-                        </div>
-                        : <span className="text-base block font-bold">{product.price} RON</span>}
-                        
+                        {product.isReduced ? (
+                            <div className="flex flex-col">
+                                <span className="font-bold text-red-500">
+                                    {product.reducedPrice &&
+                                        `${calculateDiscountedPrice(
+                                            product.price,
+                                            product.reducedPrice,
+                                            product.isDiscountProcentual!
+                                        )} RON (-${
+                                            product.isDiscountProcentual
+                                                ? `${product.reducedPrice}%`
+                                                : `${product.reducedPrice} LEI`
+                                        })`}
+                                </span>
+                                <span className="text-base block line-through text-gray-500">{product.price} RON</span>
+                            </div>
+                        ) : (
+                            <span className="text-base block font-bold">{product.price} RON</span>
+                        )}
                     </div>
                 </div>
 

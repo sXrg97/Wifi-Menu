@@ -19,3 +19,12 @@ export function generateSlug(restaurantName: string) {
 export function jsonify(data: any) {
   return JSON.parse(JSON.stringify(data));
 }
+
+// Calculate discounted price based on whether it's percentage or value
+export const calculateDiscountedPrice = (originalPrice: number, discount: number, isPercentage: boolean): number => {
+  const discountedPrice = isPercentage
+    ? originalPrice - (originalPrice * discount) / 100
+    : originalPrice - discount;
+
+  return Number(discountedPrice.toFixed(2));
+};
