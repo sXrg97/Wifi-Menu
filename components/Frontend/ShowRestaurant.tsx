@@ -1,11 +1,32 @@
+"use client"
+
 import React from 'react';
 import Image from 'next/image';
 import { MenuType } from '@/types/types';
 import { Skeleton } from '../ui/skeleton';
 import ProductBox from '../Backend/ProductBox';
 import { generateSlug } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { useSearchParams } from 'next/navigation';
+import { callWaiter } from '@/lib/actions/menu.actions';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
+  const searchParams = useSearchParams();
+
+  const handleCallWaiter = async () => {
+    const tableNumber = Number(searchParams.get('table'));
+    
+    if (!tableNumber) return;
+
+    console.log('Call for waiter initialised');
+
+    try {
+      callWaiter(menu._id, tableNumber, true)
+    } catch (err) {
+      console.log("Error trying to call for waiter", err)
+    }
+  }
+
   return (
     <div>
       <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4">
@@ -44,6 +65,10 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       <div className='flex max-w-7xl flex-col p-8 mx-auto'>
 
       <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName}</h1>
+
+      <div className="flex max-w-7xl flex-col p-8 mx-auto">
+        <Button className='call-for-waiter bg-green-500 text-white p-2 rounded-sm flex flex-1 items-center justify-center hover:bg-green-600 transition-colors' onClick={handleCallWaiter}>Call for waiter</Button>
+      </div>
       
       <ul className='flex gap-6 mb-8 overflow-scroll no-scrollbar'>
         {menu &&

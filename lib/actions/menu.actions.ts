@@ -13,6 +13,7 @@ export const fetchMenu = async (menuId: string) => {
         connectToDB();
         const menu = await Menu.findById(menuId);
         const jsonMenu = menu.toJSON();
+
         return jsonify(jsonMenu);
     } catch (error) {
         console.log("fetchMenu error: ", error);
@@ -31,7 +32,7 @@ export const fetchMenuBySlug = async (slug: string) => {
     }
 };
 
-export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, slug: string) => {
+export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, slug: string, tables: number) => {
     if (!menuId) return { status: 400, message: "Invalid menuId" };
 
     console.log(menuId, newRestaurantName, slug);
@@ -67,6 +68,24 @@ export const UpdateMenuInfo = async (menuId: string, newRestaurantName: string, 
             { $set: { restaurantName: newRestaurantName, slug: slug } },
             { new: true }
         );
+
+        // Check if the tables field exists, if not, create it
+        if (!updatedMenu.tables) {
+            updatedMenu.tables = [];
+        }
+
+        // Create or replace tables based on the provided number
+        updatedMenu.tables = Array.from({ length: tables }, (_, index) => {
+            const tableNumber = index + 1;
+            return {
+                tableNumber,
+                callWaiter: false,
+                requestBill: false,
+            };
+        });
+        
+        // Save the updated menu
+        await updatedMenu.save();
 
         console.log("updated menu: ");
         console.log(updatedMenu);
@@ -397,5 +416,25 @@ export const editProductAndImage = async (menuId: string, categoryName: string, 
         return jsonify(updatedMenu);
     } catch (err) {
         console.log("Error editing product and image: ", err);
+    }
+}
+
+export const callWaiter = async (menuId: string, tableNumber: number, action: boolean) => {
+    try {
+        connectToDB();
+        const menu = await Menu.findById(menuId);
+        const table = menu.tables.find((table: any) => table.tableNumber === tableNumber);
+
+        if (!table) {
+            throw new Error("Table not found");
+        }
+
+        table.callWaiter = action;
+
+        const updatedMenu = await menu.save();
+
+        return jsonify(updatedMenu);
+    } catch (error) {
+        console.log("Error calling waiter: ", error);
     }
 }

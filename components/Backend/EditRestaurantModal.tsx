@@ -27,11 +27,13 @@ const EditRestaurantModal = ({
     menu: MenuType;
     setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
 }) => {
-    const { _id, restaurantName, slug } = menu;
+    const { _id, restaurantName, slug, tables } = menu;
 
     const [formFields, setFormFields] = useState({
         restaurantName,
         slug,
+        //tables but count the array objects and add 1
+        tables: tables.length,
     });
 
     const [isUpdating, setIsUpdating] = useState(false);
@@ -40,7 +42,7 @@ const EditRestaurantModal = ({
         setIsUpdating(true);
         console.log("updating true");
 
-        const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug);
+        const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug, formFields.tables);
 
         console.log(res);
 
@@ -99,6 +101,7 @@ const EditRestaurantModal = ({
                         />
                     </div>
                 </div>
+
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="slug" className="text-right">
@@ -116,9 +119,27 @@ const EditRestaurantModal = ({
                         />
                     </div>
                 </div>
+
+                <div className="grid gap-2">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="tables" className="text-right">
+                            Tables
+                        </Label>
+                        <Input
+                            name="tables"
+                            type="number"
+                            id="tables"
+                            className="col-span-3"
+                            onChange={(e) => onChangeHandler(e)}
+                            value={formFields.tables}
+                            min={0}
+                            required
+                        />
+                    </div>
+                </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button onClick={() => setFormFields({ restaurantName, slug })}>Inchide</Button>
+                        <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length })}>Inchide</Button>
                     </DialogClose>
 
                     <Button type="submit" onClick={handleSave}>

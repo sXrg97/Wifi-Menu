@@ -23,7 +23,8 @@ const menuSchema = new mongoose.Schema({
             isDiscountProcentual: Boolean,
             _id: mongoose.Schema.Types.ObjectId,
         }]
-    }]
+    }],
+    tables: [{tableNumber: Number, callWaiter: Boolean, requestBill: Boolean}]
 })
 
 menuSchema.index({ slug: 1 }, { unique: true });

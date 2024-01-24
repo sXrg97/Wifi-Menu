@@ -2,7 +2,7 @@
 
 import { fetchMenuBySlug } from "@/lib/actions/menu.actions";
 import { MenuType } from "@/types/types";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ShowRestaurant from "./ShowRestaurant";
 import { Loader2 } from "lucide-react";

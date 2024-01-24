@@ -4,7 +4,7 @@ import FrontendMenu from "@/components/Frontend/FrontendMenu";
 import Cookies from 'js-cookie';
 import { useEffect } from "react";
 import { fetchMenuBySlug, increaseMenuViews } from "@/lib/actions/menu.actions";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 const Menu = () => {
     const checkAndIncreaseViews = async (menuId: string) => {
@@ -21,6 +21,7 @@ const Menu = () => {
 
     // Call the function on component mount
     const { slug } = useParams();
+
 
     useEffect(() => {
         let menuId;
