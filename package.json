@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "socket": "node socketServer.js"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.27.2",
@@ -29,6 +30,8 @@
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.0.3"

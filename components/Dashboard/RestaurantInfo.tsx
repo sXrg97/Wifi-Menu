@@ -14,6 +14,7 @@ import ProductBox from "../Backend/ProductBox";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import EditCategoryNameButton from "../Backend/EditCategoryNameButton";
+import ImportantUpdates from "./ImportantUpdates";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
@@ -72,6 +73,9 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
     return (
         <div>
+            <div className="w-full mb-8">
+                {menu && <ImportantUpdates menu={menu} />}
+            </div>
             <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg relative mb-4">
                 {menu ? 
                 <Image

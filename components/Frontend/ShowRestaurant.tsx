@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { MenuType } from '@/types/types';
 import { Skeleton } from '../ui/skeleton';
@@ -9,9 +9,32 @@ import { generateSlug } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { useSearchParams } from 'next/navigation';
 import { callWaiter } from '@/lib/actions/menu.actions';
+import { io } from 'socket.io-client';
+import { useToast } from '../ui/use-toast';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
+
+  const socket = io("http://localhost:3001")
+  const { toast } = useToast();
+
+
+  useEffect(() => {
+      socket.on("connect", () => {
+          console.log("connected from client showrestaurant")
+      })
+
+      socket.on("waiter-on-the-way-notification", (data) => {
+        if (data === Number(searchParams.get('table'))) {
+          toast({
+              variant: "success",
+              title: `Success! 🎉`,
+              description: `Chelnerul vine la masa!`,
+          })
+        }
+      })
+  }, [])
+
 
   const handleCallWaiter = async () => {
     const tableNumber = Number(searchParams.get('table'));
@@ -21,7 +44,11 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     console.log('Call for waiter initialised');
 
     try {
-      callWaiter(menu._id, tableNumber, true)
+      const res = await callWaiter(menu._id, tableNumber, true)
+      if (res) {
+        socket.emit("call-for-waiter")
+      }
+
     } catch (err) {
       console.log("Error trying to call for waiter", err)
     }
@@ -41,27 +68,9 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
         ) : (
           <Skeleton className="w-full h-full bg-black" />
         )}
-        
-        {/* {menu && (
-          <div className="absolute top-0 left-0 text-white flex items-center justify-between w-full px-4 py-3">
-            <span className="text-2xl">{menu.restaurantName}</span>
-          </div>
-        )} */}
+
       </div>
 
-      <div className="flex items-center">
-        {/* {menu && (
-          <>
-            <span className="flex-1 mb-2 italic text-xl text-muted-foreground p-2 mr-4 rounded-sm">
-              {menu.restaurantName}
-            </span>
-          </>
-        )} */}
-      </div>
-
-      {/* <div>User Actions:</div> */}
-      {/* Remove the editable and upload functionality */}
-      {/* Display categories and products */}
       <div className='flex max-w-7xl flex-col p-8 mx-auto'>
 
       <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName}</h1>

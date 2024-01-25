@@ -438,3 +438,14 @@ export const callWaiter = async (menuId: string, tableNumber: number, action: bo
         console.log("Error calling waiter: ", error);
     }
 }
+
+export const getTables = async (menuId: string) => {
+    try {
+        connectToDB();
+        const menu = await Menu.findById(menuId);
+
+        return jsonify(menu.tables);
+    } catch (error) {
+        console.log("Error getting tables: ", error);
+    }
+}
