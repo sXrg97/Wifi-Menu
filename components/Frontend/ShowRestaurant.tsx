@@ -15,7 +15,7 @@ import { useToast } from '../ui/use-toast';
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
 
-  const socket = io("http://localhost:3001")
+  const socket = io("https://template-nodejs-dev-agca.3.us-1.fl0.io/")
   const { toast } = useToast();
 
 
