@@ -28,13 +28,15 @@
     "mongoose": "^7.6.1",
     "next": "^14.0.3",
     "next-themes": "^0.2.1",
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "socket.io": "^4.7.4",
     "socket.io-client": "^4.7.4",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^6.0.3"
+    "uploadthing": "^6.0.3",
+    "vaul": "^0.8.9"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

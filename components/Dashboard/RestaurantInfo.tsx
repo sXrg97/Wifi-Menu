@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { deleteCategory, fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
-import { ImageIcon, LinkIcon, Loader2Icon, PenIcon, Trash2Icon } from "lucide-react";
+import { ImageIcon, LinkIcon, Loader2Icon, Trash2Icon } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
@@ -15,6 +15,7 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import EditCategoryNameButton from "../Backend/EditCategoryNameButton";
 import ImportantUpdates from "./ImportantUpdates";
+import QRPreviewr from "./QRPreviewr";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
@@ -176,9 +177,12 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             </div>
 
             {menu && 
-                <div className="flex items-center gap-4 mb-6 flex-wrap">
+                <div className="flex items-center gap-x-8 gap-y-4 mb-6 flex-wrap">
                     {menu.tables.map((table, i) => (
-                        <Button variant={"outline"} key={`table_${table.tableNumber}`}><Link href={`/menu/${menu.slug}?table=${table.tableNumber}`}>See table {table.tableNumber}</Link></Button>
+                        <div className="flex gap-2" key={`table_${table.tableNumber}`}>
+                            <Button variant={"outline"}><Link href={`/menu/${menu.slug}?table=${table.tableNumber}`}>See table {table.tableNumber}</Link></Button>
+                            <QRPreviewr menuName={menu.restaurantName} slug={menu.slug} tableNumber={table.tableNumber} />
+                        </div>
                     ))}
                 </div>
             }
