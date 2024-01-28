@@ -84,7 +84,7 @@ const EditCategoryNameButton = ({
                 <DialogHeader>
                     <DialogTitle>Edit category name</DialogTitle>
                     <DialogDescription>
-                        Enter the name of the category. Click Save when you're done.
+                        Enter the name of the category. Click Save when you&apos;re done.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
