@@ -5,7 +5,7 @@ import { deleteProduct } from "@/lib/actions/menu.actions";
 import { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import EditProductModal from "./EditProductModal";
-import {  calculateDiscountedPrice } from "@/lib/utils";
+import { calculateDiscountedPrice } from "@/lib/utils";
 
 const ProductBox = ({
     product,
@@ -24,14 +24,14 @@ const ProductBox = ({
 
     const handleDeleteProduct = async (menuId: string, categoryName: string, productId: string) => {
         //TODO: Add a confirmation dialog with shadcn maybe
-        if (confirm("Sunteti sigur ca doriti sa stergeti acest produs?")) {
+        if (confirm("Are you sure you want to delete this product?")) {
             try {
                 const responseMenu = await deleteProduct(menuId, categoryName, productId);
                 if (responseMenu) {
                     toast({
                         variant: "success",
                         title: `Success! 🎉`,
-                        description: `Produsul ${product.name} a fost adaugata!`,
+                        description: `The product ${product.name} has been added!`,
                     });
                     setMenu && setMenu(responseMenu);
                 }
@@ -39,8 +39,8 @@ const ProductBox = ({
                 console.log("Error deleting product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Ceva nu a mers bine! 😕`,
-                    description: `Produsul ${product.name} nu a fost sters!`,
+                    title: `Something went wrong! 😕`,
+                    description: `The product ${product.name} wasn't deleted!`,
                 });
             }
         }
@@ -73,16 +73,16 @@ const ProductBox = ({
                                             product.price,
                                             product.reducedPrice,
                                             product.isDiscountProcentual!
-                                        )} RON (-${
+                                        )} USD (-${
                                             product.isDiscountProcentual
                                                 ? `${product.reducedPrice}%`
-                                                : `${product.reducedPrice} LEI`
+                                                : `${product.reducedPrice} USD`
                                         })`}
                                 </span>
-                                <span className="text-base block line-through text-gray-500">{product.price} RON</span>
+                                <span className="text-base block line-through text-gray-500">{product.price} USD</span>
                             </div>
                         ) : (
-                            <span className="text-base block font-bold">{product.price} RON</span>
+                            <span className="text-base block font-bold">{product.price} USD</span>
                         )}
                     </div>
                 </div>

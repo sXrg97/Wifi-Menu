@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { deleteCategory, fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
-import {  ImageIcon, LinkIcon, Loader2Icon, PenIcon, Trash2Icon } from "lucide-react";
+import { ImageIcon, LinkIcon, Loader2Icon, PenIcon, Trash2Icon } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
@@ -41,7 +41,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
         if (!menuId) return;
         if (!categoryName) return;
 
-        if (!confirm("Sunteti sigur ca doriti sa stergeti aceasta categorie?")) return;
+        if (!confirm("Are you sure you want to delete this category?")) return;
 
         try {
             setIsPageLoading(true);
@@ -60,36 +60,33 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             console.log("Error deleting category:", err);
             toast({
                 variant: "destructive",
-                title: `Ceva nu a mers bine! 😕`,
+                title: `Something went wrong! 😕`,
                 description: `Categoria ${categoryName} nu a putut fi stearsa!`,
             });
         } finally {
             setIsPageLoading(false);
         }
+    };
 
-    }
-    
     const clerkUser = useUser();
 
     return (
         <div>
-            <div className="w-full mb-8">
-                {menu && <ImportantUpdates menu={menu} />}
-            </div>
+            <div className="w-full mb-8">{menu && <ImportantUpdates menu={menu} />}</div>
             <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg relative mb-4">
-                {menu ? 
-                <Image
-                className="bg-black w-full object-cover h-full"
-                alt="Restaurant Cover Image"
-                src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
-                // to fix the image showing the preview before loading the menu
-                width={1600}
-                height={1200}
-                />
+                {menu ? (
+                    <Image
+                        className="bg-black w-full object-cover h-full"
+                        alt="Restaurant Cover Image"
+                        src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : "/dashboard-cover.webp"}`}
+                        // to fix the image showing the preview before loading the menu
+                        width={1600}
+                        height={1200}
+                    />
+                ) : (
+                    <Skeleton className="w-full h-full bg-black" />
+                )}
 
-                : <Skeleton className="w-full h-full bg-black"/>
-                }
-                
                 <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20"></div>
                 {menu && (
                     <div className="absolute top-0 left-0 text-white flex items-center justify-between w-full px-4 py-3">
@@ -102,71 +99,89 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 )}
             </div>
 
-            {menu && menu.lifetimeViews && <span className="italic text-gray-400 mb-4 block">Lifetime Views: {menu.lifetimeViews}</span>}
+            {menu && menu.lifetimeViews && (
+                <span className="italic text-gray-400 mb-4 block">Lifetime Views: {menu.lifetimeViews}</span>
+            )}
 
-            <div className="flex items-center gap-4 mb-4">
-                {menuId && 
+            <div className="flex items-center gap-4 mb-6">
+                {menuId && (
                     <>
-                        {menu && <EditRestaurantModal menu={menu} setMenu={setMenu}/>}
+                        {menu && <EditRestaurantModal menu={menu} setMenu={setMenu} />}
 
                         <UploadButton
                             onBeforeUploadBegin={(files) => {
                                 // Preprocess files before uploading (e.g. rename them)
                                 return files.map(
-                                    (f) => new File([f], "coverImage_" + clerkUser.user?.id + "_" + Date.now() + "_" + f.name , { type: f.type }),
+                                    (f) =>
+                                        new File(
+                                            [f],
+                                            "coverImage_" + clerkUser.user?.id + "_" + Date.now() + "_" + f.name,
+                                            { type: f.type }
+                                        )
                                 );
                             }}
-                         className="ml-auto"
-                        content={{
-                            button: <div className="flex"><ImageIcon className="mr-1"/>Incarca poza de coperta</div>
-                        }}
+                            className="ml-auto"
+                            content={{
+                                button: (
+                                    <div className="flex">
+                                        <ImageIcon className="mr-1" />
+                                        Upload Cover Image
+                                    </div>
+                                ),
+                            }}
                             appearance={{
                                 button: {
-                                    width: '100%',
-                                    padding: '8px 16px'
+                                    width: "100%",
+                                    padding: "8px 16px",
                                 },
                                 allowedContent: {
-                                    display: 'none',
-                                    width: "100%"
-                                }
+                                    display: "none",
+                                    width: "100%",
+                                },
                             }}
                             endpoint="imageUploader"
                             onClientUploadComplete={async (res) => {
                                 if (!res) return;
-                                    try {
-                                        const newMenu = await uploadMenuPreviewImage(menuId ,res[0].url)
-                                        setMenu(newMenu);
+                                try {
+                                    const newMenu = await uploadMenuPreviewImage(menuId, res[0].url);
+                                    setMenu(newMenu);
 
-                                        toast({
-                                            variant: "success",
-                                            title: `Success! 🎉`,
-                                            description: `Poza de coperta a fost modificata cu succes!`,
-                                        });
-                                    } catch (error) {
-                                        console.log(error);
+                                    toast({
+                                        variant: "success",
+                                        title: `Success! 🎉`,
+                                        description: `Poza de coperta a fost modificata cu succes!`,
+                                    });
+                                } catch (error) {
+                                    console.log(error);
 
-                                        toast({
-                                            variant: "destructive",
-                                            title: `Ceva nu a mers bine! 😕`,
-                                            description: `Poza de coperta nu a putut fi modificata!`,
-                                        });
-                                    }
-                                    
+                                    toast({
+                                        variant: "destructive",
+                                        title: `Something went wrong! 😕`,
+                                        description: `Poza de coperta nu a putut fi modificata!`,
+                                    });
                                 }
-                            }
+                            }}
                             onUploadError={(error: Error) => {
                                 console.log(`ERROR! ${error.message}`);
 
                                 toast({
                                     variant: "destructive",
-                                    title: `Ceva nu a mers bine! 😕`,
+                                    title: `Something went wrong! 😕`,
                                     description: `Poza de coperta nu a putut fi modificata!`,
                                 });
                             }}
                         />
                     </>
-                }
+                )}
             </div>
+
+            {menu && 
+                <div className="flex items-center gap-4 mb-6 flex-wrap">
+                    {menu.tables.map((table, i) => (
+                        <Button variant={"outline"} key={`table_${table.tableNumber}`}><Link href={`/menu/${menu.slug}?table=${table.tableNumber}`}>See table {table.tableNumber}</Link></Button>
+                    ))}
+                </div>
+            }
 
             <div className="flex items-center gap-4 mb-4">
                 {menuId && <AddCategoryButton menuId={menuId} setMenu={setMenu} />}
@@ -179,34 +194,50 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                             <h3 className="categoryName font-bold text-2xl">{category.name}</h3>
 
                             <div className="category-actions flex gap-2">
-                                {menuId && 
-                                <EditCategoryNameButton menuId={menuId} categoryName={category.name} setMenu={setMenu} setIsPageLoading={setIsPageLoading} />
-                                }
+                                {menuId && (
+                                    <EditCategoryNameButton
+                                        menuId={menuId}
+                                        categoryName={category.name}
+                                        setMenu={setMenu}
+                                        setIsPageLoading={setIsPageLoading}
+                                    />
+                                )}
 
-                                {menuId && 
-                                <Button className="bg-red-500 text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-600 transition-colors w-10" onClick={() => handleDeleteCategory(menuId, category.name)}>
-                                    <Trash2Icon />
-                                </Button>}
-
+                                {menuId && (
+                                    <Button
+                                        className="bg-red-500 text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-600 transition-colors w-10"
+                                        onClick={() => handleDeleteCategory(menuId, category.name)}
+                                    >
+                                        <Trash2Icon />
+                                    </Button>
+                                )}
                             </div>
-
                         </div>
 
-                        <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4`}>
-                            {menuId && category.products.map((product, j) => (
-                                <ProductBox key={`${product.name}_${j}`} product={product} admin={true} menuId={menuId} categoryName={category.name} setMenu={setMenu}  />
-                            ))}
+                        <div
+                            className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4`}
+                        >
+                            {menuId &&
+                                category.products.map((product, j) => (
+                                    <ProductBox
+                                        key={`${product.name}_${j}`}
+                                        product={product}
+                                        admin={true}
+                                        menuId={menuId}
+                                        categoryName={category.name}
+                                        setMenu={setMenu}
+                                    />
+                                ))}
 
                             <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} />
                         </div>
                     </div>
-                )                
-            )}
-            {isPageLoading && 
+                ))}
+            {isPageLoading && (
                 <div className="overlay-loading fixed top-0 left-0 right-0 bottom-0 backdrop-blur-md flex items-center justify-center">
-                    <Loader2Icon className="animate-spin text-black" size={64}/>
+                    <Loader2Icon className="animate-spin text-black" size={64} />
                 </div>
-            }
+            )}
         </div>
     );
 };

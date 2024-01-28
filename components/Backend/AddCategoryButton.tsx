@@ -47,14 +47,14 @@ const AddCategoryButton = ({
                 toast({
                     variant: "success",
                     title: `Success! 🎉`,
-                    description: `Categoria ${categoryName} a fost adaugata!`,
+                    description: `Category ${categoryName} has been created!`,
                 });
                 setMenu(res.updatedMenu);
             } else {
                 toast({
                     variant: "destructive",
-                    title: `Ceva nu a mers bine! 😕`,
-                    description: `Categoria ${categoryName} exista deja!`,
+                    title: `Something went wrong! 😕`,
+                    description: `Category ${categoryName} already exists!`,
                 });
             }
         } catch (error) {
@@ -66,24 +66,24 @@ const AddCategoryButton = ({
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant="outline">
-                    <PlusIcon /> Adauga Categorie
+                    <PlusIcon /> Add Category
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Adauga Categorie</DialogTitle>
+                    <DialogTitle>Add Category</DialogTitle>
                     <DialogDescription>
-                        Introduceti numele categoriei. Apasati Salveaza cand ati terminat.
+                        Enter the name of the category. Click Save when you&apos;re done.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="category" className="text-right">
-                            Categorie
+                            Category Name
                         </Label>
                         <Input
                             id="category"
-                            placeholder="ex. Paste"
+                            placeholder="eg. Paste"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={categoryName}
@@ -93,7 +93,7 @@ const AddCategoryButton = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button type="submit" onClick={handleSave}>
-                            Salveaza
+                            Save
                         </Button>
                     </DialogClose>
                 </DialogFooter>

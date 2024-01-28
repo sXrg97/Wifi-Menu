@@ -25,15 +25,14 @@ const HeroSection = () => {
                     </h1>
 
                     <p className={`${cabin.className} hero text-xl font-bold italic mb-5 sm:mb-10 text-gray-500 pr-8`}>
-                        Transformați experiența clienților într-un festin digital!
+                        Transform your customers&apos; experience into a digital feast!
                         <br />
-                        Creați meniul online al restaurantului dvs. și generați coduri QR pentru mesele dumneavoastră cu
-                        ușurință.
+                        Easily create your restaurant&apos;s online menu and generate QR codes for your tables.
                     </p>
 
                     <Link href="/dashboard">
                         <Button className="bg-purple-600 text-xl hover:bg-purple-700 create-your-menu-cta-btn">
-                            Creeaza meniul tau <ArrowRight className="ml-1" />
+                            Create your QR menu <ArrowRight className="ml-1" />
                         </Button>
                     </Link>
                 </div>
@@ -51,11 +50,6 @@ const HeroSection = () => {
             </div>
 
             <ClientsCarousel />
-
-            <div className={`bg-purple-600`}>
-                <AnimatedWave />
-                <section className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">hello</section>
-            </div>
         </>
     );
 };

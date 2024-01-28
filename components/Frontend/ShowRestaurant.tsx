@@ -8,9 +8,10 @@ import ProductBox from '../Backend/ProductBox';
 import { generateSlug } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { useSearchParams } from 'next/navigation';
-import { callWaiter } from '@/lib/actions/menu.actions';
+import { callWaiter, requestBill } from '@/lib/actions/menu.actions';
 import { io } from 'socket.io-client';
 import { useToast } from '../ui/use-toast';
+import { ConciergeBell, User } from 'lucide-react';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
@@ -29,7 +30,17 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
           toast({
               variant: "success",
               title: `Success! 🎉`,
-              description: `Chelnerul vine la masa!`,
+              description: `The waiter is coming to your table!`,
+          })
+        }
+      })
+
+      socket.on("bill-on-the-way-notification", (data) => {
+        if (data === Number(searchParams.get('table'))) {
+          toast({
+              variant: "success",
+              title: `Success! 🎉`,
+              description: `The bill is on it's way!`,
           })
         }
       })
@@ -47,6 +58,24 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       const res = await callWaiter(menu._id, tableNumber, true)
       if (res) {
         socket.emit("call-for-waiter")
+      }
+
+    } catch (err) {
+      console.log("Error trying to call for waiter", err)
+    }
+  }
+
+  const handleRequestBill = async () => {
+    const tableNumber = Number(searchParams.get('table'));
+    
+    if (!tableNumber) return;
+
+    console.log('Request bill initialised');
+
+    try {
+      const res = await requestBill(menu._id, tableNumber, true)
+      if (res) {
+        socket.emit("request-bill")
       }
 
     } catch (err) {
@@ -73,10 +102,11 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
 
       <div className='flex max-w-7xl flex-col p-8 mx-auto'>
 
-      <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName}</h1>
+      <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName} - Table {Number(searchParams.get('table'))} </h1>
 
-      <div className="flex max-w-7xl flex-col p-8 mx-auto">
-        <Button className='call-for-waiter bg-green-500 text-white p-2 rounded-sm flex flex-1 items-center justify-center hover:bg-green-600 transition-colors' onClick={handleCallWaiter}>Call for waiter</Button>
+      <div className="flex max-w-7xl gap-4 mb-8">
+        <Button variant={'secondary'} className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><User /> Call for waiter</Button>
+        <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><ConciergeBell /> Request bill</Button>
       </div>
       
       <ul className='flex gap-6 mb-8 overflow-scroll no-scrollbar'>

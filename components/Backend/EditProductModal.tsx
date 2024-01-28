@@ -120,7 +120,7 @@ const EditProductModal = ({
                 console.log("Error updating product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Ceva nu a mers bine! 😕`,
+                    title: `Something went wrong! 😕`,
                     description: `Produsul ${product.name} nu a fost modificat!`,
                 });
             }
@@ -142,7 +142,7 @@ const EditProductModal = ({
                 console.log("Error updating product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Ceva nu a mers bine! 😕`,
+                    title: `Something went wrong! 😕`,
                     description: `Produsul ${product.name} nu a fost modificat!`,
                 });
             }
@@ -170,7 +170,7 @@ const EditProductModal = ({
                 console.log("Error updating product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Ceva nu a mers bine! 😕`,
+                    title: `Something went wrong! 😕`,
                     description: `Produsul ${product.name} nu a fost modificat!`,
                 });
             }
@@ -186,10 +186,10 @@ const EditProductModal = ({
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Editeaza produsul {product.name}</DialogTitle>
+                    <DialogTitle>Edit product {product.name}</DialogTitle>
                     <DialogDescription className="flex items-start flex-col">
-                        <span className="mb-2 block">Introduceti datele si salvati.</span>
-                        
+                        <span className="mb-2 block">Enter the details and save.</span>
+
                         {product.image && (
                             <div className="h-32 w-[50%] object-cover overflow-hidden">
                                 <Image
@@ -235,7 +235,7 @@ const EditProductModal = ({
                             name="name"
                             type="text"
                             id="name"
-                            placeholder="ex. Carbonara"
+                            placeholder="eg. Carbonara"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={editedProduct.name}
@@ -255,7 +255,7 @@ const EditProductModal = ({
                             id="price"
                             step={0.01} // Adjusted step for two decimal places
                             pattern="^\d*(\.\d{0,2})?$"
-                            placeholder="ex. 23"
+                            placeholder="eg. 23"
                             className="col-span-3"
                             onChange={(e) => {
                                 onChangeHandler(e);
@@ -275,7 +275,7 @@ const EditProductModal = ({
                             name="description"
                             type="text"
                             id="description"
-                            placeholder="ex. Cele mai bune paste din lume 😍"
+                            placeholder="eg. Cele mai bune paste din lume 😍"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={editedProduct.description}
@@ -305,7 +305,7 @@ const EditProductModal = ({
                             id="price"
                             step={0.01} // Adjusted step for two decimal places
                             pattern="^\d*(\.\d{0,2})?$"
-                            placeholder="ex. 23"
+                            placeholder="eg. 23"
                             className="col-span-3"
                             onChange={(e) => {
                                 onChangeHandler(e);
@@ -329,7 +329,7 @@ const EditProductModal = ({
                         <Button onClick={() => setIsOpen(false)}>Inchide</Button>
                     </DialogClose>
                     <Button type="submit" onClick={handleEdit}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Save"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

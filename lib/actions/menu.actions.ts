@@ -439,6 +439,26 @@ export const callWaiter = async (menuId: string, tableNumber: number, action: bo
     }
 }
 
+export const requestBill = async (menuId: string, tableNumber: number, action: boolean) => {
+    try {
+        connectToDB();
+        const menu = await Menu.findById(menuId);
+        const table = menu.tables.find((table: any) => table.tableNumber === tableNumber);
+
+        if (!table) {
+            throw new Error("Table not found");
+        }
+
+        table.requestBill = action;
+
+        const updatedMenu = await menu.save();
+
+        return jsonify(updatedMenu);
+    } catch (error) {
+        console.log("Error calling waiter: ", error);
+    }
+}
+
 export const getTables = async (menuId: string) => {
     try {
         connectToDB();

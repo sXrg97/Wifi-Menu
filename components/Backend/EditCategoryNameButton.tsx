@@ -39,7 +39,7 @@ const EditCategoryNameButton = ({
         if (categoryNameInput === categoryName) {
             toast({
                 variant: "destructive",
-                title: `Ceva nu a mers bine! 😕`,
+                title: `Something went wrong! 😕`,
                 description: `Numele categoriei este acelasi!`,
             });
             return;
@@ -61,7 +61,7 @@ const EditCategoryNameButton = ({
             console.log("Error editing category name:", err);
             toast({
                 variant: "destructive",
-                title: `Ceva nu a mers bine! 😕`,
+                title: `Something went wrong! 😕`,
                 description: `Numele categoriei nu a putut fi actualizat!`,
             });
         } finally {
@@ -82,19 +82,19 @@ const EditCategoryNameButton = ({
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Editeaza numele categoriei</DialogTitle>
+                    <DialogTitle>Edit category name</DialogTitle>
                     <DialogDescription>
-                        Introduceti numele categoriei. Apasati Salveaza cand ati terminat.
+                        Enter the name of the category. Click Save when you're done.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="category" className="text-right">
-                            Nume Categorie
+                            Category name
                         </Label>
                         <Input
                             id="category"
-                            placeholder="ex. Paste"
+                            placeholder="eg. Pasta"
                             className="col-span-3"
                             onChange={(e) => setCategoryNameInput(e.target.value)}
                             value={categoryNameInput}
@@ -104,7 +104,7 @@ const EditCategoryNameButton = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button type="submit" onClick={handleEditCategoryName}>
-                            {isLoading ? <Loader2Icon className="animate-spin text-black" /> : "Salveaza"}
+                            {isLoading ? <Loader2Icon className="animate-spin text-black" /> : "Save"}
                         </Button>
                     </DialogClose>
                 </DialogFooter>

@@ -35,7 +35,7 @@ const AddNewProductToCategory = ({
 }) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [product, setProduct] = useState({...DEFAULT_PRODUCT});
+    const [product, setProduct] = useState({ ...DEFAULT_PRODUCT });
     const [selectedImage, setSelectedImage] = useState<any>(null);
     const [imagePreview, setImagePreview] = useState<any>(null);
     const clerkUser = useUser();
@@ -104,7 +104,7 @@ const AddNewProductToCategory = ({
                 toast({
                     variant: "success",
                     title: `Success! 🎉`,
-                    description: `Produsul ${product.name} a fost adaugat cu succes!`,
+                    description: `The product ${product.name} was successfully added!`,
                 });
                 setMenu(res);
                 setIsOpen(false);
@@ -120,7 +120,7 @@ const AddNewProductToCategory = ({
             } else {
                 toast({
                     variant: "destructive",
-                    title: `Ceva nu a mers bine! 😕`,
+                    title: `Something went wrong! 😕`,
                     description: `Produsul ${product.name} nu a putut fi adaugat!`,
                 });
             }
@@ -139,25 +139,24 @@ const AddNewProductToCategory = ({
                     className="border-dashed border-gray-400 h-full"
                     onClick={() => setIsOpen(true)}
                 >
-                    <PlusIcon /> Adauga Produs
+                    <PlusIcon /> Add Product
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Adauga produs nou in {categoryName}</DialogTitle>
-                    <DialogDescription>Introduceti datele si salvati.</DialogDescription>
+                    <DialogTitle>Add new product to {categoryName}</DialogTitle>
+                    <DialogDescription>Enter the data and save.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="productPicture" className="text-right">
-                            Imagine
+                            Image
                         </Label>
                         <Input
                             type="file"
                             accept="image/*"
                             name="productPicture"
                             id="productPicture"
-                            placeholder="Incarca imaginea ta"
                             className="col-span-3"
                             onChange={handleImageChange}
                         />
@@ -173,13 +172,13 @@ const AddNewProductToCategory = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name" className="text-right">
-                            Nume
+                            Name
                         </Label>
                         <Input
                             name="name"
                             type="text"
                             id="name"
-                            placeholder="ex. Carbonara"
+                            placeholder="eg. Carbonara"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={product.name}
@@ -191,7 +190,7 @@ const AddNewProductToCategory = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="price" className="text-right">
-                            Pret
+                            Price
                         </Label>
                         <Input
                             name="price"
@@ -199,7 +198,7 @@ const AddNewProductToCategory = ({
                             id="price"
                             step={0.01} // Adjusted step for two decimal places
                             pattern="^\d*(\.\d{0,2})?$"
-                            placeholder="ex. 23"
+                            placeholder="eg. 23"
                             className="col-span-3"
                             onChange={(e) => {
                                 onChangeHandler(e);
@@ -213,13 +212,13 @@ const AddNewProductToCategory = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="description" className="text-right">
-                            Descriere
+                            Description
                         </Label>
                         <Input
                             name="description"
                             type="text"
                             id="description"
-                            placeholder="ex. Cele mai bune paste din lume 😍"
+                            placeholder="eg. Best pasta in the world 😍"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={product.description}
@@ -230,7 +229,7 @@ const AddNewProductToCategory = ({
 
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Is reduced?</Label>
+                        <Label className="text-right">Is discounted?</Label>
                         <Switch
                             checked={product.isReduced}
                             onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isReduced: e }))}
@@ -241,7 +240,7 @@ const AddNewProductToCategory = ({
                 <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="reducedPrice" className="text-right">
-                            Reducere
+                            Discount
                         </Label>
                         <Input
                             name="reducedPrice"
@@ -249,7 +248,7 @@ const AddNewProductToCategory = ({
                             id="price"
                             step={0.01} // Adjusted step for two decimal places
                             pattern="^\d*(\.\d{0,2})?$"
-                            placeholder="ex. 23"
+                            placeholder="eg. 23"
                             className="col-span-3"
                             onChange={(e) => {
                                 onChangeHandler(e);
@@ -275,10 +274,10 @@ const AddNewProductToCategory = ({
                             console.log("hello");
                         }}
                     >
-                        <Button onClick={() => setIsOpen(false)}>Inchide</Button>
+                        <Button onClick={() => setIsOpen(false)}>Close</Button>
                     </DialogClose>
                     <Button type="submit" onClick={handleSave}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Save"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

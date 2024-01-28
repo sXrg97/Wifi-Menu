@@ -49,7 +49,7 @@ const EditRestaurantModal = ({
         if (res.status !== 200) {
             toast({
                 variant: "destructive",
-                title: `Ceva nu a mers bine! 😕`,
+                title: `Something went wrong! 😕`,
                 description: `${res.message}`,
             });
         } else {
@@ -76,24 +76,24 @@ const EditRestaurantModal = ({
             <DialogTrigger asChild className="flex">
                 <Button variant="outline">
                     <PenIcon className="mr-1" />
-                    Editeaza meniu
+                    Edit Menu
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Setari meniu</DialogTitle>
-                    <DialogDescription>Faceti modificarile dorite iar apoi salvati.</DialogDescription>
+                    <DialogTitle>Menu settings</DialogTitle>
+                    <DialogDescription>Make the desired changes and save.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="restaurantName" className="text-right">
-                            Nume restaurant
+                            Restaurant Name
                         </Label>
                         <Input
                             name="restaurantName"
                             type="text"
                             id="restaurantName"
-                            placeholder="ex. McDonalds"
+                            placeholder="eg. McDonalds"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={formFields.restaurantName}
@@ -105,13 +105,13 @@ const EditRestaurantModal = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="slug" className="text-right">
-                            Slug
+                            Slug (url)
                         </Label>
                         <Input
                             name="slug"
                             type="text"
                             id="slug"
-                            placeholder=""
+                            placeholder="my-Awesome-Restaurant"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={formFields.slug}
@@ -139,11 +139,13 @@ const EditRestaurantModal = ({
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length })}>Inchide</Button>
+                        <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length })}>
+                            Close
+                        </Button>
                     </DialogClose>
 
                     <Button type="submit" onClick={handleSave}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Save"}
                     </Button>
                 </DialogFooter>
             </DialogContent>
