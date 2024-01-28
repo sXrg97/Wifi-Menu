@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
                     >
                         <Header />
                         <main className="flex flex-col flex-1">{children}</main>
+                        <SpeedInsights />
                         <Toaster />
                         <Footer />
                     </ThemeProvider>
