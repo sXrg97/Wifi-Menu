@@ -5,4 +5,22 @@ export const DEFAULT_PRODUCT = {
     isReduced: false,
     reducedPrice: 0,
     isDiscountProcentual: false,
+    allergens: [] as string[]
 }
+
+export const ALLERGENS = [
+    "Gluten",
+    "Crustaceans",
+    "Eggs",
+    "Fish",
+    "Peanuts",
+    "Soybeans",
+    "Milk",
+    "Nuts",
+    "Celery",
+    "Mustard",
+    "Sesame",
+    "Sulfur dioxide",
+    "Lupin",
+    "Molluscs",
+]

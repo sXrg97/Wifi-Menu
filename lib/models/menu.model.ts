@@ -21,6 +21,7 @@ const menuSchema = new mongoose.Schema({
             isReduced: Boolean,
             reducedPrice: Number,
             isDiscountProcentual: Boolean,
+            allergens: [String],
             _id: mongoose.Schema.Types.ObjectId,
         }]
     }],

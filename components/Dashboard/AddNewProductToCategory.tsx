@@ -21,8 +21,9 @@ import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { Loader2, PlusIcon } from "lucide-react";
 import { Switch } from "../ui/switch";
-import { set } from "mongoose";
-import { DEFAULT_PRODUCT } from "@/lib/constants";
+import { ALLERGENS, DEFAULT_PRODUCT } from "@/lib/constants";
+import { Badge } from "../ui/badge";
+import { generateSlug } from "@/lib/utils";
 
 const AddNewProductToCategory = ({
     categoryName,
@@ -45,16 +46,20 @@ const AddNewProductToCategory = ({
             // Dialog was closed, reset your state here
             setImagePreview(null);
             setProduct({
-                name: "",
-                price: 0,
-                description: "",
-                isReduced: false,
-                reducedPrice: 0,
-                isDiscountProcentual: false,
+                ...DEFAULT_PRODUCT,
             });
             setSelectedImage(null);
         }
     }, [isOpen]);
+
+    const handleAllergenChange = (allergen: string) => {
+        if (product.allergens?.includes(allergen)) {
+            setProduct((prev) => ({ ...prev, allergens: prev.allergens!.filter((a) => a !== allergen) }));
+        } else {
+            setProduct((prev) => ({ ...prev, allergens: [...prev.allergens!, allergen] }));
+        }
+    };
+    
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
@@ -108,14 +113,7 @@ const AddNewProductToCategory = ({
                 });
                 setMenu(res);
                 setIsOpen(false);
-                setProduct({
-                    name: "",
-                    price: 0,
-                    description: "",
-                    isReduced: false,
-                    reducedPrice: 0,
-                    isDiscountProcentual: false,
-                });
+                setProduct({ ...DEFAULT_PRODUCT });
                 setImagePreview(null);
             } else {
                 toast({
@@ -224,6 +222,17 @@ const AddNewProductToCategory = ({
                             value={product.description}
                             required
                         />
+                    </div>
+                </div>
+
+                <div className="grid gap-2">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">Allergens:</Label>
+                        <div className="flex flex-wrap gap-1 col-span-3">
+                            {ALLERGENS.map((allergen) => (
+                                <Badge variant={product.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{allergen}</Badge>
+                            ))}
+                        </div>
                     </div>
                 </div>
 

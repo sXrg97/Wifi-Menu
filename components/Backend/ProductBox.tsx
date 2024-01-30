@@ -6,6 +6,7 @@ import { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import EditProductModal from "./EditProductModal";
 import { calculateDiscountedPrice } from "@/lib/utils";
+import { Badge } from "../ui/badge";
 
 const ProductBox = ({
     product,
@@ -58,6 +59,7 @@ const ProductBox = ({
             >
                 DISCOUNT!
             </div>
+
             <div className="flex h-full">
                 <div className="product-info flex-1 flex flex-col">
                     <span className="text-lg font-semibold block text-gray-800 pr-2">{product.name}</span>
@@ -97,6 +99,16 @@ const ProductBox = ({
                     />
                 </div>
             </div>
+
+            {product.allergens && product.allergens.length > 0 && 
+                <div className="flex flex-wrap gap-1">
+                    {product.allergens.map((allergen, index) => (
+                        <Badge variant={"outline"} key={index} className="text-xs">
+                            {allergen}
+                        </Badge>
+                    ))}
+                </div>
+            }
 
             {admin && (
                 <div className="flex w-full mt-2 gap-5">

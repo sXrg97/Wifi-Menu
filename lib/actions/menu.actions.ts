@@ -374,6 +374,7 @@ export const editProduct = async (menuId: string, categoryName: string, productI
         product.isReduced = editedProduct.isReduced;
         product.reducedPrice = editedProduct.reducedPrice;
         product.isDiscountProcentual = editedProduct.isDiscountProcentual;
+        product.allergens = editedProduct.allergens;
 
         const updatedMenu = await menu.save();
 
@@ -410,6 +411,7 @@ export const editProductAndImage = async (menuId: string, categoryName: string, 
         product.isReduced = editedProduct.isReduced;
         product.reducedPrice = editedProduct.reducedPrice;
         product.isDiscountProcentual = editedProduct.isDiscountProcentual;
+        product.allergens = editedProduct.allergens;
         
         const updatedMenu = await menu.save();
         

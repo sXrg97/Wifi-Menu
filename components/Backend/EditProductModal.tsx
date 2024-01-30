@@ -21,6 +21,10 @@ import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "../ui/use-toast";
 import { editProduct, editProductAndImage, editProductImage } from "@/lib/actions/menu.actions";
+import { Checkbox } from "../ui/checkbox";
+import { Badge } from "../ui/badge";
+import { ALLERGENS } from "@/lib/constants";
+import { generateSlug } from "@/lib/utils";
 
 const EditProductModal = ({
     product,
@@ -63,6 +67,15 @@ const EditProductModal = ({
         }
     };
 
+    const handleAllergenChange = (allergen: string) => {
+
+        if (editedProduct.allergens?.includes(allergen)) {
+            setEditedProduct((prev) => ({ ...prev, allergens: prev.allergens!.filter((a) => a !== allergen) }));
+        } else {
+            setEditedProduct((prev) => ({ ...prev, allergens: [...prev.allergens!, allergen] }));
+        }
+    }
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEditedProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
@@ -77,7 +90,8 @@ const EditProductModal = ({
             editedProduct.description === product.description &&
             editedProduct.isReduced === product.isReduced &&
             editedProduct.reducedPrice === product.reducedPrice &&
-            editedProduct.isDiscountProcentual === product.isDiscountProcentual;
+            editedProduct.isDiscountProcentual === product.isDiscountProcentual &&
+            editedProduct.allergens === product.allergens;
 
         if (notModified && !selectedImage) {
             setIsOpen(false);
@@ -286,7 +300,18 @@ const EditProductModal = ({
 
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Is reduced?</Label>
+                        <Label className="text-right">Allergens:</Label>
+                        <div className="flex flex-wrap gap-1 col-span-3">
+                            {ALLERGENS.map((allergen) => (
+                                <Badge variant={editedProduct.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{allergen}</Badge>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid gap-2">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">Is discounted?</Label>
                         <Switch
                             checked={editedProduct.isReduced}
                             onCheckedChange={(e) => setEditedProduct((prev) => ({ ...prev, isReduced: e }))}

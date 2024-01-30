@@ -21,4 +21,5 @@ export type MenuType = {
     isReduced?: boolean;
     reducedPrice?: number;
     isDiscountProcentual?: boolean;
+    allergens?: string[];
 };
