@@ -124,7 +124,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                             className="ml-auto"
                             content={{
                                 button: (
-                                    <div className="flex">
+                                    <div className="flex text-nowrap">
                                         <ImageIcon className="mr-1" />
                                         Upload Cover Image
                                     </div>

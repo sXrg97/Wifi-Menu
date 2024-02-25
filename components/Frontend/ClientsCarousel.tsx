@@ -1,6 +1,4 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
 import { MenuType } from "@/types/types";
 import { getRandomMenus } from "@/lib/actions/menu.actions";
@@ -14,9 +12,8 @@ const ClientsCarousel = () => {
 
     const getMenus = async () => {
         try {
-            const menusResponse = await getRandomMenus(5);
-            const menusTripled = menusResponse.concat(menusResponse, menusResponse);
-            setMenus(menusTripled);
+            const menusResponse = await getRandomMenus(3);
+            setMenus(menusResponse);
             // setMenus(menusResponse);
             // console.log(menusResponse)
         } catch (err) {
@@ -31,24 +28,15 @@ const ClientsCarousel = () => {
     }, []);
 
     return (
-        <section className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
-            <h3 className="font-medium mb-4 text-xl">Check out some of our clients:</h3>
+        <section className="w-full mx-auto py-6 px-4 sm:px-6 md:px-8 flex flex-col">
+            <h3 className="font-medium mb-4 text-xl text-left">Check out some of our clients:</h3>
             {loading ? (
-                <Skeleton className="h-60 w-full" />
+                <Skeleton className="h-60 w-full overflow-hidden" />
             ) : (
-                <Carousel
-                    className="w-full"
-                    plugins={[
-                        Autoplay({
-                            delay: 4000,
-                        }),
-                    ]}
-                >
-                    <CarouselContent>
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
                         {menus.map((menu, i) => (
-                            <CarouselItem className="md:basis-1/4 sm:basis-1 hover:-translate-y-1 transition-transform" key={`${menu._id}_${i}`}>
-                                <Link href={`/menu/${menu.slug}`}>
-                                    <div className="p-1">
+                                <Link className="flex flex-1 h-full w-full" href={`/menu/${menu.slug}`} key={`${menu._id}_${i}`}>
+                                    <div className="p-1 w-full">
                                         <Card>
                                             <CardContent className="flex flex-col items-center p-6">
                                                 <Image
@@ -63,12 +51,8 @@ const ClientsCarousel = () => {
                                         </Card>
                                     </div>
                                 </Link>
-                            </CarouselItem>
                         ))}
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                </Carousel>
+                    </div>
             )}
         </section>
     );
