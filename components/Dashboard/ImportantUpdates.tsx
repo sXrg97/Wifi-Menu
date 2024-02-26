@@ -2,14 +2,13 @@
 import { callWaiter, getTables, requestBill } from "@/lib/actions/menu.actions"
 import { MenuType } from "@/types/types"
 import { useEffect, useState } from "react"
-import io from "socket.io-client"
 import { Button } from "../ui/button"
 import { ConciergeBell, Receipt, Trash2 } from "lucide-react"
+import { toast } from "../ui/use-toast"
 
 const ImportantUpdates = ({menu}:{menu: MenuType}) => {
     const [tables, setTables] = useState<any>(menu.tables)
 
-    const socket = io("http://localhost:3001")
 
     const getTablesFunction = async () => {
         try {
@@ -25,10 +24,19 @@ const ImportantUpdates = ({menu}:{menu: MenuType}) => {
             const res = await callWaiter(menu._id, tableNumber, false);
 
             if (res) {
-                socket.emit("waiter-on-the-way", tableNumber) // maybe can use socket.emit?
+                toast({
+                    variant: "success",
+                    title: `Success! 🎉`,
+                    description: `The waiter is coming to your table!`,
+                })
             }
           }
         catch (err) {
+            toast({
+                variant: "destructive",
+                title: `Error! 😢`,
+                description: `There was an error calling the waiter`,
+            })
             console.log("Error trying to call for waiter", err)
         }
     }
@@ -38,31 +46,22 @@ const ImportantUpdates = ({menu}:{menu: MenuType}) => {
             const res = await requestBill(menu._id, tableNumber, false);
 
             if (res) {
-                socket.emit("bill-on-the-way", tableNumber) // maybe can use socket.emit?
+                toast({
+                    variant: "success",
+                    title: `Success! 🎉`,
+                    description: `The bill is on it's way!`,
+                })
             }
           }
         catch (err) {
+            toast({
+                variant: "destructive",
+                title: `Error! 😢`,
+                description: `There was an error requesting the bill`,
+            })
             console.log("Error trying to request bill", err)
         }
     }
-
-    useEffect(() => {
-        console.log("Tables", tables)
-        socket.on("connect", () => {
-            console.log("connected from dashboard")
-        })
-
-        socket.on("call-for-waiter-called", () => {
-            getTablesFunction();
-            console.log(tables)
-        })
-
-        socket.on("request-bill-called", () => {
-            getTablesFunction();
-            console.log(tables)
-        })
-        
-    }, [])
 
   return (
     <div>

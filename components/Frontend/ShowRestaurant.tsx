@@ -15,37 +15,7 @@ import { ConciergeBell, User } from 'lucide-react';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
-
-  const socket = io("http://localhost:3001")
   const { toast } = useToast();
-
-
-  useEffect(() => {
-      socket.on("connect", () => {
-          console.log("connected from client showrestaurant")
-      })
-
-      socket.on("waiter-on-the-way-notification", (data) => {
-        if (data === Number(searchParams.get('table'))) {
-          toast({
-              variant: "success",
-              title: `Success! 🎉`,
-              description: `The waiter is coming to your table!`,
-          })
-        }
-      })
-
-      socket.on("bill-on-the-way-notification", (data) => {
-        if (data === Number(searchParams.get('table'))) {
-          toast({
-              variant: "success",
-              title: `Success! 🎉`,
-              description: `The bill is on it's way!`,
-          })
-        }
-      })
-  }, [])
-
 
   const handleCallWaiter = async () => {
     const tableNumber = Number(searchParams.get('table'));
@@ -57,10 +27,19 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     try {
       const res = await callWaiter(menu._id, tableNumber, true)
       if (res) {
-        socket.emit("call-for-waiter")
+        toast({
+          variant: "success",
+          title: `Success! 🎉`,
+          description: `The waiter is coming to your table!`,
+        })
       }
 
     } catch (err) {
+        toast({
+          variant: "destructive",
+          title: `Error! 😢`,
+          description: `There was an error calling the waiter`,
+        })
       console.log("Error trying to call for waiter", err)
     }
   }
@@ -75,10 +54,20 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     try {
       const res = await requestBill(menu._id, tableNumber, true)
       if (res) {
-        socket.emit("request-bill")
+        toast({
+          variant: "success",
+          title: `Success! 🎉`,
+          description: `The bill is on it's way!`,
+        })
       }
 
     } catch (err) {
+      toast({
+        variant: "destructive",
+        title: `Error! 😢`,
+        description: `There was an error requesting the bill`,
+      })
+
       console.log("Error trying to call for waiter", err)
     }
   }
