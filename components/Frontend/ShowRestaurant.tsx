@@ -16,7 +16,7 @@ import { ConciergeBell, User } from 'lucide-react';
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
 
-  const socket = io("http://localhost:4000")
+  const socket = io("http://localhost:3001")
   const { toast } = useToast();
 
 

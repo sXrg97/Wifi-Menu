@@ -59,7 +59,7 @@ nextApp.prepare().then(() => {
         console.log(`Next.js server is running on port http://localhost:${portNext}`);
     });
 
-    const portSocket = 4000;
+    const portSocket = 3001;
     serverSocket.listen(portSocket, () => {
         console.log(`Socket.IO server is running on port http://localhost:${portSocket}`);
     });
