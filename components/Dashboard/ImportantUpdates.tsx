@@ -9,7 +9,7 @@ import { ConciergeBell, Receipt, Trash2 } from "lucide-react"
 const ImportantUpdates = ({menu}:{menu: MenuType}) => {
     const [tables, setTables] = useState<any>(menu.tables)
 
-    const socket = io("https://template-nodejs-dev-agca.3.us-1.fl0.io/")
+    const socket = io("http://localhost:4000")
 
     const getTablesFunction = async () => {
         try {

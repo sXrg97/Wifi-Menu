@@ -41,10 +41,23 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
 
             updateOwner.save();
 
+            refreshSockets();
+
             return savedMenu._id.toJSON();
         } else {
             return user.menu.toJSON();
         }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const refreshSockets = () => {
+    try {
+        connectToDB();
+        //get all menu id's
+        const menus = Menu.find({}, "slug");
+        
     } catch (error) {
         console.log(error);
     }
