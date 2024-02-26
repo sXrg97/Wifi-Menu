@@ -9,7 +9,6 @@ import { generateSlug } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { useSearchParams } from 'next/navigation';
 import { callWaiter, requestBill } from '@/lib/actions/menu.actions';
-import { io } from 'socket.io-client';
 import { useToast } from '../ui/use-toast';
 import { ConciergeBell, User } from 'lucide-react';
 
