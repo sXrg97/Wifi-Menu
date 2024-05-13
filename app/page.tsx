@@ -2,9 +2,7 @@
 
 import AnimatedWave from '@/components/Frontend/AnimatedWave';
 import HeroSection from '@/components/Frontend/HeroSection';
-import { connectToDB } from '@/utils/mongoose';
 import { useUser } from '@clerk/nextjs';
-import Link from 'next/link';
 
 export default function Home() {
 

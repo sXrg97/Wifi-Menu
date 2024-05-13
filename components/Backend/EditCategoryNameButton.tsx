@@ -18,7 +18,6 @@ import { MenuType } from "@/types/types";
 import { useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { renameCategory } from "@/lib/actions/menu.actions";
-import { set } from "mongoose";
 
 const EditCategoryNameButton = ({
     menuId,

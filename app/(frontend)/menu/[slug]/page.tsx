@@ -4,7 +4,7 @@ import FrontendMenu from "@/components/Frontend/FrontendMenu";
 import Cookies from 'js-cookie';
 import { useEffect } from "react";
 import { fetchMenuBySlug, increaseMenuViews } from "@/lib/actions/menu.actions";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const Menu = () => {
     const checkAndIncreaseViews = async (menuId: string) => {

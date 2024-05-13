@@ -21,7 +21,6 @@ import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "../ui/use-toast";
 import { editProduct, editProductAndImage, editProductImage } from "@/lib/actions/menu.actions";
-import { Checkbox } from "../ui/checkbox";
 import { Badge } from "../ui/badge";
 import { ALLERGENS } from "@/lib/constants";
 import { generateSlug } from "@/lib/utils";

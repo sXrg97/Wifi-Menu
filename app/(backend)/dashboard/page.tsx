@@ -1,11 +1,8 @@
 "use client"
 
 import RestaurantInfo from '@/components/Dashboard/RestaurantInfo';
-import { Button } from '@/components/ui/button';
 import { checkUserOrCreate } from '@/lib/actions/user.actions';
 import { useUser } from '@clerk/nextjs';
-import { Metadata } from 'next';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
 // export const metadata: Metadata = {

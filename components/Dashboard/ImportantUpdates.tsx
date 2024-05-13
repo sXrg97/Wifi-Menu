@@ -1,14 +1,15 @@
 "use client"
-import { callWaiter, getTables, requestBill } from "@/lib/actions/menu.actions"
-import { MenuType } from "@/types/types"
-import { useEffect, useState } from "react"
+import { callWaiter, requestBill } from "@/lib/actions/menu.actions"
 import { Button } from "../ui/button"
 import { ConciergeBell, Receipt, Trash2 } from "lucide-react"
-import { collection, doc, query } from "firebase/firestore"
+import { doc } from "firebase/firestore"
 import { db } from "@/utils/firebase"
 import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useToast } from "../ui/use-toast"
 
 const ImportantUpdates = ({menuId}:{menuId: string}) => {
+
+    const { toast } = useToast();
 
     const [docs, loading, error] = useDocumentData(
         doc(db, 'menus', menuId)

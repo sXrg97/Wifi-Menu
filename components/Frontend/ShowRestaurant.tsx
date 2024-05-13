@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { MenuType } from '@/types/types';
 import { Skeleton } from '../ui/skeleton';

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import AnimatedWave from "./AnimatedWave";
 import { Cabin } from "next/font/google";
 import { Button } from "../ui/button";
 import ClientsCarousel from "./ClientsCarousel";

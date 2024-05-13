@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { deleteCategory, fetchMenu } from "@/lib/actions/menu.actions";
-import { ImageIcon, LinkIcon, Loader2Icon, Trash2Icon } from "lucide-react";
+import { LinkIcon, Loader2Icon, Trash2Icon } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
 import Image from "next/image";
 import Link from "next/link";
 import AddNewProductToCategory from "./AddNewProductToCategory";
-import { UploadButton } from "@/utils/uploadthing";
 import { Skeleton } from "../ui/skeleton";
 import EditRestaurantModal from "../Backend/EditRestaurantModal";
 import ProductBox from "../Backend/ProductBox";
