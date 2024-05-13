@@ -32,7 +32,7 @@ const ProductBox = ({
                     toast({
                         variant: "success",
                         title: `Success! 🎉`,
-                        description: `The product ${product.name} has been added!`,
+                        description: `The product ${product.name} has been deleted!`,
                     });
                     setMenu && setMenu(responseMenu);
                 }
@@ -62,8 +62,8 @@ const ProductBox = ({
 
             <div className="flex h-full">
                 <div className="product-info flex-1 flex flex-col">
-                    <span className="text-lg font-semibold block text-gray-800 pr-2">{product.name}</span>
-                    <span className="text-base font-normal block text-gray-600 clamp-text pr-2 min-h-16 mb-8">
+                    <span className="text-lg font-semibold block text-gray-800 dark:text-gray-100 pr-2">{product.name}</span>
+                    <span className="text-base font-normal block text-gray-600 clamp-text dark:text-gray-300 pr-2 min-h-16 mb-8">
                         {product.description}
                     </span>
                     <div className="price-container mt-auto">
@@ -84,7 +84,7 @@ const ProductBox = ({
                                 <span className="text-base block line-through text-gray-500">{product.price} USD</span>
                             </div>
                         ) : (
-                            <span className="text-base block font-bold">{product.price} USD</span>
+                            <span className="text-base block font-bold">{product.price == 0 ? "FREE" : `${product.price} USD`}</span>
                         )}
                     </div>
                 </div>

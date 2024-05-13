@@ -14,6 +14,8 @@ import { ConciergeBell, User } from 'lucide-react';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
+  console.log(searchParams.get('table'))
+
   const { toast } = useToast();
 
   const handleCallWaiter = async () => {
@@ -26,11 +28,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     try {
       const res = await callWaiter(menu._id, tableNumber, true)
       if (res) {
-        toast({
-          variant: "success",
-          title: `Success! 🎉`,
-          description: `The waiter is coming to your table!`,
-        })
+        // socket.emit("call-for-waiter") FIXME:
       }
 
     } catch (err) {
@@ -53,11 +51,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     try {
       const res = await requestBill(menu._id, tableNumber, true)
       if (res) {
-        toast({
-          variant: "success",
-          title: `Success! 🎉`,
-          description: `The bill is on it's way!`,
-        })
+        // socket.emit("request-bill") FIXME:
       }
 
     } catch (err) {
@@ -73,7 +67,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
 
   return (
     <div>
-      <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4">
+      <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4 ">
         {menu ? (
           <Image
             className="bg-black w-full object-cover h-full"
@@ -90,18 +84,20 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
 
       <div className='flex max-w-7xl flex-col p-8 mx-auto'>
 
-      <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName} - Table {Number(searchParams.get('table'))} </h1>
+      <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName} {searchParams.get('table') && `- Table ${(searchParams.get('table'))}`} </h1>
 
-      <div className="flex max-w-7xl gap-4 mb-8">
-        <Button variant={'secondary'} className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><User /> Call for waiter</Button>
-        <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><ConciergeBell /> Request bill</Button>
-      </div>
+      {searchParams.get('table') && 
+        <div className="flex max-w-7xl gap-4 mb-8">
+          <Button variant={'secondary'} className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><User /> Call for waiter</Button>
+          <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><ConciergeBell /> Request bill</Button>
+        </div>
+      }
       
-      <ul className='flex gap-6 mb-8 overflow-scroll no-scrollbar'>
+      <ul className='flex gap-6 mb-8 overflow-scroll no-scrollbar sticky top-0 py-4 bg-white dark:bg-gray-900 z-50'>
         {menu &&
           menu.categories.map((category, i) => (
             <li key={`category_${i}`}>
-              <a className='text-gray-500 hover:text-gray-600 transition-colors text-nowrap' href={`#${generateSlug(category.name)}`}>{category.name}</a>
+              <a className='dark:text-white dark:hover:text-gray-100  text-gray-500 hover:text-gray-600 transition-colors text-nowrap uppercase font-semibold' href={`#${generateSlug(category.name)}`}>{category.name}</a>
             </li>
           ))}
       </ul>

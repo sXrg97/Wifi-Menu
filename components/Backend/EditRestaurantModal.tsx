@@ -19,6 +19,7 @@ import { MenuType } from "@/types/types";
 import { UpdateMenuInfo } from "@/lib/actions/menu.actions";
 import { Loader2, PenIcon } from "lucide-react";
 import { generateSlug } from "@/lib/utils";
+import Image from "next/image";
 
 const EditRestaurantModal = ({
     menu,
@@ -27,24 +28,27 @@ const EditRestaurantModal = ({
     menu: MenuType;
     setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
 }) => {
-    const { _id, restaurantName, slug, tables } = menu;
+    const { _id, restaurantName, slug, tables, menuPreviewImage } = menu;
 
     const [formFields, setFormFields] = useState({
         restaurantName,
         slug,
-        //tables but count the array objects and add 1
         tables: tables.length,
     });
+
+    const [restaurantCoverImage, setRestaurantCoverImage] = useState<File | null>(null);
 
     const [isUpdating, setIsUpdating] = useState(false);
 
     const handleSave = async () => {
         setIsUpdating(true);
-        console.log("updating true");
 
-        const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug, formFields.tables);
+        const formData = new FormData();
+        if (restaurantCoverImage) {
+            formData.append("restaurantCoverImage", restaurantCoverImage);
+        }
 
-        console.log(res);
+        const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug, formFields.tables, formData);
 
         if (res.status !== 200) {
             toast({
@@ -56,7 +60,7 @@ const EditRestaurantModal = ({
             toast({
                 variant: "success",
                 title: `Success! 🎉`,
-                description: `Meniul a fost actualizat cu succes!`,
+                description: `Menu updated successfully!`,
             });
 
             setMenu(res.jsonifiedUpdatedMenu);
@@ -66,9 +70,13 @@ const EditRestaurantModal = ({
     };
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        e.target.name === "slug"
-            ? setFormFields((prev) => ({ ...prev, [e.target.name]: generateSlug(e.target.value) }))
-            : setFormFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        if (e.target.name === "slug") {
+            setFormFields((prev) => ({ ...prev, [e.target.name]: generateSlug(e.target.value) }));
+        } else if (e.target.name === "restaurantCoverImage") {
+            setRestaurantCoverImage(e.target.files?.[0] || null);
+        } else {
+            setFormFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        }
     };
 
     return (
@@ -101,6 +109,27 @@ const EditRestaurantModal = ({
                         />
                     </div>
                 </div>
+
+                <div className="grid gap-2">
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="restaurantCoverImage" className="text-right">
+                        Restaurant Cover Image
+                    </Label>
+                    <div className="col-span-3 flex items-center gap-2">
+                        <Input
+                            name="restaurantCoverImage"
+                            type="file"
+                            id="restaurantCoverImage"
+                            accept="image/*"
+                            className="max-w-xs"
+                            onChange={(e) => onChangeHandler(e)}
+                        />
+                        {menuPreviewImage && (
+                            <Image width={1600} height={900} src={menuPreviewImage} alt="Restaurant Cover" className="h-9 w-16 object-cover" />
+                        )}
+                    </div>
+                </div>
+            </div>
 
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">

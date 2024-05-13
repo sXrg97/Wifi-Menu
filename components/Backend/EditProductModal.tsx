@@ -77,7 +77,18 @@ const EditProductModal = ({
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setEditedProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+    
+        if (name === 'price' || name === 'reducedPrice') {
+            // Don't allow negative values
+            const parsedValue = parseFloat(value);
+            if (parsedValue < 0) {
+                return; // Ignore the input if the value is negative
+            }
+            setEditedProduct((prev) => ({ ...prev, [name]: parsedValue }));
+        } else {
+            setEditedProduct((prev) => ({ ...prev, [name]: value }));
+        }
     };
 
     const handleEdit = async () => {
@@ -267,6 +278,7 @@ const EditProductModal = ({
                             name="price"
                             type="number"
                             id="price"
+                            min={0}
                             step={0.5} // Adjusted step for two decimal places
                             pattern="^\d*(\.\d{0,2})?$"
                             placeholder="eg. 23"
@@ -331,6 +343,7 @@ const EditProductModal = ({
                             step={0.5} // Adjusted step for two decimal places
                             pattern="^\d*(\.\d{0,2})?$"
                             placeholder="eg. 23"
+                            min={0.1}
                             className="col-span-3"
                             onChange={(e) => {
                                 onChangeHandler(e);

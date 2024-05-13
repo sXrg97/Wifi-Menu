@@ -78,7 +78,16 @@ const AddNewProductToCategory = ({
     if (!menuId) return null;
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        if (e.target.name === 'price' || e.target.name === 'reducedPrice') {
+            // Don't allow negative values
+            const value = parseFloat(e.target.value);
+            if (value < 0) {
+                return; // Ignore the input if the value is negative
+            }
+            setProduct((prev) => ({ ...prev, [e.target.name]: value }));
+        } else {
+            setProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        }
     };
 
     const handleSave = async () => {
@@ -96,15 +105,14 @@ const AddNewProductToCategory = ({
         try {
             setIsUpdating(true);
             const newFileName = `product_picture_${product.name}_${clerkUser.user?.id}_${Date.now()}.png`;
-
-            const renamedImage = new File([selectedImage], newFileName, {
-                type: selectedImage.type,
-            });
-
             const formData = new FormData();
-            formData.append("productPicture", renamedImage);
+            if (selectedImage) {
+                const renamedImage = new File([selectedImage], newFileName, { type: selectedImage.type });
+                formData.append("productPicture", renamedImage);
+            }
 
             const res = await addProductToCategory(menuId, categoryName, product, formData);
+
             if (res) {
                 toast({
                     variant: "success",
@@ -123,7 +131,7 @@ const AddNewProductToCategory = ({
                 });
             }
         } catch (error) {
-            console.log("Error adding category: ", error);
+            console.log("Error adding product to category: ", error);
         } finally {
             setIsUpdating(false);
         }
@@ -194,6 +202,7 @@ const AddNewProductToCategory = ({
                             name="price"
                             type="number"
                             id="price"
+                            min={0}
                             step={0.5} // Adjusted step for two decimal places
                             pattern="^\d*(\.\d{0,2})?$"
                             placeholder="eg. 23"

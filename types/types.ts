@@ -16,7 +16,7 @@ export type MenuType = {
     name: string;
     description: string;
     price: number;
-    image?: string;
+    image?: string | null;
     _id?: string | null;
     isReduced?: boolean;
     reducedPrice?: number;

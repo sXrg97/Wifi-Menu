@@ -1,64 +1,70 @@
-"use server"
-
-import { connectToDB } from "@/utils/mongoose"
-import { User } from "../models/user.model";
-import { Menu } from "../models/menu.model";
-import mongoose from "mongoose";
+"use server";
+import { db } from '@/utils/firebase';
+import { collection, doc, getDoc, addDoc, updateDoc, query, where, getDocs } from 'firebase/firestore';
 
 export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
-    if (!clerkUserId) return null;
+  if (!clerkUserId) return null;
 
-    try {
-        connectToDB();
+  try {
+    const usersRef = collection(db, 'users');
+    const userQuery = query(usersRef, where('clerkUserId', '==', clerkUserId));
+    const userSnapshot = await getDocs(userQuery);
 
-        const user = await User.findOne({ clerkUserId: clerkUserId })
+    if (!userSnapshot.empty) {
+      // User with clerkUserId exists, return its menu id
+      return userSnapshot.docs[0].data().menu.id;
+    } else {
+      // User does not exist, create a new menu and user
+      const menusRef = collection(db, 'menus');
+      const menuDoc = await addDoc(menusRef, {
+        owner: doc(usersRef, clerkUserId),
+        restaurantName: 'My Restaurant',
+        isLive: false,
+        categories: [],
+        lifetimeViews: 0,
+        tables: [{ tableNumber: 1, callWaiter: false, requestBill: false }],
+      }).catch((error) => {
+        console.error('Error creating menu document:', error);
+        throw error;
+      });
 
-        if (user === null) {
-            const newMenu = new Menu({
-                _id: new mongoose.Types.ObjectId(),
-                owner: new mongoose.Types.ObjectId(),
-                restaurantName: "My Restaurant",
-                isLive: false,
-                categories: [],
-                lifetimeViews: 0,
-                tables: [{tableNumber: 1, callWaiter: false, requestBill: false}],
-            });
+      if (!menuDoc.id) {
+        console.error('Failed to create menu document, menuDoc.id is null');
+        return null;
+      }
 
-            const savedMenu = await newMenu.save();
+      // Update the menu document to add the _id field
+      await updateDoc(doc(menusRef, menuDoc.id), {
+        _id: menuDoc.id,
+        slug: menuDoc.id.toLowerCase(),
+      });
 
-            const newUser = new User({
-                _id: new mongoose.Types.ObjectId(),
-                clerkUserId: clerkUserId,
-                email: email,
-                name: "",
-                image: "",
-                menu: savedMenu._id,
-            });
 
-            const savedUser = await newUser.save();
+      const userDoc = await addDoc(usersRef, {
+        clerkUserId: clerkUserId,
+        email: email,
+        name: '',
+        image: '',
+        menu: doc(menusRef, menuDoc.id),
+      }).catch((error) => {
+        console.error('Error creating user document:', error);
+        throw error;
+      });
 
-            const updateOwner = await Menu.findByIdAndUpdate(savedMenu._id, { $set: { owner: new mongoose.Types.ObjectId(savedUser._id), slug: savedMenu._id } });
+      if (!userDoc.id) {
+        console.error('Failed to create user document, userDoc.id is null');
+        return null;
+      }
 
-            updateOwner.save();
+      // Update the menu to set the owner to the newly created user
+      await updateDoc(doc(menusRef, menuDoc.id), {
+        owner: doc(usersRef, userDoc.id),
+      });
 
-            refreshSockets();
-
-            return savedMenu._id.toJSON();
-        } else {
-            return user.menu.toJSON();
-        }
-    } catch (error) {
-        console.log(error);
+      return menuDoc.id;
     }
-}
-
-const refreshSockets = () => {
-    try {
-        connectToDB();
-        //get all menu id's
-        const menus = Menu.find({}, "slug");
-        
-    } catch (error) {
-        console.log(error);
-    }
-}
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};

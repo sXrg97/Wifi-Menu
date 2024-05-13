@@ -5,7 +5,8 @@ export const DEFAULT_PRODUCT = {
     isReduced: false,
     reducedPrice: 0,
     isDiscountProcentual: false,
-    allergens: [] as string[]
+    allergens: [] as string[],
+    image: null as null | string
 }
 
 export const ALLERGENS = [

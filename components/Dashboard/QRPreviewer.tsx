@@ -13,10 +13,10 @@ import { Button } from "../ui/button"
 import {QRCodeSVG} from 'qrcode.react';
 
 
-const QRPreviewr = ({menuName, slug, tableNumber}: {menuName: string, slug: string, tableNumber: number}) => {
+const QRPreviewer = ({menuName, slug, tableNumber}: {menuName: string, slug: string, tableNumber: number}) => {
   return (
     <Drawer>
-  <DrawerTrigger><Button variant={"outline"}>QR <QrCode className="ml-1" /></Button></DrawerTrigger>
+  <DrawerTrigger><div className="flex inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">QR <QrCode className="ml-1" /></div></DrawerTrigger> {/*FIXME: */}
   <DrawerContent>
     <div className="flex flex-col items-center justify-center max-w-[500px] p-4 mx-auto">
         <span className="text-2xl font-bold mb-4">QR for {menuName} - Table {tableNumber}</span>
@@ -26,7 +26,7 @@ const QRPreviewr = ({menuName, slug, tableNumber}: {menuName: string, slug: stri
 
     <DrawerFooter>
       <DrawerClose>
-        <Button variant="outline">Close</Button>
+        <div>Close</div> {/*FIXME: */}
       </DrawerClose>
     </DrawerFooter>
   </DrawerContent>
@@ -34,4 +34,4 @@ const QRPreviewr = ({menuName, slug, tableNumber}: {menuName: string, slug: stri
   )
 }
 
-export default QRPreviewr
+export default QRPreviewer

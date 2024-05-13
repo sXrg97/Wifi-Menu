@@ -28,6 +28,8 @@ const AddCategoryButton = ({
 }) => {
     const [categoryName, setCategoryName] = useState("");
 
+    const [isOpen, setIsOpen] = useState(false)
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setCategoryName(e.target.value);
     };
@@ -50,6 +52,7 @@ const AddCategoryButton = ({
                     description: `Category ${categoryName} has been created!`,
                 });
                 setMenu(res.updatedMenu);
+                // setIsOpen(false);
             } else {
                 toast({
                     variant: "destructive",
@@ -63,7 +66,7 @@ const AddCategoryButton = ({
     };
 
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline">
                     <PlusIcon /> Add Category

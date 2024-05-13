@@ -4,7 +4,7 @@ const nextConfig = {
         serverComponentsExternalPackages: ["mongoose"],
     },
     images: {
-        domains: ["utfs.io"],
+        domains: ["utfs.io", "firebasestorage.googleapis.com"],
     },
 }
 

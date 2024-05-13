@@ -4,32 +4,22 @@ import { MenuType } from "@/types/types"
 import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import { ConciergeBell, Receipt, Trash2 } from "lucide-react"
-import { toast } from "../ui/use-toast"
+import { collection, doc, query } from "firebase/firestore"
+import { db } from "@/utils/firebase"
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 
-const ImportantUpdates = ({menu}:{menu: MenuType}) => {
-    const [tables, setTables] = useState<any>(menu.tables)
+const ImportantUpdates = ({menuId}:{menuId: string}) => {
 
+    const [docs, loading, error] = useDocumentData(
+        doc(db, 'menus', menuId)
+      );
 
-    const getTablesFunction = async () => {
-        try {
-            const res = await getTables(menu._id);
-            setTables(res);
-        } catch (err) {
-            console.log("Error getting tables", err)
-        }
-    }
+      console.log(docs);
 
     const waiterOnTheWay = async (tableNumber: number) => {
         try {
-            const res = await callWaiter(menu._id, tableNumber, false);
+            const res = await callWaiter(menuId, tableNumber, false);
 
-            if (res) {
-                toast({
-                    variant: "success",
-                    title: `Success! 🎉`,
-                    description: `The waiter is coming to your table!`,
-                })
-            }
           }
         catch (err) {
             toast({
@@ -43,15 +33,7 @@ const ImportantUpdates = ({menu}:{menu: MenuType}) => {
 
     const billOnTheWay = async (tableNumber: number) => {
         try {
-            const res = await requestBill(menu._id, tableNumber, false);
-
-            if (res) {
-                toast({
-                    variant: "success",
-                    title: `Success! 🎉`,
-                    description: `The bill is on it's way!`,
-                })
-            }
+            const res = await requestBill(menuId, tableNumber, false);
           }
         catch (err) {
             toast({
@@ -65,11 +47,11 @@ const ImportantUpdates = ({menu}:{menu: MenuType}) => {
 
   return (
     <div>
-        {tables && tables.map((table: any, i: number) => 
+        {docs && docs.tables && docs.tables.map((table: any, i: number) => 
             {if (table.callWaiter === true) return <div key={`table_called_${i}`} className="px-10 bg-orange-400 mb-4 text-2xl text-white font-bold py-4 rounded-md flex items-center justify-between w-full"><div className="flex gap-2 items-center"><ConciergeBell /> Waiter called at table {table.tableNumber}</div> <Button variant={"destructive"} onClick={() => waiterOnTheWay(table.tableNumber)}><Trash2 /></Button></div>}
         )}
 
-        {tables && tables.map((table: any, i: number) => 
+        {docs && docs.tables && docs.tables.map((table: any, i: number) => 
             {if (table.requestBill === true) return <div key={`table_bill_called_${i}`} className="px-10 bg-green-400 mb-4 text-2xl text-white font-bold py-4 rounded-md flex items-center justify-between w-full"><div className="flex gap-2 items-center"><Receipt /> Bill requested at table {table.tableNumber}</div> <Button variant={"destructive"} onClick={() => billOnTheWay(table.tableNumber)}><Trash2 /></Button></div>}
         )}
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { deleteCategory, fetchMenu, uploadMenuPreviewImage } from "@/lib/actions/menu.actions";
+import { deleteCategory, fetchMenu } from "@/lib/actions/menu.actions";
 import { ImageIcon, LinkIcon, Loader2Icon, Trash2Icon } from "lucide-react";
 import { MenuType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
@@ -15,7 +15,7 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import EditCategoryNameButton from "../Backend/EditCategoryNameButton";
 import ImportantUpdates from "./ImportantUpdates";
-import QRPreviewr from "./QRPreviewr";
+import QRPreviewer from "./QRPreviewer";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
@@ -73,16 +73,17 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
     return (
         <div>
-            <div className="w-full mb-8">{menu && <ImportantUpdates menu={menu} />}</div>
+            <div className="w-full mb-8">{menu && <ImportantUpdates menuId={menu._id} />}</div>
             <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg relative mb-4">
                 {menu ? (
                     <Image
                         className="bg-black w-full object-cover h-full"
                         alt="Restaurant Cover Image"
-                        src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : "/dashboard-cover.webp"}`}
+                        src={`${menu?.menuPreviewImage || "/dashboard-cover.webp"}`}
                         // to fix the image showing the preview before loading the menu
                         width={1600}
                         height={1200}
+                        quality={100}
                     />
                 ) : (
                     <Skeleton className="w-full h-full bg-black" />
@@ -100,98 +101,38 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 )}
             </div>
 
-            {menu && menu.lifetimeViews && (
-                <span className="italic text-gray-400 mb-4 block">Lifetime Views: {menu.lifetimeViews}</span>
-            )}
+
+            {menu && <span className="italic text-gray-400 mb-4 block">Lifetime Views: {menu.lifetimeViews}</span>}
+
 
             <div className="flex items-center gap-4 mb-6">
                 {menuId && (
                     <>
                         {menu && <EditRestaurantModal menu={menu} setMenu={setMenu} />}
-
-                        <UploadButton
-                            onBeforeUploadBegin={(files) => {
-                                // Preprocess files before uploading (e.g. rename them)
-                                return files.map(
-                                    (f) =>
-                                        new File(
-                                            [f],
-                                            "coverImage_" + clerkUser.user?.id + "_" + Date.now() + "_" + f.name,
-                                            { type: f.type }
-                                        )
-                                );
-                            }}
-                            className="ml-auto"
-                            content={{
-                                button: (
-                                    <div className="flex text-nowrap">
-                                        <ImageIcon className="mr-1" />
-                                        Upload Cover Image
-                                    </div>
-                                ),
-                            }}
-                            appearance={{
-                                button: {
-                                    width: "100%",
-                                    padding: "8px 16px",
-                                },
-                                allowedContent: {
-                                    display: "none",
-                                    width: "100%",
-                                },
-                            }}
-                            endpoint="imageUploader"
-                            onClientUploadComplete={async (res) => {
-                                if (!res) return;
-                                try {
-                                    const newMenu = await uploadMenuPreviewImage(menuId, res[0].url);
-                                    setMenu(newMenu);
-
-                                    toast({
-                                        variant: "success",
-                                        title: `Success! 🎉`,
-                                        description: `Poza de coperta a fost modificata cu succes!`,
-                                    });
-                                } catch (error) {
-                                    console.log(error);
-
-                                    toast({
-                                        variant: "destructive",
-                                        title: `Something went wrong! 😕`,
-                                        description: `Poza de coperta nu a putut fi modificata!`,
-                                    });
-                                }
-                            }}
-                            onUploadError={(error: Error) => {
-                                console.log(`ERROR! ${error.message}`);
-
-                                toast({
-                                    variant: "destructive",
-                                    title: `Something went wrong! 😕`,
-                                    description: `Poza de coperta nu a putut fi modificata!`,
-                                });
-                            }}
-                        />
                     </>
                 )}
             </div>
 
-            {menu && 
-                <div className="flex items-center gap-x-8 gap-y-4 mb-6 flex-wrap">
-                    {menu.tables.map((table, i) => (
-                        <div className="flex gap-2" key={`table_${table.tableNumber}`}>
-                            <Button variant={"outline"}><Link href={`/menu/${menu.slug}?table=${table.tableNumber}`}>See table {table.tableNumber}</Link></Button>
-                            <QRPreviewr menuName={menu.restaurantName} slug={menu.slug} tableNumber={table.tableNumber} />
-                        </div>
-                    ))}
-                </div>
-            }
+            {menu && menu.tables && (
+    <div className="flex items-center gap-x-8 gap-y-4 mb-6 flex-wrap">
+        {menu.tables.map((table, i) => (
+            <div className="flex gap-2" key={`table_${table.tableNumber}`}>
+                <Button variant={"outline"}>
+                    <Link href={`/menu/${menu.slug}?table=${table.tableNumber}`}>
+                        See table {table.tableNumber}
+                    </Link>
+                </Button>
+                <QRPreviewer menuName={menu.restaurantName} slug={menu.slug} tableNumber={table.tableNumber} />
+            </div>
+        ))}
+    </div>
+)}
 
             <div className="flex items-center gap-4 mb-4">
                 {menuId && <AddCategoryButton menuId={menuId} setMenu={setMenu} />}
             </div>
 
-            {menu &&
+            {menu && menu.categories && 
                 menu.categories.map((category, i) => (
                     <div className="mb-8" key={`category_${i}`}>
                         <div className="flex items-center justify-between mb-2">
