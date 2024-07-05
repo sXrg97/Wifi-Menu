@@ -288,9 +288,6 @@ const AddNewProductToCategory = ({
                 <DialogFooter>
                     <DialogClose
                         asChild
-                        onClick={() => {
-                            console.log("hello");
-                        }}
                     >
                         <Button onClick={() => setIsOpen(false)}>Close</Button>
                     </DialogClose>

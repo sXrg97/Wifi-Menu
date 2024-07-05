@@ -35,8 +35,6 @@ const Menu = () => {
             }
         };
         getMenuId();
-        console.log("menuid", menuId)
-
     }, [slug]);
 
     return (

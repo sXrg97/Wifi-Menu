@@ -10,11 +10,10 @@ import { Button } from '../ui/button';
 import { useSearchParams } from 'next/navigation';
 import { callWaiter, requestBill } from '@/lib/actions/menu.actions';
 import { useToast } from '../ui/use-toast';
-import { ConciergeBell, User } from 'lucide-react';
+import { ConciergeBell, Receipt, User } from 'lucide-react';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
-  console.log(searchParams.get('table'))
 
   const { toast } = useToast();
 
@@ -28,7 +27,11 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     try {
       const res = await callWaiter(menu._id, tableNumber, true)
       if (res) {
-        // socket.emit("call-for-waiter") FIXME:
+        toast({
+          variant: "success",
+          title: `Succes! 🎉`,
+          description: `Waiter called!`,
+        })
       }
 
     } catch (err) {
@@ -51,7 +54,11 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     try {
       const res = await requestBill(menu._id, tableNumber, true)
       if (res) {
-        // socket.emit("request-bill") FIXME:
+        toast({
+          variant: "success",
+          title: `Succes! 🎉`,
+          description: `Bill requested!`,
+        })
       }
 
     } catch (err) {
@@ -87,13 +94,13 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName} {searchParams.get('table') && `- Table ${(searchParams.get('table'))}`} </h1>
 
       {searchParams.get('table') && 
-        <div className="flex max-w-7xl gap-4 mb-8">
-          <Button variant={'secondary'} className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><User /> Call for waiter</Button>
-          <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><ConciergeBell /> Request bill</Button>
+        <div className="flex max-w-7xl gap-4 mb-8 flex-wrap">
+          <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><ConciergeBell className='mr-2' /> Call for waiter</Button>
+          <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><Receipt className='mr-2' /> Request bill</Button>
         </div>
       }
       
-      <ul className='flex gap-6 mb-8 overflow-scroll no-scrollbar sticky top-0 py-4 bg-white dark:bg-gray-900 z-50'>
+      <ul className='flex gap-6 mb-8 overflow-scroll no-scrollbar sticky top-0 py-4 bg-white dark:bg-gray-950 z-50'>
         {menu &&
           menu.categories.map((category, i) => (
             <li key={`category_${i}`}>

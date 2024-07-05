@@ -1,4 +1,18 @@
+import { useTheme } from 'next-themes'
+import { useState, useEffect } from 'react'
+
 const AnimatedWave = () => {
+  const { theme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
+  const fillColor = theme === 'light' || resolvedTheme === 'light' ? 'white' : '#030712'
+
   return (
     <svg
     width="100%"
@@ -39,7 +53,7 @@ const AnimatedWave = () => {
       d="M 0,400 L 0,150 C 95.78571428571428,154.80357142857144 191.57142857142856,159.60714285714286 307,165 C 422.42857142857144,170.39285714285714 557.5,176.37500000000003 704,210 C 850.5,243.62499999999997 1008.4285714285713,304.89285714285717 1133,337 C 1257.5714285714287,369.10714285714283 1348.7857142857142,372.05357142857144 1440,375 L 1440,400 L 0,400 Z"
       stroke="none"
       strokeWidth="0"
-      fill="white"
+      fill={theme === 'light' ? 'white' : '#030712'}
       fillOpacity="1"
       className="transition-all duration-300 ease-in-out delay-150 path-0"
       transform="rotate(-180 720 200)"

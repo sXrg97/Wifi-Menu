@@ -19,6 +19,19 @@ export default withUt({
     },
     extend: {
       colors: {
+          'amethyst': {
+            '50': '#faf7fd',
+            '100': '#f3ecfb',
+            '200': '#e8ddf7',
+            '300': '#d7c2f0',
+            '400': '#be9be5',
+            '500': '#a574d8',
+            '600': '#9966cc',
+            '700': '#7943ad',
+            '800': '#663b8e',
+            '900': '#533172',
+            '950': '#381952',
+        },  
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

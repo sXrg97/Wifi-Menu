@@ -30,7 +30,7 @@ const HeroSection = () => {
                     </p>
 
                     <Link href="/dashboard">
-                        <Button className="bg-purple-600 text-xl hover:bg-purple-700 create-your-menu-cta-btn">
+                        <Button className="bg-amethyst-600 text-xl hover:bg-amethyst-700 create-your-menu-cta-btn">
                             Create your QR menu <ArrowRight className="ml-1" />
                         </Button>
                     </Link>

@@ -91,9 +91,6 @@ const EditProductModal = ({
     };
 
     const handleEdit = async () => {
-        console.log("editedProduct", editedProduct);
-        console.log("product", product);
-
         let notModified =
             editedProduct.name === product.name &&
             editedProduct.price === product.price &&

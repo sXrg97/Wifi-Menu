@@ -26,7 +26,7 @@ export default function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en">
-                <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth dark:bg-gray-900 dark:text-white`}>
+                <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth dark:bg-gray-950 dark:text-white`}>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"

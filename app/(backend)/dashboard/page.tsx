@@ -14,12 +14,10 @@ import React, { useEffect, useState } from 'react'
 const Dashboard = () => {
   const [menuId, setMenuId] = useState(null);
   const clerkUser = useUser();
-  console.log(clerkUser)
 
   useEffect(() => {
     const createOrGetMenu = async () => {
       if (clerkUser.isSignedIn) {
-        console.log(clerkUser)
         try {
           const id = clerkUser.user?.id;
           const email = clerkUser.user?.primaryEmailAddress?.emailAddress
@@ -32,7 +30,6 @@ const Dashboard = () => {
     };
 
     createOrGetMenu();
-    console.log(clerkUser)
   }, [clerkUser]);
 
   return (

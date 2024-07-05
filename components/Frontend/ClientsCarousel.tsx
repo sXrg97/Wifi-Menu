@@ -33,20 +33,22 @@ const ClientsCarousel = () => {
             {loading ? (
                 <Skeleton className="h-60 w-full overflow-hidden" />
             ) : (
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full h-full">
                         {menus.map((menu, i) => (
                                 <Link className="flex flex-1 h-full w-full" href={`/menu/${menu.slug}`} key={`${menu._id}_${i}`}>
                                     <div className="p-1 w-full">
                                         <Card>
                                             <CardContent className="flex flex-col items-center p-6">
-                                                <Image
-                                                    src={menu.menuPreviewImage || "/dashboard-cover.webp"}
-                                                    alt={`Preview for ${menu.restaurantName}`}
-                                                    className="w-full h-40 object-cover mb-4 rounded-md"
-                                                    width={1600}
-                                                    height={900}
-                                                />
-                                                <h3 className="text-xl font-semibold">{menu.restaurantName}</h3>
+                                                <div className="w-full bg-gray-200 mb-4 relative aspect-square overflow-hidden">
+                                                    <Image
+                                                        src={menu.menuPreviewImage || "/dashboard-cover.webp"}
+                                                        alt={`Preview for ${menu.restaurantName}`}
+                                                        className="w-full object-cover rounded-md absolute top-0 left-0 h-full"
+                                                        width={300}
+                                                        height={300}
+                                                    />
+                                                </div>
+                                                <h3 className="text-lg font-semibold">{menu.restaurantName}</h3>
                                             </CardContent>
                                         </Card>
                                     </div>

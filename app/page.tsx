@@ -7,7 +7,6 @@ import { useUser } from '@clerk/nextjs';
 export default function Home() {
 
   const clerkUser = useUser();
-  console.log('clerkUser', clerkUser);
 
   return (
     <>
@@ -15,7 +14,7 @@ export default function Home() {
         <HeroSection />
       </main>
 
-      <div className={`bg-purple-600`}>
+      <div className={`bg-amethyst-950`}>
           <AnimatedWave />
           <section className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8"></section>
       </div>
