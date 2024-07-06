@@ -1,12 +1,7 @@
-"use client"
-
 import AnimatedWave from '@/components/Frontend/AnimatedWave';
 import HeroSection from '@/components/Frontend/HeroSection';
-import { useUser } from '@clerk/nextjs';
 
 export default function Home() {
-
-  const clerkUser = useUser();
 
   return (
     <>

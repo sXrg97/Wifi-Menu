@@ -4,8 +4,21 @@ const nextConfig = {
         serverComponentsExternalPackages: ["mongoose"],
     },
     images: {
-        domains: ["utfs.io", "firebasestorage.googleapis.com"],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'firebasestorage.googleapis.com'
+            },
+            {
+                protocol: 'https',
+                hostname: 'utfs.io'
+            }
+        ],
     },
+    i18n: {
+        locales: ['en', 'ro'],
+        defaultLocale: 'en'
+    }
 }
 
 module.exports = nextConfig

@@ -14,7 +14,7 @@ const EMenuUserButton = () => {
     return isSignedIn ? (
         <div className="flex items-center">
             <span className="mr-3 userButton" style={{ height: 40 }}>
-                <UserButton afterSignOutUrl="/" />
+                <UserButton />
             </span>
             {path !== "/dashboard" && (
                 <Link href={"/dashboard"}>

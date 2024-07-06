@@ -115,8 +115,8 @@ const ProductBox = ({
                     <EditProductModal product={product} menuId={menuId} categoryName={categoryName} setMenu={setMenu} />
 
                     {product._id && menuId && categoryName && (
-                        <Button
-                            className="bg-red-500 text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-600 transition-colors"
+                        <Button variant={"outline"}
+                            className="flex-1 bg-white text-black border-gray-400 h-full hover:bg-red-100"
                             onClick={() => handleDeleteProduct(menuId, categoryName, product._id!)}
                         >
                             <Trash2Icon />

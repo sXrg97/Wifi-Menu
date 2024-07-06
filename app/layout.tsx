@@ -25,20 +25,20 @@ export default function RootLayout({
 }) {
     return (
         <ClerkProvider>
-            <html lang="en">
-                <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth dark:bg-gray-950 dark:text-white`}>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
+            <html lang="en" suppressHydrationWarning>
+                    <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth dark:bg-gray-950 dark:text-white`}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
                     >
-                        <Header />
-                        <main className="flex flex-col flex-1">{children}</main>
-                        <SpeedInsights />
-                        <Toaster />
-                        <Footer />
-                    </ThemeProvider>
+                            <Header />
+                            <main className="flex flex-col flex-1">{children}</main>
+                            <SpeedInsights />
+                            <Toaster />
+                            <Footer />
+                </ThemeProvider>
                 </body>
             </html>
         </ClerkProvider>

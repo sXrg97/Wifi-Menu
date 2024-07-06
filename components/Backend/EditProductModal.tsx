@@ -212,13 +212,13 @@ const EditProductModal = ({
                         <span className="mb-2 block">Enter the details and save.</span>
 
                         {product.image && (
-                            <div className="h-32 w-[50%] object-cover overflow-hidden">
+                            <div className="h-32 w-32 object-cover overflow-hidden">
                                 <Image
                                     className="h-full w-full object-cover"
                                     alt="product image"
                                     src={product.image}
-                                    width={100}
-                                    height={100}
+                                    width={300}
+                                    height={300}
                                 />
                             </div>
                         )}
@@ -358,7 +358,7 @@ const EditProductModal = ({
                         />
                     </div>
                 </div>
-                <DialogFooter>
+                <DialogFooter className="flex gap-2">
                     <DialogClose asChild>
                         <Button onClick={() => setIsOpen(false)}>Inchide</Button>
                     </DialogClose>

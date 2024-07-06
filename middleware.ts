@@ -1,12 +1,17 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-export default authMiddleware({
-  // "/" will be accessible to all users
-  publicRoutes: ["/", "/menu/:id", "/api/uploadthing"], //remove api/uploadthing
+//Clerk Middleware
+
+const isPublicRoute = createRouteMatcher(["/", "/menu/:id", "/sign-in", "/sign-up"]);
+
+export default clerkMiddleware((auth, req) => {
+  if (isPublicRoute(req)) {
+    return; // If it's a public route, do nothing (allow access)
+  }
+  // For any other route, require authentication
+  auth().protect();
 });
- 
-export const config = {
-      matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
-};
 
-//http://localhost:3000/menu/6529ec3e860bd70d0497199e
+export const config = {
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+};

@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { MenuType } from "@/types/types";
@@ -44,8 +46,8 @@ const ClientsCarousel = () => {
                                                         src={menu.menuPreviewImage || "/dashboard-cover.webp"}
                                                         alt={`Preview for ${menu.restaurantName}`}
                                                         className="w-full object-cover rounded-md absolute top-0 left-0 h-full"
-                                                        width={300}
-                                                        height={300}
+                                                        width={600}
+                                                        height={600}
                                                     />
                                                 </div>
                                                 <h3 className="text-lg font-semibold">{menu.restaurantName}</h3>
