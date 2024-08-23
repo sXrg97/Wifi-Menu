@@ -418,12 +418,13 @@ export const increaseMenuViews = async (menuId: string) => {
     throw error;
   }
 };
+
 export const editProductImage = async (
   menuId: string,
   categoryName: string,
   productId: string,
   formData: FormData
-) => {
+): Promise<MenuType | null> => {
   console.log("edit product image");
 
   try {
@@ -436,52 +437,77 @@ export const editProductImage = async (
     }
 
     // Get the menu data
-    const menuData = menuDocSnapshot.data();
+    const menuData = menuDocSnapshot.data() as MenuType;
     const categories = menuData.categories || [];
 
     // Find the category
-    const category = categories.find(
-      (cat: { name: string }) => cat.name === categoryName
+    const categoryIndex = categories.findIndex(
+      (cat) => cat.name === categoryName
     );
-    if (!category) {
+    if (categoryIndex === -1) {
       throw new Error("Category not found");
     }
 
     // Find the product
-    const product = category.products.find(
-      (prod: { _id: string }) => prod._id === productId
+    const productIndex = categories[categoryIndex].products.findIndex(
+      (prod) => prod._id === productId
     );
-    if (!product) {
+    if (productIndex === -1) {
       throw new Error("Product not found");
     }
 
-    const utapi = new UTApi();
-    let existingImageFilename = product.image.replace("https://utfs.io/f/", "");
+    const product = categories[categoryIndex].products[productIndex];
 
-    // Upload new image
+    // Upload new image to Firebase Storage
     const file: File = formData.get("productPicture") as File;
-    const uploadNewImageResponse = await utapi.uploadFiles([file]);
+    if (file) {
+      const storageRef = ref(
+        storage,
+        `menus/${menuId}/products/${file.name}`
+      );
+      
+      console.log("Uploading file:", file.name);
+      const uploadResult = await uploadBytes(storageRef, file);
+      console.log("Upload completed:", uploadResult);
 
-    let newImageUrl;
+      console.log("Getting download URL");
+      const newImageUrl = await getDownloadURL(storageRef);
+      console.log("New image URL:", newImageUrl);
 
-    if (uploadNewImageResponse[0]?.data?.url) {
-      newImageUrl = uploadNewImageResponse[0].data.url;
+      // Update product image
+      product.image = newImageUrl;
+
+      // Update the categories array
+      categories[categoryIndex].products[productIndex] = product;
+
+      // Update menu document
+      console.log("Updating Firestore document");
+      await updateDoc(menuDocRef, {
+        categories: categories,
+        lastModifiedAt: serverTimestamp(),
+      });
+
+      // Delete old image from Firebase Storage if it exists
+      if (product.image && product.image !== newImageUrl) {
+        console.log("Attempting to delete old image:", product.image);
+        try {
+          const oldImageRef = ref(storage, product.image);
+          await deleteObject(oldImageRef);
+          console.log("Old image deleted successfully");
+        } catch (deleteError) {
+          console.log("Error deleting old image: ", deleteError);
+        }
+      }
+    } else {
+      console.log("No new file provided");
     }
 
-    // Update product image
-    product.image = newImageUrl;
+    // Fetch the updated menu
+    const updatedMenuSnapshot = await getDoc(menuDocRef);
+    const updatedMenuData = updatedMenuSnapshot.data() as MenuType;
 
-    // Update menu document
-    await updateDoc(menuDocRef, {
-      categories: categories,
-      lastModifiedAt: serverTimestamp(),
-    });
-
-    // Delete existing image
-    await utapi.deleteFiles([existingImageFilename]);
-
-    // Return the updated product
-    return jsonify(product);
+    // Return the entire updated menu
+    return jsonify(updatedMenuData);
   } catch (error) {
     console.log("Error editing product image: ", error);
     throw error;

@@ -205,7 +205,7 @@ const EditProductModal = ({
                     <PenIcon />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[80dvh] overflow-auto">
                 <DialogHeader>
                     <DialogTitle>Edit product {product.name}</DialogTitle>
                     <DialogDescription className="flex items-start flex-col">

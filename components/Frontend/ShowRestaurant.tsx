@@ -1,21 +1,32 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { MenuType } from '@/types/types';
 import { Skeleton } from '../ui/skeleton';
 import ProductBox from '../Backend/ProductBox';
 import { generateSlug } from '@/lib/utils';
 import { Button } from '../ui/button';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { callWaiter, requestBill } from '@/lib/actions/menu.actions';
 import { useToast } from '../ui/use-toast';
 import { ConciergeBell, Receipt, User } from 'lucide-react';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const { toast } = useToast();
+
+
+  useEffect(() => {
+    const tableNumber = searchParams.get('table');
+
+    if (!tableNumber) {
+      console.log('No table number found, redirecting to table 1');
+      router.push('?table=1');
+    }
+  }, [searchParams, router]);
 
   const handleCallWaiter = async () => {
     const tableNumber = Number(searchParams.get('table'));

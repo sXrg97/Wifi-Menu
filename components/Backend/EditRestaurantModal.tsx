@@ -87,7 +87,7 @@ const EditRestaurantModal = ({
                     Edit Menu
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[80dvh] overflow-auto">
                 <DialogHeader>
                     <DialogTitle>Menu settings</DialogTitle>
                     <DialogDescription>Make the desired changes and save.</DialogDescription>
