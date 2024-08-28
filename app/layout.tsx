@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -39,6 +40,7 @@ export default function RootLayout({
                             <Toaster />
                             <Footer />
                 </ThemeProvider>
+                <Analytics/>
                 </body>
             </html>
         </ClerkProvider>
