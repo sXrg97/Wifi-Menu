@@ -18,7 +18,7 @@ const HeroSection = () => {
             >
                 <div className="hero-text flex-1">
                     <h1
-                        className={`${cabin.className} hero text-7xl font-bold italic uppercase mb-4 sm:mb-8 tracking-tighter`}
+                        className={`${cabin.className} hero text-4xl md:text-7xl font-bold italic uppercase mb-4 sm:mb-8 tracking-tighter`}
                     >
                         Wifi Menu
                     </h1>

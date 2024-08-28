@@ -162,6 +162,14 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                         <div
                             className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4`}
                         >
+                            <div className="category-actions col-span-full">
+                                {/* <Button variant={'default'} className="col-span-1">
+                                    <Link href={`/dashboard/sortproducts/${i}`}>
+                                        Reordoneaza produsele
+                                    </Link>
+                                </Button> */}
+
+                            </div>
                             {menuId &&
                                 category.products.map((product, j) => (
                                     <ProductBox
