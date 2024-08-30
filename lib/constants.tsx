@@ -25,3 +25,20 @@ export const ALLERGENS = [
     "Lupin",
     "Molluscs",
 ]
+
+export const RO_ALLERGENS = [
+    "Gluten",
+    "Crustacee",
+    "Ouă",
+    "Pește",
+    "Arahide",
+    "Soia",
+    "Lapte",
+    "Nuci",
+    "Țelină",
+    "Muștar",
+    "Semințe de susan",
+    "Dioxid de sulf",
+    "Lupin",
+    "Moluște",
+];

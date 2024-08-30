@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { ALLERGENS, RO_ALLERGENS } from "./constants";
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -28,3 +29,11 @@ export const calculateDiscountedPrice = (originalPrice: number, discount: number
 
   return Number(discountedPrice.toFixed(2));
 };
+
+export function getAllergenInRomanian(allergen: string) {
+  const index = ALLERGENS.indexOf(allergen);
+  if (index === -1) {
+      throw new Error(`Alergenul "${allergen}" nu a fost găsit în lista de alergeni.`);
+  }
+  return RO_ALLERGENS[index];
+}

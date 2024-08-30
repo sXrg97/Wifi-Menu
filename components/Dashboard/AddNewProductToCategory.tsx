@@ -23,7 +23,7 @@ import { Loader2, PlusIcon } from "lucide-react";
 import { Switch } from "../ui/switch";
 import { ALLERGENS, DEFAULT_PRODUCT } from "@/lib/constants";
 import { Badge } from "../ui/badge";
-import { generateSlug } from "@/lib/utils";
+import { generateSlug, getAllergenInRomanian } from "@/lib/utils";
 
 const AddNewProductToCategory = ({
     categoryName,
@@ -239,7 +239,7 @@ const AddNewProductToCategory = ({
                         <Label className="text-right">Allergens:</Label>
                         <div className="flex flex-wrap gap-1 col-span-3">
                             {ALLERGENS.map((allergen) => (
-                                <Badge variant={product.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{allergen}</Badge>
+                                <Badge variant={product.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{getAllergenInRomanian(allergen)}</Badge>
                             ))}
                         </div>
                     </div>

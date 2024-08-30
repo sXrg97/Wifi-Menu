@@ -23,7 +23,7 @@ import { toast } from "../ui/use-toast";
 import { editProduct, editProductAndImage, editProductImage } from "@/lib/actions/menu.actions";
 import { Badge } from "../ui/badge";
 import { ALLERGENS } from "@/lib/constants";
-import { generateSlug } from "@/lib/utils";
+import { generateSlug, getAllergenInRomanian } from "@/lib/utils";
 
 const EditProductModal = ({
     product,
@@ -311,7 +311,7 @@ const EditProductModal = ({
                         <Label className="text-right">Allergens:</Label>
                         <div className="flex flex-wrap gap-1 col-span-3">
                             {ALLERGENS.map((allergen) => (
-                                <Badge variant={editedProduct.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{allergen}</Badge>
+                                <Badge variant={editedProduct.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{getAllergenInRomanian(allergen)}</Badge>
                             ))}
                         </div>
                     </div>

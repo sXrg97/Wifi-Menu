@@ -12,13 +12,28 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Meniu Digital Gratuit - Meniu QR Interactiv pentru Restaurante - Wifi Menu",
-    description: "Transformă experiența clienților tăi cu un meniu digital interactiv gratuit. Wifi Menu îți oferă un meniu QR ușor de utilizat, accesibil pe orice dispozitiv mobil, ideal pentru restaurante moderne",
+    title: "Wifi Menu | Meniu Digital QR Gratuit - Pentru Afacerea ta",
+    description: "Creează un meniu digital gratuit cu Wifi Menu. Ideal pentru restaurante si baruri, meniul QR oferă o experiență modernă pe orice dispozitiv.",
     icons: {
         icon: "/wifi-menu-logo-white.svg"
     },
     verification: {
         google: "sK5u7EouznxBlha4srXeaBD5uzLl1f4je_bI1C3uu1k"
+    },
+    openGraph: {
+        title: "Wifi Menu | Meniu Digital QR Gratuit - Pentru Afacerea ta",
+        description: "Creează un meniu digital gratuit cu Wifi Menu. Ideal pentru restaurante si baruri, meniul QR oferă o experiență modernă pe orice dispozitiv.",
+        url: "https://wifi-menu.ro",
+        images: [
+            {
+                url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg.png",
+                width: 1400,
+                height: 1400,
+                alt: "Wifi Menu"
+            }
+        ],
+        type: "website",
+        locale: "ro_RO"
     }
 };
 

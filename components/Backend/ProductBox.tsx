@@ -5,7 +5,7 @@ import { deleteProduct } from "@/lib/actions/menu.actions";
 import { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import EditProductModal from "./EditProductModal";
-import { calculateDiscountedPrice } from "@/lib/utils";
+import { calculateDiscountedPrice, getAllergenInRomanian } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 
 const ProductBox = ({
@@ -75,16 +75,16 @@ const ProductBox = ({
                                             product.price,
                                             product.reducedPrice,
                                             product.isDiscountProcentual!
-                                        )} USD (-${
+                                        )} RON (-${
                                             product.isDiscountProcentual
                                                 ? `${product.reducedPrice}%`
-                                                : `${product.reducedPrice} USD`
+                                                : `${product.reducedPrice} RON`
                                         })`}
                                 </span>
-                                <span className="text-base block line-through text-gray-500">{product.price} USD</span>
+                                <span className="text-base block line-through text-gray-500">{product.price} RON</span>
                             </div>
                         ) : (
-                            <span className="text-base block font-bold">{product.price == 0 ? "FREE" : `${product.price} USD`}</span>
+                            <span className="text-base block font-bold">{product.price == 0 ? "FREE" : `${product.price} RON`}</span>
                         )}
                     </div>
                 </div>
@@ -104,7 +104,7 @@ const ProductBox = ({
                 <div className="flex flex-wrap gap-1">
                     {product.allergens.map((allergen, index) => (
                         <Badge variant={"outline"} key={index} className="text-xs">
-                            {allergen}
+                            {getAllergenInRomanian(allergen)}
                         </Badge>
                     ))}
                 </div>
