@@ -36,12 +36,12 @@ const TermsAndConditions = () => {
 
                     <section>
                         <h2 className="text-2xl font-semibold mb-2 text-purple-800">7. Politica de Restituire</h2>
-                        <p>În cazul în care sunteți nemulțumit de Serviciu, puteți solicita o restituire în conformitate cu <a href="https://wifi-menu.ro/restituire" className="text-purple-700 hover:underline">Politica noastră de Restituire</a>. Această politică este disponibilă pe Site și trebuie citită cu atenție.</p>
+                        <p>În cazul în care sunteți nemulțumit de Serviciu, puteți solicita o restituire în conformitate cu <a href="https://wifi-menu.ro/refund-policy" className="text-purple-700 hover:underline">Politica noastră de Restituire</a>. Această politică este disponibilă pe Site și trebuie citită cu atenție.</p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-semibold mb-2 text-purple-800">8. Politica de Confidențialitate</h2>
-                        <p>Utilizarea datelor dumneavoastră personale este reglementată de <a href="https://wifi-menu.ro/confidentialitate" className="text-purple-700 hover:underline">Politica noastră de Confidențialitate</a>, pe care vă rugăm să o consultați pentru a înțelege cum colectăm, utilizăm și protejăm informațiile dumneavoastră personale.</p>
+                        <p>Utilizarea datelor dumneavoastră personale este reglementată de <a href="https://wifi-menu.ro/terms-and-conditions" className="text-purple-700 hover:underline">Politica noastră de Confidențialitate</a>, pe care vă rugăm să o consultați pentru a înțelege cum colectăm, utilizăm și protejăm informațiile dumneavoastră personale.</p>
                     </section>
 
                     <section>

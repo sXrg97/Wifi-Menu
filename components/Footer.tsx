@@ -53,7 +53,7 @@ const Footer = () => {
                     <h3 className="text-lg font-semibold mb-4 text-white">Companie</h3>
                     <ul className="text-sm space-y-2">
                         <li>
-                            <Link href="/despre" className="hover:underline text-white">
+                            <Link href="/despre-noi" className="hover:underline text-white">
                                 Despre Noi
                             </Link>
                         </li>
@@ -65,11 +65,6 @@ const Footer = () => {
                         <li>
                             <Link href="/contact" className="hover:underline text-white">
                                 Contact
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/suport" className="hover:underline text-white">
-                                Support
                             </Link>
                         </li>
                     </ul>
