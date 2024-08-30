@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     description: "Your menu in the digital world",
     icons: {
         icon: "/wifi-menu-logo-white.svg"
+    },
+    verification: {
+        google: "sK5u7EouznxBlha4srXeaBD5uzLl1f4je_bI1C3uu1k"
     }
 };
 
