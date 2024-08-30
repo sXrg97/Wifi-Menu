@@ -12,8 +12,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Wifi Menu",
-    description: "Your menu in the digital world",
+    title: "Meniu Digital Gratuit - Meniu QR Interactiv pentru Restaurante - Wifi Menu",
+    description: "Transformă experiența clienților tăi cu un meniu digital interactiv gratuit. Wifi Menu îți oferă un meniu QR ușor de utilizat, accesibil pe orice dispozitiv mobil, ideal pentru restaurante moderne",
     icons: {
         icon: "/wifi-menu-logo-white.svg"
     },
