@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { MenuType } from '@/types/types';
 import { Skeleton } from '../ui/skeleton';
@@ -16,6 +16,7 @@ import AdSenseAd from '../GoogleAds/AdSenseAd';
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  let currentProductRendering = 0;
 
   const { toast } = useToast();
 
@@ -127,18 +128,23 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
               <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
 
               <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4`}>
-  {category.products.map((product, j) => (
+  {category.products.map((product, j) => {
+    currentProductRendering++;
+    return (
     <React.Fragment key={`${product.name}_${j}`}>
-      <div className="product-box-wrapper">
+      <div className={`product-box-wrapper ${j}`}>
         <ProductBox product={product} admin={false} />
       </div>
-      {j % 3 === 2 && (
+
+      {currentProductRendering % 5 === 0 && (
         <div className="ad-wrapper col-span-1">
           <AdSenseAd />
         </div>
       )}
+
+      
     </React.Fragment>
-  ))}
+  )})}
 </div>
 
             </div>
