@@ -49,7 +49,7 @@ const ProductBox = ({
 
     return (
         <div
-            className={`border-gray-300 product-box border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden flex flex-col justify-between gap-4`}
+            className={`h-full border-gray-300 product-box border p-4 rounded-sm hover:shadow-lg transition-shadow relative overflow-hidden flex flex-col justify-between gap-4`}
             key={product.name}
         >
             <div

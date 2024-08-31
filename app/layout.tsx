@@ -8,7 +8,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import GoogleAdsense from "@/components/Frontend/GoogleAdsense";
+import GoogleAdsense from "@/components/GoogleAds/GoogleAdsense";
 
 const inter = Inter({ subsets: ["latin"] });
 
