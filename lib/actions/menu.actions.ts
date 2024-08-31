@@ -186,7 +186,7 @@ export const addProductToCategory = async (
 
     // Upload the product picture to Firebase Storage (if provided)
     if (formData) {
-      const productPicture = formData.get("productPicture");
+      const productPicture = formData.get("productPicture") as File;
       if (productPicture instanceof File) {
         const storageRef = ref(
           storage,
