@@ -6,5 +6,11 @@ module.exports = {
       additionalSitemaps: [
         'https://wifi-menu.ro/server-sitemap.xml', // Add dynamic sitemap here
       ],
+      policies: [
+        {
+            userAgent: '*',
+            disallow: ['/dashboard']
+        }
+      ]
     },
   }
