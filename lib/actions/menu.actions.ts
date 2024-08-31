@@ -392,6 +392,21 @@ export const getRandomMenus = async (limit: number) => {
   }
 };
 
+export const getAllMenus = async () => {
+  try {
+    const menusRef = collection(db, "menus");
+    const menuQuery = query(menusRef, orderBy("__name__"));
+
+    const menuSnapshot = await getDocs(menuQuery);
+    const menus = menuSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    return jsonify(menus);
+  } catch (error) {
+    console.log("Error getting all menus: ", error);
+    throw error;
+  }
+};
+
 export const increaseMenuViews = async (menuId: string) => {
   try {
     // Assuming 'menus' is the collection name

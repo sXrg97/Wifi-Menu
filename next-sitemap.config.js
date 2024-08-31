@@ -1,5 +1,10 @@
 module.exports = {
-    siteUrl: 'https://wifi-menu.ro', // Replace with your site's URL
-    generateRobotsTxt: true, // This will also generate a robots.txt file
-    exclude: ['/dashboard'], // Exclude specific paths if needed
-  };
+    siteUrl: 'https://wifi-menu.ro',
+    generateRobotsTxt: true,
+    exclude: ['/server-sitemap.xml'], // Exclude dynamic sitemap from static generation
+    robotsTxtOptions: {
+      additionalSitemaps: [
+        'https://wifi-menu.ro/server-sitemap.xml', // Add dynamic sitemap here
+      ],
+    },
+  }

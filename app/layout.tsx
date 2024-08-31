@@ -26,7 +26,7 @@ export const metadata: Metadata = {
         url: "https://wifi-menu.ro",
         images: [
             {
-                url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg.png",
+                url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png",
                 width: 1400,
                 height: 1400,
                 alt: "Wifi Menu"
