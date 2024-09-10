@@ -9,6 +9,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import GoogleAdsense from "@/components/GoogleAds/GoogleAdsense";
+import { FloatingWhatsApp } from 'react-floating-whatsapp'
+import Whatsapp from "@/components/Whatsapp";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,6 +60,7 @@ export default function RootLayout({
                             <SpeedInsights />
                             <Toaster />
                             <Footer />
+                            <Whatsapp />
                 </ThemeProvider>
                 <Analytics/>
                 <GoogleAdsense pId="5014917614845643" />
