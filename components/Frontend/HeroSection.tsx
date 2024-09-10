@@ -37,7 +37,7 @@ export default function HeroSection() {
 
   return (
     <>
-      <div className="bg-gradient-to-b from-purple-50 to-white">
+      <div className="">
         <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-24 dark:bg-gray-950">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
@@ -120,7 +120,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div id="how-it-works" className="bg-gray-50 py-16 sm:py-24 dark:bg-gray-950 w-full">
+      <div id="how-it-works" className="py-16 sm:py-24 dark:bg-gray-950 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:text-center">
             <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Cum Funcționează</h2>
