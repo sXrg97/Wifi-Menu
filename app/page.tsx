@@ -2,6 +2,7 @@ import AnimatedWave from '@/components/Frontend/AnimatedWave';
 import CTA from '@/components/Frontend/CTA';
 import HeroSection from '@/components/Frontend/HeroSection';
 import PricingSection from '@/components/Frontend/PricingSection';
+import Whatsapp from '@/components/Whatsapp';
 
 export default function Home() {
 
@@ -12,6 +13,8 @@ export default function Home() {
       </main>
         <CTA />
         <PricingSection />
+        <Whatsapp />
+
 
       <div className={`bg-purple-600`}>
           <AnimatedWave />
