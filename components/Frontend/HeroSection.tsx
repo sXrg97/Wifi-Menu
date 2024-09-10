@@ -266,7 +266,7 @@ export default function HeroSection() {
                         </div>
                         <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white flex items-center">
                         Declarații Nutriționale AI
-                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">În curând</span>
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full text-nowrap">În curând</span>
                         </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">
@@ -286,7 +286,7 @@ export default function HeroSection() {
                     </div>
                     <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white flex items-center">
                         Comandă Directă de la Masă
-                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">În curând</span>
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full text-nowrap">În curând</span>
                     </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">
@@ -307,7 +307,7 @@ export default function HeroSection() {
                     </div>
                     <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white flex items-center">
                         Analiză Avansată și Rapoarte
-                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">În curând</span>
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full text-nowrap">În curând</span>
                     </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">
