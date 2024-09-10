@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { Cabin } from "next/font/google"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Smartphone, QrCode, Bell, Receipt, Menu, Image as ImageIcon, Tag, Sparkles, Utensils, ShoppingCart, BarChart } from "lucide-react"
+import { ArrowRight, Smartphone, QrCode, Bell, Receipt, Menu, Image as ImageIcon, Tag, Sparkles, Utensils, ShoppingCart, BarChart, CreditCard, Star } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -188,55 +188,83 @@ export default function HeroSection() {
 
           <div className="mt-10">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
-                    <ImageIcon className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">Imagini de Copertă Personalizate</p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-gray-500">
-                  Adaugă o notă personală meniului tău cu imagini de copertă personalizate care reprezintă brandul tău.
-                </dd>
-              </div>
+                <div className="relative">
+                    <dt>
+                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
+                        <ImageIcon className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">Imagini de Copertă Personalizate</p>
+                    </dt>
+                    <dd className="mt-2 ml-16 text-base text-gray-500">
+                    <p>Adaugă o notă personală meniului tău cu imagini de copertă personalizate care reprezintă brandul tău.</p>
+                    <ul className="mt-2 list-disc list-inside text-sm">
+                        <li>Încarcă imagini de înaltă calitate pentru a evidenția atmosfera restaurantului tău</li>
+                        <li>Schimbă ușor imaginile de copertă pentru a reflecta meniurile sezoniere sau evenimentele speciale</li>
+                        <li>Optimizare automată a imaginilor pentru încărcare rapidă pe dispozitive mobile</li>
+                        <li>Opțiuni de filtre și ajustări pentru a asigura coerența cu identitatea vizuală a brandului</li>
+                    </ul>
+                    </dd>
+                </div>
 
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
-                    <Menu className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">Categorii și Produse</p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-gray-500">
-                  Organizează meniul tău cu categorii și adaugă informații detaliate despre produse, inclusiv imagini și descrieri.
-                </dd>
-              </div>
+                <div className="relative">
+                    <dt>
+                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
+                        <Menu className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">Categorii și Produse</p>
+                    </dt>
+                    <dd className="mt-2 ml-16 text-base text-gray-500">
+                    <p>Organizează meniul tău cu categorii și adaugă informații detaliate despre produse, inclusiv imagini și descrieri.</p>
+                    <ul className="mt-2 list-disc list-inside text-sm">
+                        <li>Creează și gestionează ușor categorii pentru o navigare intuitivă a meniului</li>
+                        <li>Adaugă descrieri detaliate ale produselor pentru a evidenția ingredientele și metodele de preparare</li>
+                        <li>Încarcă imagini profesionale pentru fiecare produs pentru a stimula apetitul clienților</li>
+                        <li>Opțiune de a adăuga etichete personalizate (ex: &quot;Nou&quot;, &quot;Popular&quot;, &quot;Vegetarian&quot;) pentru produse</li>
+                        <li>Funcționalitate de căutare în meniu pentru clienți, facilitând găsirea rapidă a produselor dorite</li>
+                    </ul>
+                    </dd>
+                </div>
 
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
-                    <Tag className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">Prețuri, Reduceri și Alergeni</p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-gray-500">
-                  Afișează prețuri, evidențiază reduceri și oferă informații importante despre alergeni pentru fiecare articol.
-                </dd>
-              </div>
+                <div className="relative">
+                    <dt>
+                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
+                        <Tag className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">Prețuri, Reduceri și Alergeni</p>
+                    </dt>
+                    <dd className="mt-2 ml-16 text-base text-gray-500">
+                    <p>Afișează prețuri, evidențiază reduceri și oferă informații importante despre alergeni pentru fiecare articol.</p>
+                    <ul className="mt-2 list-disc list-inside text-sm">
+                        <li>Actualizează ușor prețurile în timp real, reflectând imediat schimbările în meniul digital</li>
+                        <li>Creează și gestionează oferte speciale sau reduceri temporare cu doar câteva clicuri</li>
+                        <li>Afișează clar informațiile despre alergeni, ajutând clienții să facă alegeri informate</li>
+                        <li>Opțiune de a afișa valori nutriționale pentru fiecare produs</li>
+                        <li>Personalizează modul de afișare a prețurilor (ex: cu sau fără TVA, în diferite valute)</li>
+                    </ul>
+                    </dd>
+                </div>
 
-              <div className="relative">
-                <dt>
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
-                    <Bell className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">Cheamă Chelnerul & Solicită Nota
-                    <span className="ml-2 px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full">Nou</span>
-                  </p>
-                </dt>
-                <dd className="mt-2 ml-16 text-base text-gray-500">
-                  Permite clienților să cheme un chelner sau să solicite nota direct de pe dispozitivele lor.
-                </dd>
-              </div>
+                <div className="relative">
+                    <dt>
+                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
+                        <Bell className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                        Cheamă Chelnerul & Solicită Nota
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full">Nou</span>
+                    </p>
+                    </dt>
+                    <dd className="mt-2 ml-16 text-base text-gray-500">
+                    <p>Permite clienților să cheme un chelner sau să solicite nota direct de pe dispozitivele lor.</p>
+                    <ul className="mt-2 list-disc list-inside text-sm">
+                        <li>Sistem de notificări instant pentru personal, asigurând un răspuns rapid la solicitările clienților</li>
+                        <li>Opțiune pentru clienți de a specifica motivul solicitării (ex: comandă suplimentară, întrebare despre meniu)</li>
+                        <li>Generare automată a notei de plată în format digital, cu opțiune de trimitere pe email</li>
+                        <li>Integrare cu sistemul de management al restaurantului pentru o gestionare eficientă a solicitărilor</li>
+                        <li>Analize detaliate privind timpul de răspuns și satisfacția clienților pentru îmbunătățirea serviciilor</li>
+                    </ul>
+                    </dd>
+                </div>
 
               <div className="relative">
                 <dt>
@@ -317,6 +345,50 @@ export default function HeroSection() {
                         <li>Analiza tendințelor de comandă pe perioade de timp</li>
                         <li>Identificarea produselor cu marjă mare și vânzări scăzute</li>
                         <li>Sugestii de optimizare a meniului bazate pe date</li>
+                    </ul>
+                    </dd>
+                </div>
+
+                <div className="relative">
+                    <dt>
+                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
+                        <CreditCard className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 flex items-center">
+                        Plată cu Cardul Direct din Aplicație
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">În curând</span>
+                    </p>
+                    </dt>
+                    <dd className="mt-2 ml-16 text-base text-gray-500">
+                    <p>În curând, clienții vor putea plăti comanda direct din aplicație, fără a mai aștepta nota de plată.</p>
+                    <ul className="mt-2 list-disc list-inside text-sm">
+                        <li>Integrare securizată cu procesatori de plăți de încredere</li>
+                        <li>Opțiuni multiple de plată: card de credit/debit, Apple Pay, Google Pay</li>
+                        <li>Împărțirea notei de plată între mai mulți clienți</li>
+                        <li>Generare automată de chitanțe digitale</li>
+                        <li>Sistem de bacșiș digital pentru personal</li>
+                    </ul>
+                    </dd>
+                </div>
+
+                <div className="relative">
+                    <dt>
+                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
+                        <Star className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 flex items-center">
+                        Recenzii Conectate Direct la Google
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">În curând</span>
+                    </p>
+                    </dt>
+                    <dd className="mt-2 ml-16 text-base text-gray-500">
+                    <p>În curând, veți putea îmbunătăți prezența online a restaurantului dumneavoastră prin integrarea directă cu Google Reviews.</p>
+                    <ul className="mt-2 list-disc list-inside text-sm">
+                        <li>Încurajarea clienților să lase recenzii direct pe Google după experiența lor</li>
+                        <li>Afișarea recenziilor pozitive în aplicație pentru a încuraja încrederea clienților</li>
+                        <li>Notificări instant pentru recenzii noi, permițând răspunsuri rapide</li>
+                        <li>Analize detaliate ale sentimentului recenziilor pentru îmbunătățirea serviciilor</li>
+                        <li>Creșterea vizibilității restaurantului în căutările locale pe Google</li>
                     </ul>
                     </dd>
                 </div>
