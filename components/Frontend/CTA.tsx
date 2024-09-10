@@ -1,0 +1,27 @@
+import Link from "next/link"
+import { Button } from "../ui/button"
+import { ArrowRight } from "lucide-react"
+
+const CTA = () => {
+  return (
+    <div className="bg-purple-600 w-full">
+        <div className="w-full mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+            <span className="block">Ești gata să treci în digital?</span>
+            <span className="block">Începe cu Wifi Menu astăzi.</span>
+          </h2>
+          <p className="mt-4 text-lg leading-6 text-purple-200">
+            Alătură-te sutelor de restaurante care deja folosesc Wifi Menu pentru a îmbunătăți experiența clienților lor.
+          </p>
+          <Link href="/dashboard">
+            <Button className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-purple-600 bg-white hover:bg-purple-50 sm:w-auto">
+              Începe acum
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+  )
+}
+
+export default CTA

@@ -9,7 +9,7 @@ const cabin = Cabin({
 
 const Footer = () => {
     return (
-        <div className="w-full bg-amethyst-950 text-zinc-800 z-50 dark:text-white">
+        <div className="w-full bg-purple-600 text-zinc-800 z-50 dark:text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 flex flex-col sm:flex-row sm:items-center md:items-start justify-around gap-6">
                 {/* Column 1: Logo & Description */}
                 <div className="flex flex-col">

@@ -11,7 +11,7 @@ const cabin = Cabin({
 
 const Header = () => {
     return (
-        <div className="w-full bg-amethyst-950 text-zinc-800 z-50 dark:text-white">
+        <div className="w-full bg-purple-600 text-zinc-800 z-50 dark:text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 flex items-center justify-between">
                 <Link href={"/"} className="text-lg flex items-center gap-2 text-white">
                     <div className="image-wrapper w-16 h-auto object-contain">

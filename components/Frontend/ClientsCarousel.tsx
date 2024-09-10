@@ -50,7 +50,7 @@ const ClientsCarousel = () => {
                                                         height={600}
                                                     />
                                                 </div>
-                                                <h3 className="text-lg font-semibold">{menu.restaurantName}</h3>
+                                                <h3 className="text-lg font-semibold dark:text-gray-950">{menu.restaurantName}</h3>
                                             </CardContent>
                                         </Card>
                                     </div>
