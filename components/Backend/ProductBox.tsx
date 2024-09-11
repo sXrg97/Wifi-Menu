@@ -108,7 +108,7 @@ const ProductBox = ({
             </div>
 
             {admin && (
-                <div className="p-4 bg-purple-100 dark:bg-purple-800 flex justify-between items-center gap-2">
+                <div className="p-4 bg-neutral-200 dark:bg-purple-800 flex justify-between items-center gap-2">
                 
                     <EditProductModal product={product} menuId={menuId} categoryName={categoryName} setMenu={setMenu} />
 

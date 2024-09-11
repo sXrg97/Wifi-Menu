@@ -30,7 +30,7 @@ const ClientsCarousel = () => {
     }, []);
 
     return (
-        <section className="w-full mx-auto py-6 px-4 sm:px-6 md:px-8 flex flex-col">
+        <section className="w-full mx-auto py-6 px-4 sm:px-6 md:px-8 flex flex-col" data-aos="fade-up">
             <h3 className="font-medium mb-4 text-xl text-left">Check out some of our clients:</h3>
             {loading ? (
                 <Skeleton className="h-60 w-full overflow-hidden" />

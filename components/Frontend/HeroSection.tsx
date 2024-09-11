@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { Cabin } from "next/font/google"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Smartphone, QrCode, Bell, Receipt, Menu, Image as ImageIcon, Tag, Sparkles, Utensils, ShoppingCart, BarChart, CreditCard, Star } from "lucide-react"
+import { ArrowRight, Smartphone, QrCode, Bell, Menu, Image as ImageIcon, Tag, Sparkles, Utensils, ShoppingCart, BarChart, CreditCard, Star } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -79,7 +79,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-950">
+        <div className="bg-white dark:bg-gray-950" data-aos="fade-up" data-aos-offset="200">
           <div className="container mx-auto px-0 py-6 md:py-12">
             <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8 dark:text-white">
               Clienții Noștri Satisfăcuți
@@ -92,8 +92,8 @@ export default function HeroSection() {
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {menus.map((menu) => (
-                  <Link href={`/menu/${menu.slug}`} key={menu._id} className="block">
+                {menus.map((menu, i) => (
+                  <Link data-aos-offset="250" data-aos-delay={i * 150} data-aos="fade-right" href={`/menu/${menu.slug}`} key={menu._id} className="block">
                     <Card className="h-full hover:shadow-lg transition-shadow duration-300">
                       <CardContent className="p-6">
                         <div className="aspect-video mb-4 relative">
@@ -119,7 +119,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div id="how-it-works" className="py-6 md:py-12 dark:bg-gray-950 w-full">
+      <div id="how-it-works" className="py-6 md:py-12 dark:bg-gray-950 w-full" data-aos="fade-up" data-aos-offset="200">
         <div className="max-w-7xl mx-auto px-0">
           <div className="lg:text-center">
             <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Cum Funcționează</h2>
@@ -173,7 +173,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-950 py-6 md:py-12">
+      <div className="bg-white dark:bg-gray-950 py-6 md:py-12" data-aos="fade-up">
         <div className="max-w-7xl mx-auto px-0">
           <div className="lg:text-center">
             <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Funcționalități</h2>
@@ -185,9 +185,9 @@ export default function HeroSection() {
             </p>
           </div>
 
-          <div className="mt-10">
+          <div className="mt-10 overflow-x-hidden">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                <div className="relative">
+                <div className="relative" data-aos="fade-right" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                         <ImageIcon className="h-6 w-6" aria-hidden="true" />
@@ -205,7 +205,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-left" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                         <Menu className="h-6 w-6" aria-hidden="true" />
@@ -224,7 +224,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-right" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                         <Tag className="h-6 w-6" aria-hidden="true" />
@@ -243,7 +243,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-left" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                         <Bell className="h-6 w-6" aria-hidden="true" />
@@ -265,7 +265,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-              <div className="relative">
+              <div className="relative" data-aos="fade-right" data-aos-offset="100">
                 <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                     <Utensils className="h-6 w-6" aria-hidden="true" />
@@ -286,7 +286,7 @@ export default function HeroSection() {
                 </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-left" data-aos-offset="100">
                     <dt>
                         <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
                         <Sparkles className="h-6 w-6" aria-hidden="true" />
@@ -306,7 +306,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-right" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
                         <ShoppingCart className="h-6 w-6" aria-hidden="true" />
@@ -327,7 +327,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-left" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
                         <BarChart className="h-6 w-6" aria-hidden="true" />
@@ -348,7 +348,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-right" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
                         <CreditCard className="h-6 w-6" aria-hidden="true" />
@@ -370,7 +370,7 @@ export default function HeroSection() {
                     </dd>
                 </div>
 
-                <div className="relative">
+                <div className="relative" data-aos="fade-left" data-aos-offset="100">
                     <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
                         <Star className="h-6 w-6" aria-hidden="true" />

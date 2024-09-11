@@ -1,29 +1,30 @@
 "use client"
 import { callWaiter, requestBill } from "@/lib/actions/menu.actions"
 import { Button } from "../ui/button"
-import { ConciergeBell, Receipt, Trash2 } from "lucide-react"
+import { ConciergeBell, Receipt, X } from "lucide-react"
 import { doc } from "firebase/firestore"
 import { db } from "@/utils/firebase"
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { useToast } from "../ui/use-toast"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 const ImportantUpdates = ({menuId}:{menuId: string}) => {
-
     const { toast } = useToast();
 
     const [docs, loading, error] = useDocumentData(
         doc(db, 'menus', menuId)
-      );
+    );
 
     const waiterOnTheWay = async (tableNumber: number) => {
         try {
             const res = await callWaiter(menuId, tableNumber, false);
             toast({
                 variant: "success",
-                title: `Succes! 🎉`,
+                title: `Success! 🎉`,
                 description: `Call waiter request was resolved!`,
             })
-          }
+        }
         catch (err) {
             toast({
                 variant: "destructive",
@@ -39,10 +40,10 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
             const res = await requestBill(menuId, tableNumber, false);
             toast({
                 variant: "success",
-                title: `Succes! 🎉`,
+                title: `Success! 🎉`,
                 description: `Request bill request was resolved!`,
             })
-          }
+        }
         catch (err) {
             toast({
                 variant: "destructive",
@@ -53,34 +54,68 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
         }
     }
 
-  return (
-    <div>
-    {docs && docs.tables && docs.tables.map((table: any, i: number) => {
-        if (table.callWaiter === true || table.requestBill === true) return (
-            <div key={`table_${i}`} className="flex flex-col flex-wrap mb-4 w-full">
-                <h3 className="text-xl font-semibold mb-2">Table {table.tableNumber}</h3>
-                {table.callWaiter === true && (
-                    <div key={`table_called_${i}`} className="px-10 bg-orange-400 mb-4 text-2xl text-white font-bold py-4 rounded-md flex items-center justify-between w-full">
-                        <div className="flex gap-2 items-center">
-                            <ConciergeBell /> Waiter called at table {table.tableNumber}
-                        </div>
-                        <Button variant={"destructive"} onClick={() => waiterOnTheWay(table.tableNumber)}><Trash2 /></Button>
-                    </div>
-                )}
-                {table.requestBill === true && (
-                    <div key={`table_request_bill_${i}`} className="px-10 bg-blue-400 mb-4 text-2xl text-white font-bold py-4 rounded-md flex items-center justify-between w-full">
-                        <div className="flex gap-2 items-center">
-                            <Receipt /> Bill requested at table {table.tableNumber}
-                        </div>
-                        <Button variant={"destructive"} onClick={() => billOnTheWay(table.tableNumber)}><Trash2 /></Button>
-                    </div>
-                )}
-            </div>
-        );
-    })}
-</div>
+    return (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {docs && docs.tables && docs.tables.map((table: any, i: number) => {
+                if (table.callWaiter === true || table.requestBill === true) return (
+                    <Card key={`table_${i}`} className="overflow-hidden">
+                        <CardHeader className="bg-purple-200 dark:bg-purple-800">
+                            <CardTitle className="flex items-center justify-between">
+                                <span>Table {table.tableNumber}</span>
+                                <div className="flex flex-col gap-2">
+                                    {table.callWaiter && (
+                                        <Badge variant="destructive">
+                                            Waiter Called
+                                        </Badge>
+                                    )}
 
-  )
+                                    {table.requestBill && (
+                                        <Badge variant="default">
+                                            Bill Requested
+                                        </Badge>
+                                    )}
+                                </div>
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 dark:bg-purple-950">
+                            {table.callWaiter === true && (
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center space-x-2">
+                                        <ConciergeBell className="h-5 w-5 text-orange-500" />
+                                        <span className="font-medium text-black dark:text-white">Waiter called</span>
+                                    </div>
+                                    <Button
+                                        variant="destructive"
+                                        size="sm"
+                                        onClick={() => waiterOnTheWay(table.tableNumber)}
+                                    >
+                                        <X className="h-4 w-4 mr-2" />
+                                        Dismiss
+                                    </Button>
+                                </div>
+                            )}
+                            {table.requestBill === true && (
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-2">
+                                        <Receipt className="h-5 w-5 text-blue-500" />
+                                        <span className="font-medium text-black dark:text-white">Bill requested</span>
+                                    </div>
+                                    <Button
+                                        variant="destructive"
+                                        size="sm"
+                                        onClick={() => billOnTheWay(table.tableNumber)}
+                                    >
+                                        <X className="h-4 w-4 mr-2" />
+                                        Dismiss
+                                    </Button>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                );
+            })}
+        </div>
+    )
 }
 
 export default ImportantUpdates

@@ -1,4 +1,7 @@
+'use client'
+
 import AnimatedWave from '@/components/Frontend/AnimatedWave';
+import AosInit from '@/components/Frontend/AosInit';
 import CTA from '@/components/Frontend/CTA';
 import HeroSection from '@/components/Frontend/HeroSection';
 import PricingSection from '@/components/Frontend/PricingSection';
@@ -8,6 +11,7 @@ export default function Home() {
 
   return (
     <>
+      <AosInit />
       <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-8 max-w-6xl mx-auto">
         <HeroSection />
       </main>

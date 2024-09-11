@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default function PricingSection() {
   return (
-    <div className="bg-white p-4 md:p-8 py-6 md:py-12 w-full dark:bg-gray-950 max-w-6xl mx-auto">
+    <div className="bg-white p-4 md:p-8 py-6 md:py-12 w-full dark:bg-gray-950 max-w-6xl mx-auto" data-aos="fade-up" data-aos-offset="200">
       <div className="mx-auto max-w-7xl px-0">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-base font-semibold leading-7 text-purple-600">Prețuri</h2>
@@ -58,10 +58,13 @@ export default function PricingSection() {
                 'Suport prioritar 24/7',
               ],
             },
-          ].map((tier) => (
+          ].map((tier, i) => (
             <div
               key={tier.id}
               className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
+              data-aos="fade-right"
+              data-aos-offset="200"
+              data-aos-delay={i * 150}
             >
               <div className="flex-1">
                 <h3 className="text-xl font-semibold leading-7 text-gray-900">{tier.name}</h3>
