@@ -23,6 +23,8 @@ module.exports = {
           "/refund-policy",
           "/privacy-policy",
           "/terms-and-conditions",
+          "/contact",
+          "/despre-noi"
         ],
       },
     ],
