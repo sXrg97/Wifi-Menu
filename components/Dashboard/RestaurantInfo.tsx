@@ -88,16 +88,16 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     <Skeleton className="w-full h-full bg-black" />
                 )}
 
-                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20"></div>
-                {menu && (
-                    <div className="absolute top-0 left-0 text-white flex items-center justify-between w-full px-4 py-3">
-                        <span className="text-2xl">{menu.restaurantName}</span>
-                        <Link className="flex" href={`/menu/${menu.slug}`}>
-                            <span>Go to website</span>
-                            <LinkIcon size={12} />
-                        </Link>
-                    </div>
-                )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                    {menu && (
+                        <div className="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between">
+                            <h1 className="text-4xl font-bold text-white">{menu.restaurantName}</h1>
+                            <Link href={`/menu/${menu.slug}`} className="flex items-center space-x-2 bg-white hover:bg-purple-200 transition-colors px-4 py-2 rounded-full">
+                                <span>View Menu</span>
+                                <LinkIcon size={16} />
+                            </Link>
+                        </div>
+                    )}
             </div>
 
 
@@ -160,7 +160,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                         </div>
 
                         <div
-                            className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4`}
+                            className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`}
                         >
                             <div className="category-actions col-span-full">
                                 {/* <Button variant={'default'} className="col-span-1">
