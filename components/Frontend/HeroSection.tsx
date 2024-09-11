@@ -133,7 +133,7 @@ export default function HeroSection() {
 
           <div className="mt-10">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-              <div className="relative">
+              <div className="relative" data-aos="fade-right" data-aos-offset="200" data-aos-delay="100">
                 <dt>
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                     <Menu className="h-6 w-6" aria-hidden="true" />
@@ -145,7 +145,7 @@ export default function HeroSection() {
                 </dd>
               </div>
 
-              <div className="relative">
+              <div className="relative" data-aos="fade-right" data-aos-offset="200" data-aos-delay="200">
                 <dt>
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                     <QrCode className="h-6 w-6" aria-hidden="true" />
@@ -157,7 +157,7 @@ export default function HeroSection() {
                 </dd>
               </div>
 
-              <div className="relative">
+              <div className="relative" data-aos="fade-right" data-aos-offset="200" data-aos-delay="300">
                 <dt>
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                     <Smartphone className="h-6 w-6" aria-hidden="true" />
