@@ -38,15 +38,14 @@ export default function HeroSection() {
   return (
     <>
       <div className="">
-        <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-24 dark:bg-gray-950">
+        <div className="container mx-auto px-0 py-6 dark:bg-gray-950">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
               <h1
                 className={`${cabin.className} text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl`}
               >
-                <span className="block xl:inline">Wifi Menu</span>
-                <br />
-                <span className="block text-4xl text-purple-600 xl:inline">Transformă-ți restaurantul</span>
+                <span className="block leading-tight md:leading-3">Wifi Menu</span>
+                <span className="block text-3xl text-purple-600 xl:inline">Transformă-ți restaurantul</span>
               </h1>
               <p className="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
                 Îmbunătățește experiența clienților tăi într-un adevărat festin digital! Creează ușor meniul online al restaurantului tău și generează coduri QR pentru mese.
@@ -81,7 +80,7 @@ export default function HeroSection() {
         </div>
 
         <div className="bg-white dark:bg-gray-950">
-          <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+          <div className="container mx-auto px-0 py-6 md:py-12">
             <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8 dark:text-white">
               Clienții Noștri Satisfăcuți
             </h2>
@@ -120,8 +119,8 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div id="how-it-works" className="py-16 sm:py-24 dark:bg-gray-950 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="how-it-works" className="py-6 md:py-12 dark:bg-gray-950 w-full">
+        <div className="max-w-7xl mx-auto px-0">
           <div className="lg:text-center">
             <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Cum Funcționează</h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
@@ -174,8 +173,8 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-950 py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white dark:bg-gray-950 py-6 md:py-12">
+        <div className="max-w-7xl mx-auto px-0">
           <div className="lg:text-center">
             <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Funcționalități</h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
@@ -354,9 +353,9 @@ export default function HeroSection() {
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
                         <CreditCard className="h-6 w-6" aria-hidden="true" />
                     </div>
-                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 flex items-center">
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 flex items-center dark:text-white">
                         Plată cu Cardul Direct din Aplicație
-                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">În curând</span>
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full text-nowrap">În curând</span>
                     </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">
@@ -376,9 +375,9 @@ export default function HeroSection() {
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
                         <Star className="h-6 w-6" aria-hidden="true" />
                     </div>
-                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 flex items-center">
+                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900 flex items-center dark:text-white">
                         Recenzii Conectate Direct la Google
-                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">În curând</span>
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full text-nowrap">În curând</span>
                     </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">

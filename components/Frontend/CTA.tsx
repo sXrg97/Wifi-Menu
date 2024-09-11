@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react"
 const CTA = () => {
   return (
     <div className="bg-purple-600 w-full">
-        <div className="w-full mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto text-center p-4 md:p-8 py-6 md:py-12">
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
             <span className="block">Ești gata să treci în digital?</span>
             <span className="block">Începe cu Wifi Menu astăzi.</span>

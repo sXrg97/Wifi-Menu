@@ -4,8 +4,8 @@ import Link from "next/link"
 
 export default function PricingSection() {
   return (
-    <div className="bg-white py-24 sm:py-32 w-full dark:bg-gray-950">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <div className="bg-white p-4 md:p-8 py-6 md:py-12 w-full dark:bg-gray-950 max-w-6xl mx-auto">
+      <div className="mx-auto max-w-7xl px-0">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-base font-semibold leading-7 text-purple-600">Prețuri</h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
