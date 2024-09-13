@@ -1,6 +1,7 @@
 "use server";
 import { db } from '@/utils/firebase';
 import { collection, doc, getDoc, addDoc, updateDoc, query, where, getDocs } from 'firebase/firestore';
+import { jsonify } from '../utils';
 
 export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
   if (!clerkUserId) return null;
@@ -23,6 +24,7 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
         categories: [],
         lifetimeViews: 0,
         tables: [{ tableNumber: 1, callWaiter: false, requestBill: false }],
+        tier: 'free',
       }).catch((error) => {
         console.error('Error creating menu document:', error);
         throw error;
@@ -68,3 +70,26 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
     return null;
   }
 };
+
+export async function getUserDocumentRefsByClerkUserId(clerkUserId: string) {
+  const userQuery = query(collection(db, "users"), where("clerkUserId", "==", clerkUserId));
+  const querySnapshot = await getDocs(userQuery);
+
+  if (!querySnapshot.empty) {
+    const userDoc = querySnapshot.docs[0];
+    
+    // Get the Firestore docref for the user
+    const userDocRef = userDoc.ref;
+    
+    // Assuming menu is a field that contains a path like "/menus/menuId"
+    const menuDocRef = userDoc.data().menu;
+    
+    return {
+      userDocRef,
+      menuDocRef,
+    };
+  } else {
+    console.error(`User with clerkUserId ${clerkUserId} not found.`);
+    return null;
+  }
+}
