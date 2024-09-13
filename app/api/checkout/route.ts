@@ -53,8 +53,8 @@ export async function POST(req: Request) {
         userDocRef: userDocPath,
         menuDocRef: menuDocPath
       },
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`, // Redirect on successful payment
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`, // Redirect on payment cancellation
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`, // Redirect on successful payment
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/`, // Redirect on payment cancellation
     });
 
     return NextResponse.json({ url: session.url });
