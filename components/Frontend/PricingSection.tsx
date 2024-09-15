@@ -75,7 +75,7 @@ export default function PricingSection() {
             id: 'tier-basic',
             priceMonthly: '99 lei',
             priceRecurrance: 'lună',
-            priceId: 'price_1PyFBdLX5dxGMJYtfA8ySVBV', // Example price ID for "Basic"
+            priceId: 'price_1PzICsLX5dxGMJYtRRuy64r2', // Example price ID for "Basic"
             description: 'Ideal pentru restaurante mici sau care încep să crească.',
             features: [
               'Până la 50 de produse în meniu',
@@ -86,10 +86,10 @@ export default function PricingSection() {
           }, {
             name: 'Pro',
             id: 'tier-pro',
-            priceMonthly: '999 lei',
+            priceMonthly: '799 lei',
             priceRecurrance: 'an',
-            offer: '2 luni gratis',
-            priceId: 'price_1PyIfbLX5dxGMJYtUAxViB8J', // Example price ID for "Pro"
+            offer: '4 luni gratis',
+            priceId: 'price_1PzICsLX5dxGMJYti65UuOQ6', // Example price ID for "Pro"
             description: 'Perfect pentru restaurante în creștere cu nevoi mai complexe.',
             features: [
               'Produse nelimitate în meniu',
