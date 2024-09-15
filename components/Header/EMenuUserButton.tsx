@@ -25,7 +25,7 @@ const EMenuUserButton = () => {
             )}
         </div>
     ) : (
-        <Link href={"/sign-in"}>
+        <Link href={"/sign-up"}>
             <Button>Autentificare</Button>
         </Link>
     );
