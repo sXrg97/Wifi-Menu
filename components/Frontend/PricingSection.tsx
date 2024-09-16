@@ -1,7 +1,9 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { useRouter } from "next/navigation"; // Use this for client-side navigation
-import { useUser } from "@clerk/nextjs"; // Use Clerk's hook to check user authentication
+import { SignInButton, useUser } from "@clerk/nextjs"; // Use Clerk's hook to check user authentication
 
 export default function PricingSection() {
   const { isSignedIn } = useUser();
@@ -123,6 +125,24 @@ export default function PricingSection() {
                   ))}
                 </ul>
               </div>
+              {tier.priceId === "FREE" ?
+              <>
+              {!isSignedIn && <SignInButton mode="modal">
+              <Button 
+                className={`mt-8 block w-full dark:bg-purple-200 ${tier.name === 'Gratis' ? 'bg-purple-600 dark:bg-purple-600 hover:bg-purple-700' : ''}`}
+              >
+                Începeți gratuit
+              </Button>
+            </SignInButton>}
+              {isSignedIn && <Button
+              aria-describedby={tier.id}
+              className={`mt-8 block w-full dark:bg-purple-200 ${tier.name === 'Gratis' ? 'bg-purple-600 dark:bg-purple-600 hover:bg-purple-700' : ''}`}
+              onClick={() => handleCheckout(tier.priceId, tier.id)}
+            >
+              {tier.name === 'Gratis' ? 'Începeți gratuit' : `Începeți cu ${tier.name}`}
+            </Button>}
+            </>
+               : 
               <Button
                 aria-describedby={tier.id}
                 className={`mt-8 block w-full dark:bg-purple-200 ${tier.name === 'Gratis' ? 'bg-purple-600 dark:bg-purple-600 hover:bg-purple-700' : ''}`}
@@ -130,6 +150,7 @@ export default function PricingSection() {
               >
                 {tier.name === 'Gratis' ? 'Începeți gratuit' : `Începeți cu ${tier.name}`}
               </Button>
+}
             </div>
           ))}
         </div>

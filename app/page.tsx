@@ -19,7 +19,6 @@ export default function Home() {
         <PricingSection />
         <Whatsapp />
 
-
       <div className={`bg-purple-600`}>
           <AnimatedWave />
           <section className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8"></section>
