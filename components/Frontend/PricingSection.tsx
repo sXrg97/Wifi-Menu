@@ -99,6 +99,22 @@ export default function PricingSection() {
               'Funcția de solicitare notă de plată',
               'Suport prioritar 24/7',
             ],
+          }, {
+            name: 'Test',
+            id: 'tier-pro',
+            priceMonthly: '4 lei',
+            priceRecurrance: 'luna',
+            offer: 'TEST',
+            priceId: 'price_1Pze60LX5dxGMJYtjT3kUFij', // Example price ID for "Pro"
+            description: 'Perfect pentru restaurante în creștere cu nevoi mai complexe.',
+            features: [
+              'Produse nelimitate în meniu',
+              'Generare cod QR pentru 20 de mese',
+              'Actualizări de meniu în timp real',
+              'Funcția de apelare ospătar',
+              'Funcția de solicitare notă de plată',
+              'Suport prioritar 24/7',
+            ],
           }].map((tier, i) => (
             <div
               key={tier.id}
