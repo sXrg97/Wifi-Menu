@@ -1,26 +1,21 @@
-"use client"
-
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
-import { useRouter } from "next/navigation"; // Use this for client-side navigation
-import { SignInButton, useUser } from "@clerk/nextjs"; // Use Clerk's hook to check user authentication
+import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { SignInButton, useUser, RedirectToSignIn } from "@clerk/nextjs";
+import { useState } from "react";
 
 export default function PricingSection() {
   const { isSignedIn } = useUser();
   const router = useRouter();
+  const [redirect, setRedirect] = useState(false);
 
   const handleCheckout = async (priceId: string, firestoreDocId: string) => {
-    if (priceId === 'FREE') { // Example price ID for "Gratis"
-      if (isSignedIn) {
-        router.push('/dashboard');
-      } else {
-        router.push('/sign-in');
-      }
+    if (priceId === 'FREE') {
+      router.push('/dashboard');
       return;
     }
 
     try {
-      // Make a POST request to your API route to start the checkout session
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: {
@@ -29,14 +24,11 @@ export default function PricingSection() {
         body: JSON.stringify({ firestoreDocId, priceId }),
       });
 
-      // Check if response is ok
       if (!response.ok) {
         throw new Error('Failed to initiate checkout');
       }
 
       const data = await response.json();
-
-      // Redirect to the Stripe Checkout page
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -46,6 +38,18 @@ export default function PricingSection() {
       console.error('Checkout error:', error);
     }
   };
+
+  const handleClick = (priceId: string, firestoreDocId: string) => {
+    if (!isSignedIn) {
+      setRedirect(true); // Trigger sign-in redirect for non-authenticated users
+    } else {
+      handleCheckout(priceId, firestoreDocId);
+    }
+  };
+
+  if (redirect) {
+    return <RedirectToSignIn redirectUrl={window.location.href} />;
+  }
 
   return (
     <div className="bg-white p-4 md:p-8 py-6 md:py-12 w-full dark:bg-gray-950 max-w-6xl mx-auto" data-aos="fade-up" data-aos-offset="200">
@@ -64,7 +68,7 @@ export default function PricingSection() {
             name: 'Gratis',
             id: 'tier-free',
             priceMonthly: '0 lei',
-            priceId: 'FREE', // Example price ID for "Gratis"
+            priceId: 'FREE',
             description: 'Perfect pentru a începe și a testa serviciul nostru.',
             features: [
               'Până la 20 de produse în meniu',
@@ -77,7 +81,7 @@ export default function PricingSection() {
             id: 'tier-basic',
             priceMonthly: '99 lei',
             priceRecurrance: 'lună',
-            priceId: 'price_1PzICsLX5dxGMJYtRRuy64r2', // Example price ID for "Basic"
+            priceId: 'price_1PzICsLX5dxGMJYtRRuy64r2',
             description: 'Ideal pentru restaurante mici sau care încep să crească.',
             features: [
               'Până la 50 de produse în meniu',
@@ -91,7 +95,7 @@ export default function PricingSection() {
             priceMonthly: '799 lei',
             priceRecurrance: 'an',
             offer: '4 luni gratis',
-            priceId: 'price_1PzICsLX5dxGMJYti65UuOQ6', // Example price ID for "Pro"
+            priceId: 'price_1PzICsLX5dxGMJYti65UuOQ6',
             description: 'Perfect pentru restaurante în creștere cu nevoi mai complexe.',
             features: [
               'Produse nelimitate în meniu',
@@ -125,32 +129,22 @@ export default function PricingSection() {
                   ))}
                 </ul>
               </div>
-              {tier.priceId === "FREE" ?
-              <>
-              {!isSignedIn && <SignInButton mode="modal">
-              <Button 
-                className={`mt-8 block w-full dark:bg-purple-200 ${tier.name === 'Gratis' ? 'bg-purple-600 dark:bg-purple-600 hover:bg-purple-700' : ''}`}
-              >
-                Începeți gratuit
-              </Button>
-            </SignInButton>}
-              {isSignedIn && <Button
-              aria-describedby={tier.id}
-              className={`mt-8 block w-full dark:bg-purple-200 ${tier.name === 'Gratis' ? 'bg-purple-600 dark:bg-purple-600 hover:bg-purple-700' : ''}`}
-              onClick={() => handleCheckout(tier.priceId, tier.id)}
-            >
-              {tier.name === 'Gratis' ? 'Începeți gratuit' : `Începeți cu ${tier.name}`}
-            </Button>}
-            </>
-               : 
-              <Button
-                aria-describedby={tier.id}
-                className={`mt-8 block w-full dark:bg-purple-200 ${tier.name === 'Gratis' ? 'bg-purple-600 dark:bg-purple-600 hover:bg-purple-700' : ''}`}
-                onClick={() => handleCheckout(tier.priceId, tier.id)}
-              >
-                {tier.name === 'Gratis' ? 'Începeți gratuit' : `Începeți cu ${tier.name}`}
-              </Button>
-}
+
+              {!isSignedIn ? (
+                <SignInButton mode="modal">
+                  <Button className="mt-8 block w-full dark:bg-purple-200 bg-purple-600 dark:bg-purple-600 hover:bg-purple-700">
+                    Începeți cu {tier.name}
+                  </Button>
+                </SignInButton>
+              ) : (
+                <Button
+                  aria-describedby={tier.id}
+                  className="mt-8 block w-full dark:bg-purple-200 bg-purple-600 dark:bg-purple-600 hover:bg-purple-700"
+                  onClick={() => handleClick(tier.priceId, tier.id)}
+                >
+                  Începeți cu {tier.name}
+                </Button>
+              )}
             </div>
           ))}
         </div>

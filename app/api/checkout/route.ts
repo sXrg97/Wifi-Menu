@@ -41,7 +41,6 @@ export async function POST(req: Request) {
     // Create a Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      locale: 'ro',
       line_items: [
         {
           price: priceId, // Use Stripe price ID
