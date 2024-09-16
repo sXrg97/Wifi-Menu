@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { SignInButton } from '@clerk/nextjs';
 
 const EMenuUserButton = () => {
     const { isSignedIn, user, isLoaded } = useUser();
@@ -25,9 +26,9 @@ const EMenuUserButton = () => {
             )}
         </div>
     ) : (
-        <Link href={"/sign-up"}>
-            <Button>Autentificare</Button>
-        </Link>
+        // <Link href={"/sign-up"}>
+            <Button><SignInButton mode="modal">Autentificare</SignInButton></Button>
+        // </Link>
     );
 };
 
