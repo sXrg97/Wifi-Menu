@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import GoogleAdsense from "@/components/GoogleAds/GoogleAdsense";
+import GoogleTagManager from "@/components/GoogleAds/GoogleTag";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,7 +47,24 @@ export default function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en" suppressHydrationWarning>
+                <head>
+                    <GoogleTagManager googleTagManagerId={"GTM-KMKX6JNX"} />
+                </head>
                     <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth dark:bg-gray-950 dark:text-white`}>
+                    {/* Google Tag Manager (noscript) */}
+                    <noscript>
+                    <iframe
+                        src={`https://www.googletagmanager.com/ns.html?id=${"GTM-KMKX6JNX"}`}
+                        height="0"
+                        width="0"
+                        style={{
+                        display: 'none',
+                        visibility: 'hidden'
+                        } as React.CSSProperties}
+                    />
+                    </noscript>
+                    {/* End Google Tag Manager (noscript) */}
+
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
