@@ -49,14 +49,14 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="en" suppressHydrationWarning>
                 <head>
-                    <GoogleTagManager googleTagManagerId={"GTM-KMKX6JNX"} />
+                    <GoogleTagManager googleTagManagerId={"AW-16699284121"} />
                 </head>
                     <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth dark:bg-gray-950 dark:text-white`}>
                         <GoogleAnalyticsTag />
                     {/* Google Tag Manager (noscript) */}
                     <noscript>
                     <iframe
-                        src={`https://www.googletagmanager.com/ns.html?id=${"GTM-KMKX6JNX"}`}
+                        src={`https://www.googletagmanager.com/ns.html?id=${"AW-16699284121"}`}
                         height="0"
                         width="0"
                         style={{
