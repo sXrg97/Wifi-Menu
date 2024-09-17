@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import GoogleAdsense from "@/components/GoogleAds/GoogleAdsense";
 import GoogleTagManager from "@/components/GoogleAds/GoogleTag";
+import GoogleAnalyticsTag from "@/components/GoogleAds/GoogleAnalyticsTag";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,6 +52,7 @@ export default function RootLayout({
                     <GoogleTagManager googleTagManagerId={"GTM-KMKX6JNX"} />
                 </head>
                     <body className={`${inter.className} min-h-screen flex flex-col scroll-smooth dark:bg-gray-950 dark:text-white`}>
+                        <GoogleAnalyticsTag />
                     {/* Google Tag Manager (noscript) */}
                     <noscript>
                     <iframe
