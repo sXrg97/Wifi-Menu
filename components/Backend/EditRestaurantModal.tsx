@@ -53,13 +53,13 @@ const EditRestaurantModal = ({
         if (res.status !== 200) {
             toast({
                 variant: "destructive",
-                title: `Something went wrong! 😕`,
+                title: `Ceva nu a mers bine! 😕`,
                 description: `${res.message}`,
             });
         } else {
             toast({
                 variant: "success",
-                title: `Success! 🎉`,
+                title: `Succes! 🎉`,
                 description: `Menu updated successfully!`,
             });
 
@@ -84,18 +84,18 @@ const EditRestaurantModal = ({
             <DialogTrigger asChild className="flex">
                 <Button variant="outline">
                     <PenIcon className="mr-1" />
-                    Edit Menu
+                    Editeaza meniu
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] max-h-[80dvh] overflow-auto">
                 <DialogHeader>
-                    <DialogTitle>Menu settings</DialogTitle>
-                    <DialogDescription>Make the desired changes and save.</DialogDescription>
+                    <DialogTitle>Setari meniu</DialogTitle>
+                    <DialogDescription>Faceti modificarile apoi apasati salveaza.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="restaurantName" className="text-right">
-                            Restaurant Name
+                            Nume restaurant
                         </Label>
                         <Input
                             name="restaurantName"
@@ -113,7 +113,7 @@ const EditRestaurantModal = ({
                 <div className="grid gap-2">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="restaurantCoverImage" className="text-right">
-                        Restaurant Cover Image
+                        Poza restaurant
                     </Label>
                     <div className="col-span-3 flex items-center gap-2">
                         <Input
@@ -140,7 +140,7 @@ const EditRestaurantModal = ({
                             name="slug"
                             type="text"
                             id="slug"
-                            placeholder="my-Awesome-Restaurant"
+                            placeholder="meniul-meu"
                             className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={formFields.slug}
@@ -152,7 +152,7 @@ const EditRestaurantModal = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="tables" className="text-right">
-                            Tables
+                            Mese
                         </Label>
                         <Input
                             name="tables"
@@ -169,12 +169,12 @@ const EditRestaurantModal = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length })}>
-                            Close
+                            Inchide
                         </Button>
                     </DialogClose>
 
                     <Button type="submit" onClick={handleSave}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Save"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

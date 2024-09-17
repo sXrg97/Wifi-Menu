@@ -21,7 +21,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
             const res = await callWaiter(menuId, tableNumber, false);
             toast({
                 variant: "success",
-                title: `Success! 🎉`,
+                title: `Succes! 🎉`,
                 description: `Call waiter request was resolved!`,
             })
         }
@@ -40,7 +40,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
             const res = await requestBill(menuId, tableNumber, false);
             toast({
                 variant: "success",
-                title: `Success! 🎉`,
+                title: `Succes! 🎉`,
                 description: `Request bill request was resolved!`,
             })
         }

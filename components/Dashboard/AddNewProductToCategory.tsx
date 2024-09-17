@@ -97,7 +97,7 @@ const AddNewProductToCategory = ({
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Please fill out all required fields.",
+                description: "Va rugam completati toate campurile necesare.",
             });
             return;
         }
@@ -116,8 +116,8 @@ const AddNewProductToCategory = ({
             if (res) {
                 toast({
                     variant: "success",
-                    title: `Success! 🎉`,
-                    description: `The product ${product.name} was successfully added!`,
+                    title: `Succes! 🎉`,
+                    description: `Produsul ${product.name} a fost adaugat cu succes!`,
                 });
                 setMenu(res);
                 setIsOpen(false);
@@ -126,7 +126,7 @@ const AddNewProductToCategory = ({
             } else {
                 toast({
                     variant: "destructive",
-                    title: `Something went wrong! 😕`,
+                    title: `Ceva nu a mers bine! 😕`,
                     description: `Produsul ${product.name} nu a putut fi adaugat!`,
                 });
             }
@@ -145,18 +145,18 @@ const AddNewProductToCategory = ({
                     className="border-dashed border-gray-400 h-full"
                     onClick={() => setIsOpen(true)}
                 >
-                    <PlusIcon /> Add Product
+                    <PlusIcon /> Produs
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Add new product to {categoryName}</DialogTitle>
-                    <DialogDescription>Enter the data and save.</DialogDescription>
+                    <DialogTitle>Adauga un produs nou in categoria {categoryName}</DialogTitle>
+                    <DialogDescription>Introduceti datele si salvati.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="productPicture" className="text-right">
-                            Image
+                            Imagine
                         </Label>
                         <Input
                             type="file"
@@ -178,7 +178,7 @@ const AddNewProductToCategory = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name" className="text-right">
-                            Name
+                            Nume *
                         </Label>
                         <Input
                             name="name"
@@ -196,7 +196,7 @@ const AddNewProductToCategory = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="price" className="text-right">
-                            Price
+                            Pret *
                         </Label>
                         <Input
                             name="price"
@@ -219,7 +219,7 @@ const AddNewProductToCategory = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="description" className="text-right">
-                            Description
+                            Descriere *
                         </Label>
                         <Input
                             name="description"
@@ -236,7 +236,7 @@ const AddNewProductToCategory = ({
 
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Allergens:</Label>
+                        <Label className="text-right">Alergeni:</Label>
                         <div className="flex flex-wrap gap-1 col-span-3">
                             {ALLERGENS.map((allergen) => (
                                 <Badge variant={product.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{getAllergenInRomanian(allergen)}</Badge>
@@ -247,7 +247,7 @@ const AddNewProductToCategory = ({
 
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Is discounted?</Label>
+                        <Label className="text-right">Pretul e redus?</Label>
                         <Switch
                             checked={product.isReduced}
                             onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isReduced: e }))}
@@ -258,7 +258,7 @@ const AddNewProductToCategory = ({
                 <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="reducedPrice" className="text-right">
-                            Discount
+                            Reducere
                         </Label>
                         <Input
                             name="reducedPrice"
@@ -278,7 +278,7 @@ const AddNewProductToCategory = ({
 
                 <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Is discount procentual?</Label>
+                        <Label className="text-right">Reducere procentuala? (%)</Label>
                         <Switch
                             checked={product.isDiscountProcentual}
                             onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
@@ -289,10 +289,10 @@ const AddNewProductToCategory = ({
                     <DialogClose
                         asChild
                     >
-                        <Button onClick={() => setIsOpen(false)}>Close</Button>
+                        <Button onClick={() => setIsOpen(false)}>Inchide</Button>
                     </DialogClose>
                     <Button type="submit" onClick={handleSave}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Save"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

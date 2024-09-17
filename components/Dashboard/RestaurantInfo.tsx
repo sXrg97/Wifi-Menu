@@ -52,7 +52,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
                 toast({
                     variant: "success",
-                    title: `Success! 🎉`,
+                    title: `Succes! 🎉`,
                     description: `Categoria ${categoryName} a fost stearsa cu succes!`,
                 });
             }
@@ -60,7 +60,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             console.log("Error deleting category:", err);
             toast({
                 variant: "destructive",
-                title: `Something went wrong! 😕`,
+                title: `Ceva nu a mers bine! 😕`,
                 description: `Categoria ${categoryName} nu a putut fi stearsa!`,
             });
         } finally {

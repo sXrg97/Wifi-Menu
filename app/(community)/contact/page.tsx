@@ -69,13 +69,13 @@ const Contact = () => {
 
       <div className="w-full max-w-6xl flex flex-col md:flex-row gap-8">
         <div className="flex-1">
-          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+          <form className="bg-white dark:bg-gray-900 shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+              <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2" htmlFor="name">
                 Nume
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="name"
                 type="text"
                 placeholder="Numele dvs."
@@ -86,11 +86,11 @@ const Contact = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+              <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2" htmlFor="email">
                 Email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
                 placeholder="email@exemplu.com"
@@ -101,11 +101,11 @@ const Contact = () => {
               />
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
+              <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2" htmlFor="message">
                 Mesaj
               </label>
               <textarea
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="message"
                 placeholder="Scrieți mesajul dvs. aici"
                 name="message"
@@ -135,7 +135,7 @@ const Contact = () => {
         </div>
 
         <div className="flex-1">
-          <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className="bg-white dark:bg-gray-900 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 className="text-2xl font-semibold mb-4">Informații de Contact</h2>
             <div className="mb-4 flex items-center">
               <Mail className="mr-2 text-purple-600" />
@@ -156,7 +156,7 @@ const Contact = () => {
         </p>
       </div>
       
-      <div className="mt-12 bg-purple-100 p-8 rounded-lg max-w-2xl text-center flex items-center flex-col">
+      <div className="mt-12 bg-purple-100 dark:bg-purple-800 p-8 rounded-lg max-w-2xl text-center flex items-center flex-col">
         <h2 className="text-2xl font-semibold mb-4">Alătură-te Revoluției Digitale în Restaurante</h2>
         <p className="mb-4">
           Descoperă cum Wifi Menu poate transforma experiența clienților tăi și eficientiza operațiunile restaurantului tău.

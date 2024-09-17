@@ -20,7 +20,7 @@ const DespreNoi = () => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-4 flex items-center">
             <QrCode className="mr-2 text-purple-600" />
             Meniuri Digitale cu Cod QR
@@ -30,7 +30,7 @@ const DespreNoi = () => {
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-4 flex items-center">
             <Smartphone className="mr-2 text-purple-600" />
             Comandă și Plată Simplificată
@@ -40,7 +40,7 @@ const DespreNoi = () => {
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-4 flex items-center">
             <Utensils className="mr-2 text-purple-600" />
             Gestionare Ușoară a Meniului
@@ -50,7 +50,7 @@ const DespreNoi = () => {
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-4 flex items-center">
             <Star className="mr-2 text-purple-600" />
             Experiență Îmbunătățită pentru Clienți
@@ -68,7 +68,7 @@ const DespreNoi = () => {
         </p>
       </div>
 
-      <div className="mt-12 bg-purple-100 p-8 rounded-lg max-w-2xl text-center">
+      <div className="mt-12 bg-purple-100 dark:bg-purple-800 p-8 rounded-lg max-w-2xl text-center">
         <h2 className="text-2xl font-semibold mb-4 flex items-center justify-center">
           <Coffee className="mr-2 text-purple-600" />
           Alătură-te Revoluției Digitale în Restaurante

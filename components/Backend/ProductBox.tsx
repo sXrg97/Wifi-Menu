@@ -25,14 +25,14 @@ const ProductBox = ({
     const { toast } = useToast();
 
     const handleDeleteProduct = async (menuId: string, categoryName: string, productId: string) => {
-        if (confirm("Are you sure you want to delete this product?")) {
+        if (confirm("Sunteti sigur ca doriti sa stergeti acest produs?")) {
             try {
                 const responseMenu = await deleteProduct(menuId, categoryName, productId);
                 if (responseMenu) {
                     toast({
                         variant: "success",
-                        title: `Success! 🎉`,
-                        description: `The product ${product.name} has been deleted!`,
+                        title: `Succes! 🎉`,
+                        description: `Produsul ${product.name} a fost sters!`,
                     });
                     setMenu && setMenu(responseMenu);
                 }
@@ -40,7 +40,7 @@ const ProductBox = ({
                 console.log("Error deleting product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Something went wrong! 😕`,
+                    title: `Ceva nu a mers bine! 😕`,
                     description: `The product ${product.name} wasn't deleted!`,
                 });
             }
@@ -61,7 +61,7 @@ const ProductBox = ({
                 </div>
                 {product.isReduced && (
                     <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-full">
-                        DISCOUNT!
+                        REDUS!
                     </div>
                 )}
             </div>

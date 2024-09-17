@@ -48,16 +48,16 @@ const AddCategoryButton = ({
             if (res?.success && res.updatedMenu) {
                 toast({
                     variant: "success",
-                    title: `Success! 🎉`,
-                    description: `Category ${categoryName} has been created!`,
+                    title: `Succes! 🎉`,
+                    description: `Categoria ${categoryName} a fost creata!`,
                 });
                 setMenu(res.updatedMenu);
                 // setIsOpen(false);
             } else {
                 toast({
                     variant: "destructive",
-                    title: `Something went wrong! 😕`,
-                    description: `Category ${categoryName} already exists!`,
+                    title: `Ceva nu a mers bine! 😕`,
+                    description: `Categoria ${categoryName} exista deja!`,
                 });
             }
         } catch (error) {
@@ -69,20 +69,20 @@ const AddCategoryButton = ({
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline">
-                    <PlusIcon /> Add Category
+                    <PlusIcon /> Categorie
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Add Category</DialogTitle>
+                    <DialogTitle>Adauga Categorie</DialogTitle>
                     <DialogDescription>
-                        Enter the name of the category. Click Save when you&apos;re done.
+                        Introdu numele categoriei.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="category" className="text-right">
-                            Category Name
+                            Nume categorie
                         </Label>
                         <Input
                             id="category"
@@ -96,7 +96,7 @@ const AddCategoryButton = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button type="submit" onClick={handleSave}>
-                            Save
+                            Salveaza
                         </Button>
                     </DialogClose>
                 </DialogFooter>

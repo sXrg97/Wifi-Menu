@@ -130,7 +130,7 @@ const EditProductModal = ({
                 if (responseMenu) {
                     toast({
                         variant: "success",
-                        title: `Success! 🎉`,
+                        title: `Succes! 🎉`,
                         description: `Imaginea produsului ${product.name} a fost modificata cu succes!`,
                     });
                     setMenu && setMenu(responseMenu);
@@ -141,7 +141,7 @@ const EditProductModal = ({
                 console.log("Error updating product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Something went wrong! 😕`,
+                    title: `Ceva nu a mers bine! 😕`,
                     description: `Produsul ${product.name} nu a fost modificat!`,
                 });
             }
@@ -152,7 +152,7 @@ const EditProductModal = ({
                 if (responseMenu) {
                     toast({
                         variant: "success",
-                        title: `Success! 🎉`,
+                        title: `Succes! 🎉`,
                         description: `Produsul ${product.name} a fost modificat!`,
                     });
                     setMenu && setMenu(responseMenu);
@@ -163,7 +163,7 @@ const EditProductModal = ({
                 console.log("Error updating product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Something went wrong! 😕`,
+                    title: `Ceva nu a mers bine! 😕`,
                     description: `Produsul ${product.name} nu a fost modificat!`,
                 });
             }
@@ -180,7 +180,7 @@ const EditProductModal = ({
                 if (responseMenu) {
                     toast({
                         variant: "success",
-                        title: `Success! 🎉`,
+                        title: `Succes! 🎉`,
                         description: `Produsul ${product.name} a fost modificat!`,
                     });
                     setMenu && setMenu(responseMenu);
@@ -191,7 +191,7 @@ const EditProductModal = ({
                 console.log("Error updating product:", err);
                 toast({
                     variant: "destructive",
-                    title: `Something went wrong! 😕`,
+                    title: `Ceva nu a mers bine! 😕`,
                     description: `Produsul ${product.name} nu a fost modificat!`,
                 });
             }
@@ -207,9 +207,9 @@ const EditProductModal = ({
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] max-h-[80dvh] overflow-auto">
                 <DialogHeader>
-                    <DialogTitle>Edit product {product.name}</DialogTitle>
+                    <DialogTitle>Editeaza produsul {product.name}</DialogTitle>
                     <DialogDescription className="flex items-start flex-col">
-                        <span className="mb-2 block">Enter the details and save.</span>
+                        <span className="mb-2 block">Introdu detaliile si salveaza.</span>
 
                         {product.image && (
                             <div className="h-32 w-32 object-cover overflow-hidden">
@@ -250,7 +250,7 @@ const EditProductModal = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name" className="text-right">
-                            Nume
+                            Nume *
                         </Label>
                         <Input
                             name="name"
@@ -268,7 +268,7 @@ const EditProductModal = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="price" className="text-right">
-                            Pret
+                            Pret *
                         </Label>
                         <Input
                             name="price"
@@ -291,7 +291,7 @@ const EditProductModal = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="description" className="text-right">
-                            Descriere
+                            Descriere *
                         </Label>
                         <Input
                             name="description"
@@ -308,7 +308,7 @@ const EditProductModal = ({
 
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Allergens:</Label>
+                        <Label className="text-right">Alergeni:</Label>
                         <div className="flex flex-wrap gap-1 col-span-3">
                             {ALLERGENS.map((allergen) => (
                                 <Badge variant={editedProduct.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{getAllergenInRomanian(allergen)}</Badge>
@@ -319,7 +319,7 @@ const EditProductModal = ({
 
                 <div className="grid gap-2">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Is discounted?</Label>
+                        <Label className="text-right">Pretul e redus?</Label>
                         <Switch
                             checked={editedProduct.isReduced}
                             onCheckedChange={(e) => setEditedProduct((prev) => ({ ...prev, isReduced: e }))}
@@ -351,7 +351,7 @@ const EditProductModal = ({
 
                 <div className={`${editedProduct.isReduced ? "grid" : "hidden"} gap-2`}>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Is discount procentual?</Label>
+                        <Label className="text-right">Reducere procentuala? (%)</Label>
                         <Switch
                             checked={editedProduct.isDiscountProcentual}
                             onCheckedChange={(e) => setEditedProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
@@ -363,7 +363,7 @@ const EditProductModal = ({
                         <Button onClick={() => setIsOpen(false)}>Inchide</Button>
                     </DialogClose>
                     <Button type="submit" onClick={handleEdit}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Save"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
                     </Button>
                 </DialogFooter>
             </DialogContent>
