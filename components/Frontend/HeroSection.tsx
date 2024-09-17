@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { MenuType } from "@/types/types"
 import { getRandomMenus } from "@/lib/actions/menu.actions"
+import { SignInButton, useUser } from "@clerk/nextjs"
 
 const cabin = Cabin({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ const cabin = Cabin({
 export default function HeroSection() {
   const [menus, setMenus] = useState<MenuType[]>([])
   const [loading, setLoading] = useState(true)
+  const {isSignedIn} = useUser();
 
   const getMenus = async () => {
     try {
@@ -52,12 +54,21 @@ export default function HeroSection() {
               </p>
               <div className="mt-10 sm:flex sm:justify-center lg:justify-start flex-wrap gap-5">
                 <div className="rounded-md shadow">
+                  {isSignedIn ? 
                   <Link href="/dashboard">
                     <Button className="w-full flex items-center text-nowrap justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-600 md:py-4 md:text-lg md:px-10">
                       Creează-ți meniul QR
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
+                  : 
+                  <SignInButton mode="modal">
+                    <Button className="w-full flex items-center text-nowrap justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-600 md:py-4 md:text-lg md:px-10">
+                      Începe acum
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </SignInButton>
+                  }
                 </div>
                 <div className="mt-3 sm:mt-0">
                   <Link href="#how-it-works">
