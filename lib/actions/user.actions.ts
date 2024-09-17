@@ -12,45 +12,17 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
     const userSnapshot = await getDocs(userQuery);
 
     if (!userSnapshot.empty) {
-      // User with clerkUserId exists, return its menu id
-      return userSnapshot.docs[0].data().menu.id;
+      // User with clerkUserId exists, return its menu id if it exists
+      const userData = userSnapshot.docs[0].data();
+      return userData.menu ? userData.menu.id : null;
     } else {
-      // User does not exist, create a new menu and user
-      const menusRef = collection(db, 'menus');
-      const menuDoc = await addDoc(menusRef, {
-        owner: doc(usersRef, clerkUserId),
-        restaurantName: 'My Restaurant',
-        isLive: false,
-        categories: [],
-        lifetimeViews: 0,
-        tables: [{ tableNumber: 1, callWaiter: false, requestBill: false }],
-        tier: 'free',
-      }).catch((error) => {
-        console.error('Error creating menu document:', error);
-        throw error;
-      });
-
-      if (!menuDoc.id) {
-        console.error('Failed to create menu document, menuDoc.id is null');
-        return null;
-      }
-
-      // Update the menu document to add the _id field
-      await updateDoc(doc(menusRef, menuDoc.id), {
-        _id: menuDoc.id,
-        slug: menuDoc.id.toLowerCase(),
-      });
-
-
+      // User does not exist, create a new user without a menu
       const userDoc = await addDoc(usersRef, {
         clerkUserId: clerkUserId,
         email: email,
         name: '',
         image: '',
-        menu: doc(menusRef, menuDoc.id),
-      }).catch((error) => {
-        console.error('Error creating user document:', error);
-        throw error;
+        menu: null, // We'll set this later when creating the menu
       });
 
       if (!userDoc.id) {
@@ -58,12 +30,8 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
         return null;
       }
 
-      // Update the menu to set the owner to the newly created user
-      await updateDoc(doc(menusRef, menuDoc.id), {
-        owner: doc(usersRef, userDoc.id),
-      });
-
-      return menuDoc.id;
+      // Return null to indicate that we need to create a menu
+      return null;
     }
   } catch (error) {
     console.log(error);

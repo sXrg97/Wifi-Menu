@@ -82,7 +82,7 @@ export default function HeroSection() {
             <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px]">
               <Image
                 className="object-cover"
-                src="/WifiMenu_Showcase.webp"
+                src="/mockup-4.png"
                 alt="Prezentare Wifi Menu"
                 layout="fill"
               />

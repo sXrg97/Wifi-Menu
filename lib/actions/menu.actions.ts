@@ -3,6 +3,7 @@
 import { MenuType, ProductType } from "@/types/types";
 import { UTApi } from "uploadthing/server";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -22,6 +23,62 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { randomUUID } from "crypto";
+
+export const createMenu = async (formData: FormData) => {
+  try {
+    const restaurantName = formData.get('restaurantName') as string;
+    const slug = formData.get('slug') as string;
+    const tables = JSON.parse(formData.get('tables') as string);
+    const owner = formData.get('owner') as string;
+
+    const menusRef = collection(db, 'menus');
+    const menuDoc = await addDoc(menusRef, {
+      restaurantName,
+      slug,
+      tables,
+      owner: doc(db, 'users', owner),
+      isLive: false,
+      categories: [],
+      lifetimeViews: 0,
+      tier: 'free',
+    });
+
+    let updateData: any = {
+      _id: menuDoc.id,
+    };
+
+    if (formData.get('restaurantCoverImage')) {
+      const restaurantCoverImage = formData.get('restaurantCoverImage') as File;
+      const storageRef = ref(storage, `menus/${menuDoc.id}/cover/`);
+      await uploadBytes(storageRef, restaurantCoverImage);
+      const imageUrl = await getDownloadURL(storageRef);
+      updateData.menuPreviewImage = imageUrl;
+    }
+
+    await updateDoc(doc(menusRef, menuDoc.id), updateData);
+
+    // Find the user document
+    const usersRef = collection(db, 'users');
+    const userQuery = query(usersRef, where('clerkUserId', '==', owner));
+    const userSnapshot = await getDocs(userQuery);
+
+    if (!userSnapshot.empty) {
+      const userDoc = userSnapshot.docs[0];
+      // Update the user document with the new menu reference
+      await updateDoc(doc(usersRef, userDoc.id), {
+        menu: doc(menusRef, menuDoc.id),
+      });
+    } else {
+      console.error('User not found when creating menu');
+      throw new Error('User not found');
+    }
+
+    return menuDoc.id;
+  } catch (error) {
+    console.error('Error creating menu:', error);
+    throw error;
+  }
+};
 
 export const fetchMenu = async (menuId: string) => {
   if (!menuId) return null;

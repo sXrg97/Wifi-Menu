@@ -92,7 +92,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     {menu && (
                         <div className="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between">
                             <h1 className="text-4xl font-bold text-white">{menu.restaurantName}</h1>
-                            <Link href={`/menu/${menu.slug}`} className="flex items-center space-x-2 bg-white hover:bg-purple-200 transition-colors px-4 py-2 rounded-full">
+                            <Link href={`/menu/${menu.slug}`} className="flex items-center space-x-2 bg-white dark:bg-gray-900 hover:bg-purple-200 transition-colors px-4 py-2 rounded-full">
                                 <span>View Menu</span>
                                 <LinkIcon size={16} />
                             </Link>
@@ -101,7 +101,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             </div>
 
 
-            {menu && <span className="italic text-gray-400 mb-4 block">Lifetime Views: {menu.lifetimeViews}</span>}
+            {menu && <span className="italic text-gray-400 mb-4 block">Vizualizari: {menu.lifetimeViews}</span>}
 
 
             <div className="flex items-center gap-4 mb-6">
