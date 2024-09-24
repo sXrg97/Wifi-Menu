@@ -8,12 +8,10 @@ interface CartItem {
 
 interface CartState {
   items: CartItem[];
-  userName: string | null;
 }
 
 const initialState: CartState = {
   items: [],
-  userName: null,
 };
 
 const cartSlice = createSlice({
@@ -29,9 +27,6 @@ const cartSlice = createSlice({
         state.items.push({ product, quantity });
       }
     },
-    setUserName: (state, action: PayloadAction<string>) => {
-      state.userName = action.payload;
-    },
     incrementQuantity: (state, action: PayloadAction<string>) => {
       const item = state.items.find(item => item.product._id === action.payload);
       if (item) {
@@ -44,9 +39,11 @@ const cartSlice = createSlice({
         item.quantity -= 1;
       }
     },
-    // Add other cart-related actions here
+    emptyCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { addToCart, setUserName, incrementQuantity, decrementQuantity } = cartSlice.actions;
+export const { addToCart, incrementQuantity, decrementQuantity, emptyCart } = cartSlice.actions;
 export default cartSlice.reducer;

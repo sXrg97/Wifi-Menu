@@ -6,7 +6,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "../ui
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { RootState } from '@/store/store';
-import { setUserName, incrementQuantity, decrementQuantity } from '@/store/cartSlice';
+import { setUserName } from '@/store/userSlice';
+import { incrementQuantity, decrementQuantity, emptyCart } from '@/store/cartSlice';
 import Image from 'next/image';
 import { Minus, Plus } from 'lucide-react';
 
@@ -17,8 +18,10 @@ interface CartSidebarProps {
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
-  const { items, userName } = useSelector((state: RootState) => state.cart);
+  const { items } = useSelector((state: RootState) => state.cart);
+  const { name: userName } = useSelector((state: RootState) => state.user);
   const [name, setName] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (isOpen && !userName) {
@@ -28,6 +31,16 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
 
   const handleSubmitName = () => {
     dispatch(setUserName(name));
+    setIsEditing(false);
+  };
+
+  const handleEditName = () => {
+    setName(userName || '');
+    setIsEditing(true);
+  };
+
+  const handleEmptyCart = () => {
+    dispatch(emptyCart());
   };
 
   const handleIncrement = (productId: string) => {
@@ -60,9 +73,14 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
           <SheetTitle>Coșul tău</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col h-full overflow-hidden">
-          {userName ? (
+          {userName && !isEditing ? (
             <>
-              <p className="mb-4 text-sm">Salut, {userName}!</p>
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-sm">Salut, {userName}!</p>
+                <Button variant="outline" size="sm" onClick={handleEditName}>
+                  Editează numele
+                </Button>
+              </div>
               <div className="flex-grow overflow-auto mb-4">
                 {items.length > 0 ? (
                   <div className="space-y-4">
@@ -118,7 +136,10 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               </div>
               <div className="mt-auto pt-4 border-t">
                 <p className="text-lg font-semibold mb-2">Total: {calculateTotal().toFixed(2)} RON</p>
-                <Button className="w-full">Finalizează comanda</Button>
+                <div className="flex gap-2">
+                  <Button className="flex-1">Finalizează comanda</Button>
+                  <Button variant="destructive" onClick={handleEmptyCart}>Golește coșul</Button>
+                </div>
               </div>
             </>
           ) : (
@@ -131,7 +152,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                 className="mb-2"
               />
               <Button onClick={handleSubmitName} className="w-full">
-                  Salvează
+                Salvează
               </Button>
             </div>
           )}

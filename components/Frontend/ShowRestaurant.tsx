@@ -118,7 +118,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     
     <div className="container mx-auto px-4 py-8">
 
-      <div className='flex max-w-7xl flex-col p-8 mx-auto'>
+      <div className='flex max-w-7xl flex-col py-8 px-2 md:px-8 mx-auto'>
 
         <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName} {searchParams.get('table') && `- Masa ${(searchParams.get('table'))}`} </h1>
 
