@@ -1,26 +1,32 @@
+"use client"
+
 import React from "react";
 import { Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { deleteProduct } from "@/lib/actions/menu.actions";
-import { MenuType, ProductType } from "@/types/types";
+import type { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import EditProductModal from "./EditProductModal";
 import { calculateDiscountedPrice, getAllergenInRomanian } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 
-const ProductBox = ({
-    product,
-    admin,
-    menuId,
-    categoryName,
-    setMenu,
-}: {
+interface ProductBoxProps {
     product: ProductType;
     admin: boolean;
     menuId?: string;
     categoryName?: string;
     setMenu?: React.Dispatch<React.SetStateAction<MenuType | null>>;
+    openModal: (product: ProductType) => void;
+}
+
+const ProductBox: React.FC<ProductBoxProps> = ({
+    product,
+    admin,
+    menuId,
+    categoryName,
+    setMenu,
+    openModal
 }) => {
     const { toast } = useToast();
 
@@ -48,7 +54,7 @@ const ProductBox = ({
     };
 
     return (
-        <div className="h-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative flex flex-col justify-between">
+        <div className="h-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative flex flex-col justify-between cursor-pointer" onClick={() => openModal(product)}>
             <div className="relative">
                 <div className="aspect-square w-full overflow-hidden">
                     <Image
@@ -69,7 +75,7 @@ const ProductBox = ({
             <div className="p-4 flex-grow flex flex-col">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">{product.name}</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{product.description}</p>
-                {product.nutritionalValues && product.nutritionalValues.length && 
+                {product.nutritionalValues && product.nutritionalValues.length > 0 && 
                         <span className="text-xs text-gray-400 mb-4 mt-1">
                             {product.nutritionalValues}
                         </span>

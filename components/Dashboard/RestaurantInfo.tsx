@@ -1,7 +1,9 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
 import { deleteCategory, fetchMenu } from "@/lib/actions/menu.actions";
 import { LinkIcon, Loader2Icon, Trash2Icon } from "lucide-react";
-import { MenuType } from "@/types/types";
+import { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
 import Image from "next/image";
@@ -15,11 +17,15 @@ import { Button } from "../ui/button";
 import EditCategoryNameButton from "../Backend/EditCategoryNameButton";
 import ImportantUpdates from "./ImportantUpdates";
 import QRPreviewer from "./QRPreviewer";
+import ProductModal from '../Frontend/ProductModal';
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
     const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
     const { toast } = useToast();
+
+    const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const getMenu = async () => {
@@ -69,6 +75,16 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     };
 
     const clerkUser = useUser();
+
+    const openModal = (product: ProductType) => {
+        setSelectedProduct(product);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedProduct(null);
+        setIsModalOpen(false);
+    };
 
     return (
         <div>
@@ -179,6 +195,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                                         menuId={menuId}
                                         categoryName={category.name}
                                         setMenu={setMenu}
+                                        openModal={openModal}
                                     />
                                 ))}
 
@@ -191,6 +208,11 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     <Loader2Icon className="animate-spin text-black" size={64} />
                 </div>
             )}
+            <ProductModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                product={selectedProduct}
+            />
         </div>
     );
 };

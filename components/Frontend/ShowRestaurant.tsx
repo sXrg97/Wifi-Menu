@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { MenuType } from '@/types/types';
+import { MenuType, ProductType } from '@/types/types';
 import { Skeleton } from '../ui/skeleton';
 import ProductBox from '../Backend/ProductBox';
 import { generateSlug } from '@/lib/utils';
@@ -10,16 +10,30 @@ import { Button } from '../ui/button';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { callWaiter, requestBill } from '@/lib/actions/menu.actions';
 import { useToast } from '../ui/use-toast';
-import { ConciergeBell, Receipt, User } from 'lucide-react';
+import { ConciergeBell, Receipt, User, ShoppingCart } from 'lucide-react';
 import AdSenseAd from '../GoogleAds/AdSenseAd';
+import ProductModal from './ProductModal';
+import CartSidebar from './CartSidebar';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   let currentProductRendering = 0;
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const { toast } = useToast();
 
+  const openModal = (product: ProductType) => {
+      setSelectedProduct(product);
+      setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+      setIsModalOpen(false);
+      setSelectedProduct(null);
+  };
 
   useEffect(() => {
     const tableNumber = searchParams.get('table');
@@ -86,21 +100,23 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   }
 
   return (
-    <div>
-      <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4 ">
-        {menu ? (
-          <Image
-            className="bg-black w-full object-cover h-full"
-            alt="Restaurant Cover Image"
-            src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
-            width={1600}
-            height={1200}
-          />
-        ) : (
-          <Skeleton className="w-full h-full bg-black" />
-        )}
+  <>
+    <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4 ">
+      {menu ? (
+        <Image
+          className="bg-black w-full object-cover h-full"
+          alt="Restaurant Cover Image"
+          src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
+          width={1600}
+          height={1200}
+        />
+      ) : (
+        <Skeleton className="w-full h-full bg-black" />
+      )}
 
-      </div>
+    </div>
+    
+    <div className="container mx-auto px-4 py-8">
 
       <div className='flex max-w-7xl flex-col p-8 mx-auto'>
 
@@ -133,7 +149,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
     return (
     <React.Fragment key={`${product.name}_${j}`}>
       <div className={`product-box-wrapper ${j}`}>
-        <ProductBox product={product} admin={false} />
+        <ProductBox product={product} admin={false} openModal={openModal}/>
       </div>
 
       {currentProductRendering % 5 === 0 && (
@@ -151,7 +167,22 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
           )
           )}
       </div>
+      <ProductModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          product={selectedProduct}
+      />
+
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      <Button
+        className="fixed size-16 bottom-8 right-8 rounded-full p-3 bg-black hover:bg-gray-900 dark:bg-white dark:hover:bg-gray-200 transition-all duration-200"
+        onClick={() => setIsCartOpen(true)}
+      >
+        <ShoppingCart className="h-6 w-6 text-white dark:text-black" />
+      </Button>
     </div>
+    </>
   );
 };
 

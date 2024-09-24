@@ -96,7 +96,7 @@ const AddCategoryButton = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button type="submit" onClick={handleSave} className="bg-purple-500">
-                            Salveaza
+                            Salvează
                         </Button>
                     </DialogClose>
                 </DialogFooter>

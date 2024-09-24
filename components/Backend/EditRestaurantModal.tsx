@@ -90,7 +90,7 @@ const EditRestaurantModal = ({
             <DialogContent className="max-w-[90vw] md:max-w-[600px] overflow-auto max-h-[90vh]">
                 <DialogHeader>
                     <DialogTitle>Setari meniu</DialogTitle>
-                    <DialogDescription>Faceti modificarile apoi apasati salveaza.</DialogDescription>
+                    <DialogDescription>Faceti modificarile apoi apasati salvează.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
                     <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">

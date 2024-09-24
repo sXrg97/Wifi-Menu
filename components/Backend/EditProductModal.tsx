@@ -252,7 +252,7 @@ const EditProductModal = ({
                 <DialogHeader>
                     <DialogTitle>Editeaza produsul {product.name}</DialogTitle>
                     <DialogDescription className="flex items-start flex-col">
-                        <span className="mb-2 block">Introdu detaliile si salveaza.</span>
+                        <span className="mb-2 block">Introdu detaliile si salvează.</span>
 
                         {product.image && (
                             <div className="h-32 w-32 object-cover overflow-hidden">

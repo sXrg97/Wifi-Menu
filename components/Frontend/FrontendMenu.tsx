@@ -26,7 +26,7 @@ const FrontendMenu = () => {
     return (
         <>
             {menu ? (
-                <div className="mx-auto max-w-full">
+                <div className="mx-auto max-w-full w-full">
                     <ShowRestaurant menu={menu} />
                 </div>
             ) : (
