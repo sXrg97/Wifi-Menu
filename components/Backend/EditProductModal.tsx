@@ -432,7 +432,7 @@ const EditProductModal = ({
                         <Button onClick={() => setIsOpen(false)}>Inchide</Button>
                     </DialogClose>
                     <Button type="submit" onClick={handleEdit} className="bg-purple-500">
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salvează"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

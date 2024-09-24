@@ -26,7 +26,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
 
     if (!tableNumber) {
       console.log('No table number found, redirecting to table 1');
-      router.push('?table=1');
+      router.replace('?table=1');
     }
   }, [searchParams, router]);
 
@@ -104,7 +104,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
 
       <div className='flex max-w-7xl flex-col p-8 mx-auto'>
 
-        <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName} {searchParams.get('table') && `- Table ${(searchParams.get('table'))}`} </h1>
+        <h1 className='text-center text-4xl mb-8 font-bold'>{menu.restaurantName} {searchParams.get('table') && `- Masa ${(searchParams.get('table'))}`} </h1>
 
         {searchParams.get('table') &&
           <div className="flex max-w-7xl gap-4 mb-8 flex-wrap">

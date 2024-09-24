@@ -355,7 +355,7 @@ const AddNewProductToCategory = ({
                 </div>
                 <DialogFooter className="flex flex-col md:flex-row gap-2">
                     <Button type="submit" onClick={handleSave} className="bg-purple-500">
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salvează"}
                     </Button>
                     <DialogClose
                         asChild

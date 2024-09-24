@@ -103,7 +103,7 @@ const EditCategoryNameButton = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button type="submit" onClick={handleEditCategoryName} className="bg-purple-500">
-                            {isLoading ? <Loader2Icon className="animate-spin text-black" /> : "Salveaza"}
+                            {isLoading ? <Loader2Icon className="animate-spin text-black" /> : "Salvează"}
                         </Button>
                     </DialogClose>
                 </DialogFooter>

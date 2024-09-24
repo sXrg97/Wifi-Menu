@@ -118,7 +118,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             <div className="flex gap-2" key={`table_${table.tableNumber}`}>
                 <Button variant={"outline"}>
                     <Link href={`/menu/${menu.slug}?table=${table.tableNumber}`}>
-                        See table {table.tableNumber}
+                        Vezi masa {table.tableNumber}
                     </Link>
                 </Button>
                 <QRPreviewer menuName={menu.restaurantName} slug={menu.slug} tableNumber={table.tableNumber} />

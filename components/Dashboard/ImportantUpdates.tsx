@@ -61,17 +61,17 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
                     <Card key={`table_${i}`} className="overflow-hidden">
                         <CardHeader className="bg-purple-200 dark:bg-purple-800">
                             <CardTitle className="flex items-center justify-between">
-                                <span>Table {table.tableNumber}</span>
+                                <span>Masa {table.tableNumber}</span>
                                 <div className="flex flex-col gap-2">
                                     {table.callWaiter && (
                                         <Badge variant="destructive">
-                                            Waiter Called
+                                            Chelner solicitat
                                         </Badge>
                                     )}
 
                                     {table.requestBill && (
                                         <Badge variant="default">
-                                            Bill Requested
+                                            Notă cerută
                                         </Badge>
                                     )}
                                 </div>
