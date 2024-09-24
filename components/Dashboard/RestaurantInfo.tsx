@@ -41,7 +41,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
         if (!menuId) return;
         if (!categoryName) return;
 
-        if (!confirm("Are you sure you want to delete this category?")) return;
+        if (!confirm("Ești sigur că vrei să ștergi această categorie?")) return;
 
         try {
             setIsPageLoading(true);
