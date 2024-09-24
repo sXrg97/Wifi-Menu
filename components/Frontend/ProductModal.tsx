@@ -12,14 +12,17 @@ import { Skeleton } from "../ui/skeleton";
 import { addToCart } from '@/store/cartSlice';
 import { RootState } from '@/store/store';
 import CartSidebar from './CartSidebar';
+import { table } from 'console';
 
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   product: ProductType | null;
+  menuId: string;
+  tableNumber: string;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product }) => {
+const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, menuId, tableNumber }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const dispatch = useDispatch();
@@ -101,7 +104,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product })
         </div>
       </DialogContent>
     </Dialog>
-    <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+    <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} menuId={menuId} tableNumber={tableNumber} />
     </>
   );
 };

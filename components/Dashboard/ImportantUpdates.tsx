@@ -1,4 +1,6 @@
 "use client"
+
+import React from 'react'
 import { callWaiter, requestBill } from "@/lib/actions/menu.actions"
 import { Button } from "../ui/button"
 import { ConciergeBell, Receipt, X } from "lucide-react"
@@ -56,64 +58,87 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
 
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {docs && docs.tables && docs.tables.map((table: any, i: number) => {
-                if (table.callWaiter === true || table.requestBill === true) return (
-                    <Card key={`table_${i}`} className="overflow-hidden">
-                        <CardHeader className="bg-purple-200 dark:bg-purple-800">
-                            <CardTitle className="flex items-center justify-between">
-                                <span>Masa {table.tableNumber}</span>
-                                <div className="flex flex-col gap-2">
-                                    {table.callWaiter && (
-                                        <Badge variant="destructive">
-                                            Chelner solicitat
-                                        </Badge>
-                                    )}
-
-                                    {table.requestBill && (
-                                        <Badge variant="default">
-                                            Notă cerută
-                                        </Badge>
-                                    )}
-                                </div>
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-4 dark:bg-purple-950">
-                            {table.callWaiter === true && (
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center space-x-2">
-                                        <ConciergeBell className="h-5 w-5 text-orange-500" />
-                                        <span className="font-medium text-black dark:text-white">Chelner solicitat</span>
+            {docs && docs.tables && docs.tables.map((table: any, i: number) => (
+                <React.Fragment key={`table_${i}`}>
+                    {(table.callWaiter === true || table.requestBill === true || (table.orders && table.orders.length > 0)) && (
+                        <Card className="overflow-hidden">
+                            <CardHeader className="bg-purple-200 dark:bg-purple-800">
+                                <CardTitle className="flex items-center justify-between">
+                                    <span>Masa {table.tableNumber}</span>
+                                    <div className="flex flex-col gap-2">
+                                        {table.callWaiter && (
+                                            <Badge variant="destructive">
+                                                Chelner solicitat
+                                            </Badge>
+                                        )}
+                                        {table.requestBill && (
+                                            <Badge variant="default">
+                                                Notă cerută
+                                            </Badge>
+                                        )}
+                                        {table.orders && table.orders.length > 0 && (
+                                            <Badge variant="secondary">
+                                                Comenzi noi: {table.orders.length}
+                                            </Badge>
+                                        )}
                                     </div>
-                                    <Button
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => waiterOnTheWay(table.tableNumber)}
-                                    >
-                                        <X className="h-4 w-4 mr-2" />
-                                        Închide
-                                    </Button>
-                                </div>
-                            )}
-                            {table.requestBill === true && (
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-2">
-                                        <Receipt className="h-5 w-5 text-blue-500" />
-                                        <span className="font-medium text-black dark:text-white">Notă cerută</span>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-4 dark:bg-purple-950">
+                                {table.callWaiter === true && (
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="flex items-center space-x-2">
+                                            <ConciergeBell className="h-5 w-5 text-orange-500" />
+                                            <span className="font-medium text-black dark:text-white">Chelner solicitat</span>
+                                        </div>
+                                        <Button
+                                            variant="destructive"
+                                            size="sm"
+                                            onClick={() => waiterOnTheWay(table.tableNumber)}
+                                        >
+                                            <X className="h-4 w-4 mr-2" />
+                                            Închide
+                                        </Button>
                                     </div>
-                                    <Button
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => billOnTheWay(table.tableNumber)}
-                                    >
-                                        <X className="h-4 w-4 mr-2" />
-                                        Închide
-                                    </Button>
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
-                );
-            })}
+                                )}
+                                {table.requestBill === true && (
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="flex items-center space-x-2">
+                                            <Receipt className="h-5 w-5 text-blue-500" />
+                                            <span className="font-medium text-black dark:text-white">Notă cerută</span>
+                                        </div>
+                                        <Button
+                                            variant="destructive"
+                                            size="sm"
+                                            onClick={() => billOnTheWay(table.tableNumber)}
+                                        >
+                                            <X className="h-4 w-4 mr-2" />
+                                            Închide
+                                        </Button>
+                                    </div>
+                                )}
+                                {table.orders && table.orders.length > 0 && (
+                                    <div className="mt-4">
+                                        <h4 className="font-semibold text-lg mb-2">Comenzi noi:</h4>
+                                        {table.orders.map((order: any, orderIndex: number) => (
+                                            <div key={orderIndex} className="bg-white dark:bg-gray-800 p-3 rounded-md mb-3 shadow-sm">
+                                                <p className="font-medium mb-2">Client: {order.user}</p>
+                                                <ul className="list-disc list-inside">
+                                                    {order.order.map((item: any, itemIndex: number) => (
+                                                        <li key={itemIndex} className="text-sm">
+                                                            {item.quantity}x {item.name}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
+                </React.Fragment>
+            ))}
         </div>
     )
 }

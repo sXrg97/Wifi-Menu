@@ -10,18 +10,23 @@ import { setUserName } from '@/store/userSlice';
 import { incrementQuantity, decrementQuantity, emptyCart } from '@/store/cartSlice';
 import Image from 'next/image';
 import { Minus, Plus } from 'lucide-react';
+import { sendUserOrder } from '@/lib/actions/menu.actions';
+import { useToast } from "@/components/ui/use-toast";
 
 interface CartSidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
+    menuId: string;
+    tableNumber: string;
+    isOpen: boolean;
+    onClose: () => void;
 }
 
-const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
+const CartSidebar: React.FC<CartSidebarProps> = ({menuId, tableNumber, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const { items } = useSelector((state: RootState) => state.cart);
   const { name: userName } = useSelector((state: RootState) => state.user);
   const [name, setName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (isOpen && !userName) {
@@ -64,6 +69,53 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
 
   const calculateTotal = () => {
     return items.reduce((total, item) => total + calculateItemPrice(item) * item.quantity, 0);
+  };
+
+  const handleSendOrder = async () => {
+    if (!userName) {
+      toast({
+        variant: "destructive",
+        title: "Eroare",
+        description: "Vă rugăm să introduceți numele dvs. înainte de a trimite comanda.",
+      });
+      return;
+    }
+
+    if (items.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "Eroare",
+        description: "Coșul dvs. este gol. Adăugați produse înainte de a trimite comanda.",
+      });
+      return;
+    }
+
+    const orderData = items.map(item => ({
+      name: item.product.name,
+      quantity: item.quantity,
+    }));
+
+    try {
+      const result = await sendUserOrder(menuId, tableNumber, userName, orderData);
+      if (result.success) {
+        toast({
+          variant: "success",
+          title: "Succes",
+          description: "Comanda a fost trimisă cu succes!",
+        });
+        dispatch(emptyCart());
+        onClose();
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Eroare",
+        description: "A apărut o eroare la trimiterea comenzii. Vă rugăm să încercați din nou.",
+      });
+      console.error("Error sending order:", error);
+    }
   };
 
   return (
@@ -137,7 +189,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               <div className="mt-auto pt-4 border-t">
                 <p className="text-lg font-semibold mb-2">Total: {calculateTotal().toFixed(2)} RON</p>
                 <div className="flex gap-2">
-                  <Button className="flex-1">Finalizează comanda</Button>
+                  <Button className="flex-1" onClick={handleSendOrder}>Finalizează comanda</Button>
                   <Button variant="destructive" onClick={handleEmptyCart}>Golește coșul</Button>
                 </div>
               </div>

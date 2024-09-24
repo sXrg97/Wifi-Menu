@@ -171,9 +171,11 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
           isOpen={isModalOpen}
           onClose={closeModal}
           product={selectedProduct}
+          menuId={menu._id}
+          tableNumber={searchParams.get('table')!}
       />
 
-      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      {menu && searchParams.get('table') && <CartSidebar menuId={menu._id} tableNumber={searchParams.get('table')!} isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
 
       <Button
         className="fixed size-16 bottom-8 right-8 rounded-full p-3 bg-black hover:bg-gray-900 dark:bg-white dark:hover:bg-gray-200 transition-all duration-200"

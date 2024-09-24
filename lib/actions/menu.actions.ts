@@ -842,3 +842,42 @@ export const getTables = async (menuId: string) => {
     throw error;
   }
 };
+
+export const sendUserOrder = async (menuId: string, tableNumber: string, userName: string, order: any[]) => {
+  try {
+    const menuRef = doc(db, 'menus', menuId);
+    const menuDoc = await getDoc(menuRef);
+
+    if (!menuDoc.exists()) {
+      throw new Error('Menu not found');
+    }
+
+    const menuData = menuDoc.data();
+    const tables = menuData.tables || [];
+    const tableIndex = tables.findIndex((table: any) => table.tableNumber === parseInt(tableNumber));
+
+    if (tableIndex === -1) {
+      throw new Error('Table not found');
+    }
+
+    const newOrder = {
+      user: userName,
+      order: [...order],
+      // timestamp: serverTimestamp(), TODO: FIX THIS
+      status: 'pending'
+    };
+
+    if (!tables[tableIndex].orders) {
+      tables[tableIndex].orders = [];
+    }
+
+    tables[tableIndex].orders.push(newOrder);
+
+    await updateDoc(menuRef, { tables: tables });
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending order:', error);
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
+  }
+};
