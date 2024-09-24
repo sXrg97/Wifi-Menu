@@ -212,6 +212,8 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 product={selectedProduct}
+                menuId={menuId!}
+                tableNumber={"1"}
             />
         </div>
     );
