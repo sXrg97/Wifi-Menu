@@ -279,13 +279,14 @@ export default function HeroSection() {
                         </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">
-                        <p>În curând, vei putea genera declarații nutriționale cu o singură apăsare de buton, folosind inteligența artificială.</p>
-                        <ul className="mt-2 list-disc list-inside text-sm">
-                        <li>Aproximarea valorilor nutriționale din descrierea produsului</li>
-                        <li>Generare automată de informații precum calorii, proteine, grăsimi, etc.</li>
-                        <li>Conformitate cu cerințele ANPC pentru afișarea informațiilor nutriționale</li>
-                        </ul>
-                    </dd>
+                      <p>Acum poți genera declarații nutriționale cu o singură apăsare de buton, folosind inteligența artificială.</p>
+                      <ul className="mt-2 list-disc list-inside text-sm">
+                          <li>Aproximarea valorilor nutriționale din descrierea produsului</li>
+                          <li>Generare automată de informații precum calorii, proteine, grăsimi, etc.</li>
+                          <li>Conformitate cu cerințele ANPC pentru afișarea informațiilor nutriționale</li>
+                      </ul>
+                  </dd>
+
                 </div>
 
                 <div className="relative" data-aos="fade-right" data-aos-offset="100">
