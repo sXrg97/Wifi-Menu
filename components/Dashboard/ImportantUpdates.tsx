@@ -22,7 +22,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
             toast({
                 variant: "success",
                 title: `Succes! 🎉`,
-                description: `Call waiter request was resolved!`,
+                description: `Solicitarea a fost rezolvata!`,
             })
         }
         catch (err) {
@@ -82,7 +82,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center space-x-2">
                                         <ConciergeBell className="h-5 w-5 text-orange-500" />
-                                        <span className="font-medium text-black dark:text-white">Waiter called</span>
+                                        <span className="font-medium text-black dark:text-white">Chelner solicitat</span>
                                     </div>
                                     <Button
                                         variant="destructive"
@@ -90,7 +90,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
                                         onClick={() => waiterOnTheWay(table.tableNumber)}
                                     >
                                         <X className="h-4 w-4 mr-2" />
-                                        Dismiss
+                                        Închide
                                     </Button>
                                 </div>
                             )}
@@ -98,7 +98,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-2">
                                         <Receipt className="h-5 w-5 text-blue-500" />
-                                        <span className="font-medium text-black dark:text-white">Bill requested</span>
+                                        <span className="font-medium text-black dark:text-white">Notă cerută</span>
                                     </div>
                                     <Button
                                         variant="destructive"
@@ -106,7 +106,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
                                         onClick={() => billOnTheWay(table.tableNumber)}
                                     >
                                         <X className="h-4 w-4 mr-2" />
-                                        Dismiss
+                                        Închide
                                     </Button>
                                 </div>
                             )}

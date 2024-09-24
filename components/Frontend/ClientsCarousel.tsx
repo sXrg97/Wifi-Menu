@@ -47,7 +47,7 @@ export default function ClientsCarousel() {
                 className="rounded-t-lg"
               />
             </div>
-            <div className="p-6 text-center">
+            <div className="p-6 text-center dark:bg-gray-900">
               <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
                 {menu.restaurantName}
               </h3>

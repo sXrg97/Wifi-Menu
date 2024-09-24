@@ -429,7 +429,7 @@ const EditProductModal = ({
                 </div>
                 <DialogFooter className="flex gap-2">
                     <DialogClose asChild>
-                        <Button onClick={() => setIsOpen(false)}>Inchide</Button>
+                        <Button onClick={() => setIsOpen(false)}>Închide</Button>
                     </DialogClose>
                     <Button type="submit" onClick={handleEdit} className="bg-purple-500">
                         {isUpdating ? <Loader2 className="animate-spin" /> : "Salvează"}

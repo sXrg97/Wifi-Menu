@@ -74,7 +74,7 @@ const EditCategoryNameButton = ({
             <DialogTrigger asChild>
                 <Button
                     variant="outline"
-                    className="text-black p-1 rounded-sm flex flex-1 items-center justify-center transition-colors w-10"
+                    className="text-black dark:text-white p-1 rounded-sm flex flex-1 items-center justify-center transition-colors w-10"
                 >
                     <PenIcon />{" "}
                 </Button>

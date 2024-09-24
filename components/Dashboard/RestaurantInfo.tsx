@@ -150,7 +150,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                                 {menuId && (
                                     <Button 
                                         variant={'outline'}
-                                        className="text-black p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-100 w-10"
+                                        className="text-black dark:text-white p-1 rounded-sm flex flex-1 items-center justify-center hover:bg-red-100 dark:hover:bg-red-400 w-10"
                                         onClick={() => handleDeleteCategory(menuId, category.name)}
                                     >
                                         <Trash2Icon />

@@ -360,7 +360,7 @@ const AddNewProductToCategory = ({
                     <DialogClose
                         asChild
                     >
-                        <Button onClick={() => setIsOpen(false)}>Inchide</Button>
+                        <Button onClick={() => setIsOpen(false)}>Închide</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>

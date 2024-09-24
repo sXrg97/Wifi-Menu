@@ -176,7 +176,7 @@ const EditRestaurantModal = ({
 
                     <DialogClose asChild>
                         <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length })}>
-                            Inchide
+                            Închide
                         </Button>
                     </DialogClose>
                 </DialogFooter>
