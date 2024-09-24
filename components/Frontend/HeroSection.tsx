@@ -11,6 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { MenuType } from "@/types/types"
 import { getRandomMenus } from "@/lib/actions/menu.actions"
 import { SignInButton, useUser } from "@clerk/nextjs"
+import TestimonialsSection from "./TestimonialsSection"
+import ClientsCarousel from "./ClientsCarousel"
 
 const cabin = Cabin({
   subsets: ["latin"],
@@ -92,43 +94,12 @@ export default function HeroSection() {
 
         <div className="bg-white dark:bg-gray-950" data-aos="fade-up" data-aos-offset="200">
           <div className="container mx-auto px-0 py-6 md:py-12">
-            <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8 dark:text-white">
-              Clienții Noștri Satisfăcuți
-            </h2>
-            {loading ? (
-              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {[...Array(3)].map((_, i) => (
-                  <Skeleton key={i} className="h-64 w-full" />
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {menus.map((menu, i) => (
-                  <Link data-aos-offset="250" data-aos-delay={i * 150} data-aos="fade-right" href={`/menu/${menu.slug}`} key={menu._id} className="block">
-                    <Card className="h-full hover:shadow-lg transition-shadow duration-300">
-                      <CardContent className="p-6">
-                        <div className="aspect-video mb-4 relative">
-                          <Image
-                            src={menu.menuPreviewImage || "/dashboard-cover.webp"}
-                            alt={`Previzualizare pentru ${menu.restaurantName}`}
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-md h-full w-full object-cover"
-                          />
-                        </div>
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-950">{menu.restaurantName}</h3>
-                        <p className="mt-2 text-sm text-gray-500">
-                          Experimentează meniul digital al {menu.restaurantName}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            )}
+            <ClientsCarousel />
           </div>
         </div>
       </div>
+
+      <TestimonialsSection />
 
       <div id="how-it-works" className="py-6 md:py-12 dark:bg-gray-950 w-full" data-aos="fade-up" data-aos-offset="200">
         <div className="max-w-7xl mx-auto px-0">
@@ -299,12 +270,12 @@ export default function HeroSection() {
 
                 <div className="relative" data-aos="fade-left" data-aos-offset="100">
                     <dt>
-                        <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
+                        <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
                         <Sparkles className="h-6 w-6" aria-hidden="true" />
                         </div>
                         <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white flex items-center">
-                        Declarații Nutriționale AI
-                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full text-nowrap">În curând</span>
+                          Declarații Nutriționale AI
+                          <span className="ml-2 px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full">Nou</span>
                         </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">
