@@ -19,7 +19,7 @@ import { toast } from "../ui/use-toast";
 import { MenuType } from "@/types/types";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
-import { Loader2, PlusIcon } from "lucide-react";
+import { Loader2, PlusIcon, Sparkles } from "lucide-react";
 import { Switch } from "../ui/switch";
 import { ALLERGENS, DEFAULT_PRODUCT } from "@/lib/constants";
 import { Badge } from "../ui/badge";
@@ -40,6 +40,7 @@ const AddNewProductToCategory = ({
     const [selectedImage, setSelectedImage] = useState<any>(null);
     const [imagePreview, setImagePreview] = useState<any>(null);
     const clerkUser = useUser();
+    const [isGenerating, setIsGenerating] = useState(false);
 
     useEffect(() => {
         if (!isOpen) {
@@ -77,7 +78,8 @@ const AddNewProductToCategory = ({
 
     if (!menuId) return null;
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
         if (e.target.name === 'price' || e.target.name === 'reducedPrice') {
             // Don't allow negative values
             const value = parseFloat(e.target.value);
@@ -111,7 +113,9 @@ const AddNewProductToCategory = ({
                 formData.append("productPicture", renamedImage);
             }
 
-            const res = await addProductToCategory(menuId, categoryName, product, formData);
+            const res = await addProductToCategory(menuId, categoryName, {
+                ...product,
+            }, formData);
 
             if (res) {
                 toast({
@@ -137,6 +141,44 @@ const AddNewProductToCategory = ({
         }
     };
 
+    const handleGenerateNutritionalValues = async () => {
+        if (!product.description) {
+            toast({
+                variant: "destructive",
+                title: "Eroare",
+                description: "Adaugati o descriere pentru a genera valori nutritionale.",
+            });
+            return;
+        }
+
+        try {
+            setIsGenerating(true);
+            const response = await fetch('/api/generate-nutritional-values', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ description: product.description }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to generate nutritional values');
+            }
+
+            const data = await response.json();
+            setProduct((prev) => ({ ...prev, nutritionalValues: data.nutritionalValues }));
+        } catch (error) {
+            console.error('Error generating nutritional values:', error);
+            toast({
+                variant: "destructive",
+                title: "Eroare",
+                description: "Nu s-au putut genera valorile nutritionale. Incercati din nou.",
+            });
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
@@ -148,14 +190,14 @@ const AddNewProductToCategory = ({
                     <PlusIcon /> Produs
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="max-w-[90vw] md:max-w-[600px] overflow-auto max-h-[90vh]">
                 <DialogHeader>
                     <DialogTitle>Adauga un produs nou in categoria {categoryName}</DialogTitle>
                     <DialogDescription>Introduceti datele si salvati.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="productPicture" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="productPicture" className="md:text-left">
                             Imagine
                         </Label>
                         <Input
@@ -168,7 +210,7 @@ const AddNewProductToCategory = ({
                         />
                         {imagePreview && (
                             <>
-                                <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-right"></span>{" "}
+                                <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"></span>{" "}
                                 <Image alt="product image" src={imagePreview} width={100} height={100} />
                             </>
                         )}
@@ -176,8 +218,8 @@ const AddNewProductToCategory = ({
                 </div>
 
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name" className="md:text-left">
                             Nume *
                         </Label>
                         <Input
@@ -194,8 +236,8 @@ const AddNewProductToCategory = ({
                 </div>
 
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="price" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="price" className="md:text-left">
                             Pret *
                         </Label>
                         <Input
@@ -217,8 +259,8 @@ const AddNewProductToCategory = ({
                 </div>
 
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="description" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="description" className="md:text-left">
                             Descriere *
                         </Label>
                         <Input
@@ -235,8 +277,34 @@ const AddNewProductToCategory = ({
                 </div>
 
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Alergeni:</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="nutritionalValues" className="md:text-left">
+                            Valori Nutritionale
+                        </Label>
+                        <div className="col-span-3 flex gap-2 flex-col">
+                            <textarea
+                                name="nutritionalValues"
+                                id="nutritionalValues"
+                                placeholder="eg. 310 kcal, 12g proteine, 15g lipide, 35g carbohidrati"
+                                className="flex-grow flex h-16 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                onChange={(e) => onChangeHandler(e)}
+                                value={product.nutritionalValues}
+                            />
+                            
+                            <p className="text-xs text-gray-500">
+                                Valorile generate cu AI sunt aproximative. Acestea se bazează pe gramajele alimentelor din descrierea produsului.
+                            </p>
+
+                            <Button type="button" className={`flex-1 ${isGenerating && "bg-yellow-400"} transition-colors`} onClick={handleGenerateNutritionalValues}>
+                                {isGenerating ? <Loader2 className="animate-spin" /> : <><Sparkles className="size-5 mr-1" /> Genereaza cu AI</>}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label className="md:text-left">Alergeni:</Label>
                         <div className="flex flex-wrap gap-1 col-span-3">
                             {ALLERGENS.map((allergen) => (
                                 <Badge variant={product.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{getAllergenInRomanian(allergen)}</Badge>
@@ -246,8 +314,8 @@ const AddNewProductToCategory = ({
                 </div>
 
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Pretul e redus?</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label className="md:text-left">Pretul e redus?</Label>
                         <Switch
                             checked={product.isReduced}
                             onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isReduced: e }))}
@@ -256,8 +324,8 @@ const AddNewProductToCategory = ({
                 </div>
 
                 <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="reducedPrice" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="reducedPrice" className="md:text-left">
                             Reducere
                         </Label>
                         <Input
@@ -277,23 +345,23 @@ const AddNewProductToCategory = ({
                 </div>
 
                 <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">Reducere procentuala? (%)</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label className="md:text-left">Reducere procentuala? (%)</Label>
                         <Switch
                             checked={product.isDiscountProcentual}
                             onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
                         />
                     </div>
                 </div>
-                <DialogFooter>
+                <DialogFooter className="flex flex-col md:flex-row gap-2">
+                    <Button type="submit" onClick={handleSave} className="bg-purple-500">
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                    </Button>
                     <DialogClose
                         asChild
                     >
                         <Button onClick={() => setIsOpen(false)}>Inchide</Button>
                     </DialogClose>
-                    <Button type="submit" onClick={handleSave}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
-                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

@@ -108,8 +108,8 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
 
         {searchParams.get('table') &&
           <div className="flex max-w-7xl gap-4 mb-8 flex-wrap">
-            <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><ConciergeBell className='mr-2' /> Call for waiter</Button>
-            <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><Receipt className='mr-2' /> Request bill</Button>
+            <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><ConciergeBell className='mr-2' /> Cheamă ospătarul</Button>
+            <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><Receipt className='mr-2' /> Cere nota</Button>
           </div>
         }
 

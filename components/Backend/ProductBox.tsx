@@ -68,7 +68,12 @@ const ProductBox = ({
 
             <div className="p-4 flex-grow flex flex-col">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">{product.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">{product.description}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{product.description}</p>
+                {product.nutritionalValues && product.nutritionalValues.length && 
+                        <span className="text-xs text-gray-400 mb-4 mt-1">
+                            {product.nutritionalValues}
+                        </span>
+                    }
                 
                 <div className="mt-auto">
                     <div className="mb-2">

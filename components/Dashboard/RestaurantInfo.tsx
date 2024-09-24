@@ -6,7 +6,7 @@ import { useToast } from "../ui/use-toast";
 import AddCategoryButton from "../Backend/AddCategoryButton";
 import Image from "next/image";
 import Link from "next/link";
-import AddNewProductToCategory from "./AddNewProductToCategory";
+import AddNewProductToCategory from "./AddNewProductToCategoryModal";
 import { Skeleton } from "../ui/skeleton";
 import EditRestaurantModal from "../Backend/EditRestaurantModal";
 import ProductBox from "../Backend/ProductBox";
@@ -90,10 +90,10 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
                     {menu && (
-                        <div className="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between">
+                        <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-2 md:flex-row items-center justify-between">
                             <h1 className="text-4xl font-bold text-white">{menu.restaurantName}</h1>
                             <Link href={`/menu/${menu.slug}`} className="flex items-center space-x-2 bg-white dark:bg-gray-900 hover:bg-purple-200 transition-colors px-4 py-2 rounded-full">
-                                <span>View Menu</span>
+                                <span>Vizualizeaza meniul</span>
                                 <LinkIcon size={16} />
                             </Link>
                         </div>

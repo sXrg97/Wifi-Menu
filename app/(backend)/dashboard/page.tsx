@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import RestaurantInfo from '@/components/Dashboard/RestaurantInfo'
 import { checkUserOrCreate } from '@/lib/actions/user.actions'
@@ -11,14 +11,14 @@ import { Loader } from 'lucide-react'
 const Dashboard = () => {
   const [menuId, setMenuId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const clerkUser = useUser()
+  const { isLoaded, isSignedIn, user } = useUser()
   const router = useRouter()
 
-  const createOrGetMenu = async () => {
-    if (clerkUser.isSignedIn) {
+  const createOrGetMenu = useCallback(async () => {
+    if (isSignedIn) {
       try {
-        const id = clerkUser.user?.id
-        const email = clerkUser.user?.primaryEmailAddress?.emailAddress
+        const id = user?.id
+        const email = user?.primaryEmailAddress?.emailAddress
         const thisMenuId = await checkUserOrCreate(id, email || "")
         setMenuId(thisMenuId)
       } catch (error) {
@@ -27,12 +27,15 @@ const Dashboard = () => {
         setLoading(false)
       }
     }
-  }
+  }, [isSignedIn, user?.id, user?.primaryEmailAddress?.emailAddress]);
 
   useEffect(() => {
-
-    createOrGetMenu()
-  }, [clerkUser])
+    async function fetchData() {
+      console.log("checking")
+      await createOrGetMenu()
+    }
+    fetchData()
+  }, [isLoaded, isSignedIn, user, createOrGetMenu]) // Added createOrGetMenu to the dependency array
 
   if (loading) {
     return <div className='min-h-[60vh] flex w-full items-center justify-center'><Loader className='animate-spin size-8 text-purple-600' /></div>

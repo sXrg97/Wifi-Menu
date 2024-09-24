@@ -72,7 +72,7 @@ const AddCategoryButton = ({
                     <PlusIcon /> Categorie
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="max-w-[90vw] md:max-w-[600px] overflow-auto max-h-[90vh]">
                 <DialogHeader>
                     <DialogTitle>Adauga Categorie</DialogTitle>
                     <DialogDescription>
@@ -80,14 +80,14 @@ const AddCategoryButton = ({
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="category" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="category" className="text-left">
                             Nume categorie
                         </Label>
                         <Input
                             id="category"
                             placeholder="eg. Paste"
-                            className="col-span-3"
+                            className="col-span-1 md:col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                             value={categoryName}
                         />
@@ -95,7 +95,7 @@ const AddCategoryButton = ({
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button type="submit" onClick={handleSave}>
+                        <Button type="submit" onClick={handleSave} className="bg-purple-500">
                             Salveaza
                         </Button>
                     </DialogClose>

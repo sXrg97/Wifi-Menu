@@ -34,30 +34,35 @@ export const checkUserOrCreate = async (clerkUserId: string, email: string) => {
       return null;
     }
   } catch (error) {
-    console.log(error);
+    console.error('Error in checkUserOrCreate:', error);
     return null;
   }
 };
 
 export async function getUserDocumentRefsByClerkUserId(clerkUserId: string) {
-  const userQuery = query(collection(db, "users"), where("clerkUserId", "==", clerkUserId));
-  const querySnapshot = await getDocs(userQuery);
+  try {
+    const userQuery = query(collection(db, "users"), where("clerkUserId", "==", clerkUserId));
+    const querySnapshot = await getDocs(userQuery);
 
-  if (!querySnapshot.empty) {
-    const userDoc = querySnapshot.docs[0];
-    
-    // Get the Firestore docref for the user
-    const userDocRef = userDoc.ref;
-    
-    // Assuming menu is a field that contains a path like "/menus/menuId"
-    const menuDocRef = userDoc.data().menu;
-    
-    return {
-      userDocRef,
-      menuDocRef,
-    };
-  } else {
-    console.error(`User with clerkUserId ${clerkUserId} not found.`);
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      
+      // Get the Firestore docref for the user
+      const userDocRef = userDoc.ref;
+      
+      // Assuming menu is a field that contains a path like "/menus/menuId"
+      const menuDocRef = userDoc.data().menu;
+      
+      return {
+        userDocRef,
+        menuDocRef,
+      };
+    } else {
+      console.error(`User with clerkUserId ${clerkUserId} not found.`);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error in getUserDocumentRefsByClerkUserId:', error);
     return null;
   }
 }

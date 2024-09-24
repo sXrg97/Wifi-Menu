@@ -87,14 +87,14 @@ const EditRestaurantModal = ({
                     Editeaza meniu
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] max-h-[80dvh] overflow-auto">
+            <DialogContent className="max-w-[90vw] md:max-w-[600px] overflow-auto max-h-[90vh]">
                 <DialogHeader>
                     <DialogTitle>Setari meniu</DialogTitle>
                     <DialogDescription>Faceti modificarile apoi apasati salveaza.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="restaurantName" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="restaurantName" className="text-left">
                             Nume restaurant
                         </Label>
                         <Input
@@ -111,29 +111,32 @@ const EditRestaurantModal = ({
                 </div>
 
                 <div className="grid gap-2">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="restaurantCoverImage" className="text-right">
-                        Poza restaurant
-                    </Label>
-                    <div className="col-span-3 flex items-center gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="restaurantCoverImage" className="text-left">
+                            Poza restaurant
+                        </Label>
                         <Input
                             name="restaurantCoverImage"
                             type="file"
                             id="restaurantCoverImage"
                             accept="image/*"
-                            className="max-w-xs"
+                            className="col-span-3"
                             onChange={(e) => onChangeHandler(e)}
                         />
-                        {menuPreviewImage && (
-                            <Image width={1600} height={900} src={menuPreviewImage} alt="Restaurant Cover" className="h-9 w-16 object-cover" />
-                        )}
                     </div>
                 </div>
-            </div>
+
+                {menuPreviewImage && (
+                    <div className="grid gap-2">
+                        <div className="col-span-4 flex justify-center">
+                            <Image width={1600} height={900} src={menuPreviewImage} alt="Restaurant Cover" className="w-full object-cover aspect-video" />
+                        </div>
+                    </div>
+                )}
 
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="slug" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="slug" className="text-left">
                             Slug (url)
                         </Label>
                         <Input
@@ -150,8 +153,8 @@ const EditRestaurantModal = ({
                 </div>
 
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="tables" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="tables" className="text-left">
                             Mese
                         </Label>
                         <Input
@@ -166,16 +169,16 @@ const EditRestaurantModal = ({
                         />
                     </div>
                 </div>
-                <DialogFooter>
+                <DialogFooter className="flex flex-col md:flex-row gap-2">
+                    <Button type="submit" onClick={handleSave} className="bg-purple-500">
+                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
+                    </Button>
+
                     <DialogClose asChild>
                         <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length })}>
                             Inchide
                         </Button>
                     </DialogClose>
-
-                    <Button type="submit" onClick={handleSave}>
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salveaza"}
-                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

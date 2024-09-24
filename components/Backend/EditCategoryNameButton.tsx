@@ -79,7 +79,7 @@ const EditCategoryNameButton = ({
                     <PenIcon />{" "}
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="max-w-[90vw] md:max-w-[600px] overflow-auto max-h-[90vh]">
                 <DialogHeader>
                     <DialogTitle>Editeaza numele categoriei</DialogTitle>
                     <DialogDescription>
@@ -87,14 +87,14 @@ const EditCategoryNameButton = ({
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="category" className="text-right">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="category" className="text-left">
                             Nume categorie
                         </Label>
                         <Input
                             id="category"
                             placeholder="eg. Pasta"
-                            className="col-span-3"
+                            className="col-span-1 md:col-span-3"
                             onChange={(e) => setCategoryNameInput(e.target.value)}
                             value={categoryNameInput}
                         />
@@ -102,7 +102,7 @@ const EditCategoryNameButton = ({
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button type="submit" onClick={handleEditCategoryName}>
+                        <Button type="submit" onClick={handleEditCategoryName} className="bg-purple-500">
                             {isLoading ? <Loader2Icon className="animate-spin text-black" /> : "Salveaza"}
                         </Button>
                     </DialogClose>

@@ -22,4 +22,5 @@ export type MenuType = {
     reducedPrice?: number;
     isDiscountProcentual?: boolean;
     allergens?: string[];
-};
+    nutritionalValues?: string;
+  };

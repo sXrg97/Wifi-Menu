@@ -31,7 +31,15 @@ export const createMenu = async (formData: FormData) => {
     const tables = JSON.parse(formData.get('tables') as string);
     const owner = formData.get('owner') as string;
 
+    // Check if the slug is already in use
     const menusRef = collection(db, 'menus');
+    const slugQuery = query(menusRef, where('slug', '==', slug));
+    const slugSnapshot = await getDocs(slugQuery);
+
+    if (!slugSnapshot.empty) {
+      return { success: false, error: 'Acest slug este deja folosit de un alt meniu' };
+    }
+
     const menuDoc = await addDoc(menusRef, {
       restaurantName,
       slug,
@@ -73,7 +81,7 @@ export const createMenu = async (formData: FormData) => {
       throw new Error('User not found');
     }
 
-    return menuDoc.id;
+    return { success: true, menuId: menuDoc.id };
   } catch (error) {
     console.error('Error creating menu:', error);
     throw error;
@@ -633,6 +641,7 @@ export const editProduct = async (
     product.reducedPrice = editedProduct.reducedPrice;
     product.isDiscountProcentual = editedProduct.isDiscountProcentual;
     product.allergens = editedProduct.allergens;
+    product.nutritionalValues = editedProduct.nutritionalValues;
 
     // Update the category in the menu data
     categories[categoryIndex] = category;

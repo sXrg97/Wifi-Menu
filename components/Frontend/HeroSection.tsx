@@ -44,9 +44,9 @@ export default function HeroSection() {
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
               <h1
-                className={`${cabin.className} text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl`}
+                className={`${cabin.className} font-bold tracking-tight leading-none text-gray-900 dark:text-white max-w-md md:max-w-3xl mx-auto`}
               >
-                <span className="block leading-tight md:leading-3">Wifi Menu</span>
+                <span className="block text-5xl leading-normal">Wifi Menu</span>
                 <span className="block text-3xl text-purple-600 xl:inline">Transformă-ți restaurantul</span>
               </h1>
               <p className="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
