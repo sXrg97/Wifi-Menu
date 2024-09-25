@@ -87,6 +87,7 @@ export default function HeroSection() {
                 src="/mockup-4.png"
                 alt="Prezentare Wifi Menu"
                 layout="fill"
+                loading="eager"
               />
             </div>
           </div>
