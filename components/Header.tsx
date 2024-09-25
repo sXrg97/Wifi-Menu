@@ -17,6 +17,7 @@ const Header = () => {
                     <div className="image-wrapper w-16 h-auto object-contain">
                         <Image
                             alt="Wifi Menu Logo"
+                            title="Wifi Menu Logo"
                             className="w-16 h-auto"
                             src={"/wifi-menu-logo-white.svg"}
                             width={1359}

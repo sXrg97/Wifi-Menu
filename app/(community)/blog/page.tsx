@@ -31,7 +31,8 @@ export default async function Blog() {
                   <div className="relative h-48 sm:h-64">
                     <Image
                       src={post.coverImage}
-                      alt={post.title}
+                      alt={`Imagine de coperta pentru postarea din blog: ${post.title}`}
+                      title={`${post.title} - Coperta pentru blog`}
                       layout="fill"
                       objectFit="cover"
                       className="transition-transform duration-300 ease-in-out group-hover:scale-105"

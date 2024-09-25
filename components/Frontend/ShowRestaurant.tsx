@@ -105,7 +105,8 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       {menu ? (
         <Image
           className="bg-black w-full object-cover h-full"
-          alt="Restaurant Cover Image"
+          alt={`Cover image for ${menu.restaurantName}`}
+          title={`${menu.restaurantName} cover image`}
           src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
           width={1600}
           height={1200}

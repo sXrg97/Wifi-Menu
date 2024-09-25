@@ -16,7 +16,7 @@ import { Providers } from "@/components/Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Wifi Menu | Meniu Digital QR Gratuit - Pentru Afacerea ta",
+    title: "Meniu Digital QR Gratuit - Wifi Menu - Pentru Afacerea ta",
     description: "Creează un meniu digital gratuit cu Wifi Menu. Ideal pentru restaurante si baruri, meniul QR oferă o experiență modernă pe orice dispozitiv.",
     icons: {
         icon: "/wifi-menu-logo-white.svg"
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         google: "sK5u7EouznxBlha4srXeaBD5uzLl1f4je_bI1C3uu1k"
     },
     openGraph: {
-        title: "Wifi Menu | Meniu Digital QR Gratuit - Pentru Afacerea ta",
+        title: "Meniu Digital QR Gratuit - Wifi Menu - Pentru Afacerea ta",
         description: "Creează un meniu digital gratuit cu Wifi Menu. Ideal pentru restaurante si baruri, meniul QR oferă o experiență modernă pe orice dispozitiv.",
         url: "https://wifi-menu.ro",
         images: [
@@ -38,7 +38,10 @@ export const metadata: Metadata = {
         ],
         type: "website",
         locale: "ro_RO"
-    }
+    },
+    alternates: {
+        canonical: 'https://www.wifi-menu.ro',
+    },
 };
 
 export default function RootLayout({
@@ -48,7 +51,7 @@ export default function RootLayout({
 }) {
     return (
         <ClerkProvider>
-                <html lang="en" suppressHydrationWarning>
+                <html lang="ro" suppressHydrationWarning>
                     <head>
                         <GoogleTagManager googleTagManagerId={"GTM-KMKX6JNX"} />
                     </head>

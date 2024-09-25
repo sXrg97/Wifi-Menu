@@ -54,7 +54,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, m
             )}
             <Image
               src={product.image || "/dashboard-cover.webp"}
-              alt={product.name}
+              alt={`Imagine cu ${product.name}`}
+              title={`${product.name} - Poza de produs`}
               width={400}
               height={400}
               className={`object-cover w-full h-full ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}

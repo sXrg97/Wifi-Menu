@@ -41,7 +41,8 @@ export default function ClientsCarousel() {
             <div className="relative aspect-video w-full">
               <Image
                 src={menu.menuPreviewImage || "/dashboard-cover.webp"}
-                alt={`Preview for ${menu.restaurantName}`}
+                alt={`Preview for ${menu.restaurantName} menu`}
+                title={`${menu.restaurantName} menu preview`}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-t-lg"

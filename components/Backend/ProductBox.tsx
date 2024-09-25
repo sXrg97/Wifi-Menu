@@ -60,7 +60,8 @@ const ProductBox: React.FC<ProductBoxProps> = ({
                     <Image
                         className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
                         src={product.image || "/dashboard-cover.webp"}
-                        alt={product.description}
+                        alt={`Imagine cu ${product.name}`}
+                        title={`${product.name} - Poza de produs`}
                         width={960}
                         height={960}
                     />

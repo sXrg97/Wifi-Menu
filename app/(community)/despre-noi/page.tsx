@@ -12,7 +12,8 @@ const DespreNoi = () => {
         </p>
         <Image 
           src="/WifiMenu_Showcase.webp"
-          alt="Wifi Menu în acțiune"
+          alt="Wifi Menu in action - aplicatia web pe mobil"
+          title="Wifi Menu pe mobil"
           width={800}
           height={400}
           className="rounded-lg shadow-lg mb-8"

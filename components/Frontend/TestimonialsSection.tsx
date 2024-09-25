@@ -48,9 +48,10 @@ export default function TestimonialsSection() {
                 <div className="flex items-center mb-4">
                   <Image
                     src={testimonial.avatar}
-                    alt={testimonial.name}
-                    width={120}
-                    height={120}
+                    alt={`Poza lui ${testimonial.name}`}
+                    title={`${testimonial.name} - ${testimonial.role}`}
+                    width={64}
+                    height={64}
                     className="rounded-full"
                   />
                   <div className="ml-4">

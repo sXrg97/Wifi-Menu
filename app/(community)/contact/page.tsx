@@ -164,6 +164,7 @@ const Contact = () => {
         <Image 
           src="/wifi-menu-logo-white-on-purple-bg.png"
           alt="Wifi Menu pe diverse dispozitive"
+          title="Wifi Menu pe diverse dispozitive"
           width={600}
           height={300}
           className="rounded-lg max-w-xs"

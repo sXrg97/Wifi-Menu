@@ -49,7 +49,7 @@ export default function HeroSection() {
                 className={`${cabin.className} font-bold tracking-tight leading-none text-gray-900 dark:text-white max-w-md md:max-w-3xl mx-auto`}
               >
                 <span className="block text-5xl leading-normal">Wifi Menu</span>
-                <span className="block text-3xl text-purple-600 xl:inline">Transformă-ți restaurantul</span>
+                <span className="block text-3xl text-purple-600 xl:inline">Meniu Digital QR</span>
               </h1>
               <p className="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
                 Îmbunătățește experiența clienților tăi într-un adevărat festin digital! Creează ușor meniul online al restaurantului tău și generează coduri QR pentru mese.
