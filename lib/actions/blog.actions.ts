@@ -32,7 +32,13 @@ export async function createBlogPost(formData: FormData) {
     coverImageUrl = await getDownloadURL(snapshot.ref)
   }
 
-  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+  const slug = title.toLowerCase()
+    .replace(/[ăâ]/g, 'a')
+    .replace(/[îí]/g, 'i')
+    .replace(/[șş]/g, 's')
+    .replace(/[țţ]/g, 't')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '')
 
   const postData = {
     title,
