@@ -39,9 +39,6 @@ export const metadata: Metadata = {
         type: "website",
         locale: "ro_RO"
     },
-    alternates: {
-        canonical: 'https://www.wifi-menu.ro',
-    },
 };
 
 export default function RootLayout({
