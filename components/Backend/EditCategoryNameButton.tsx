@@ -53,6 +53,14 @@ const EditCategoryNameButton = ({
                     variant: "success",
                     title: `Succes! 🎉`,
                     description: `Numele categoriei a fost actualizat!`,
+                    duration: 2000,
+                    style: {
+                        position: "fixed",
+                        bottom: 10,
+                        right: 10,
+                        left: 10,
+                        width: '95%'
+                    }
                 });
                 setMenu(responseMenu);
             }

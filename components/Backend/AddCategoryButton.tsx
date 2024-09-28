@@ -50,6 +50,14 @@ const AddCategoryButton = ({
                     variant: "success",
                     title: `Succes! 🎉`,
                     description: `Categoria ${categoryName} a fost creata!`,
+                    duration: 2000,
+                    style: {
+                        position: "fixed",
+                        bottom: 10,
+                        right: 10,
+                        left: 10,
+                        width: '95%'
+                    }
                 });
                 setMenu(res.updatedMenu);
                 // setIsOpen(false);
