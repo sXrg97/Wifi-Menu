@@ -68,7 +68,7 @@ const AddCategoryButton = ({
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">
+                <Button variant="outline" className="add-category-button">
                     <PlusIcon /> Categorie
                 </Button>
             </DialogTrigger>
@@ -95,7 +95,7 @@ const AddCategoryButton = ({
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button type="submit" onClick={handleSave} className="bg-purple-500">
+                        <Button type="submit" onClick={handleSave} className="bg-purple-500 save-category-button">
                             Salvează
                         </Button>
                     </DialogClose>

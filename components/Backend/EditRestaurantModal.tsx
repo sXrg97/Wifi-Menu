@@ -82,7 +82,7 @@ const EditRestaurantModal = ({
     return (
         <Dialog>
             <DialogTrigger asChild className="flex">
-                <Button variant="outline">
+                <Button variant="outline" className="edit-menu-button">
                     <PenIcon className="mr-1" />
                     Editeaza meniu
                 </Button>

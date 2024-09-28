@@ -24,15 +24,18 @@ import { Switch } from "../ui/switch";
 import { ALLERGENS, DEFAULT_PRODUCT } from "@/lib/constants";
 import { Badge } from "../ui/badge";
 import { generateSlug, getAllergenInRomanian } from "@/lib/utils";
+import TourGuideAddProduct from "../Backend/TourGuideAddProduct";
 
 const AddNewProductToCategory = ({
     categoryName,
     menuId,
     setMenu,
+    hasFinishedTutorial
 }: {
     categoryName: string;
     menuId: string | null;
     setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
+    hasFinishedTutorial?: boolean;
 }) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -180,191 +183,201 @@ const AddNewProductToCategory = ({
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-                <Button
-                    variant="outline"
-                    className="border-dashed border-gray-400 h-full"
-                    onClick={() => setIsOpen(true)}
-                >
-                    <PlusIcon /> Produs
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-[90vw] md:max-w-[600px] overflow-auto max-h-[90vh]">
-                <DialogHeader>
-                    <DialogTitle>Adauga un produs nou in categoria {categoryName}</DialogTitle>
-                    <DialogDescription>Introduceti datele si salvati.</DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-2">
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label htmlFor="productPicture" className="md:text-left">
-                            Imagine
-                        </Label>
-                        <Input
-                            type="file"
-                            accept="image/*"
-                            name="productPicture"
-                            id="productPicture"
-                            className="col-span-3"
-                            onChange={handleImageChange}
-                        />
-                        {imagePreview && (
-                            <>
-                                <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"></span>{" "}
-                                <Image alt="product image" src={imagePreview} width={100} height={100} />
-                            </>
-                        )}
-                    </div>
-                </div>
-
-                <div className="grid gap-2">
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="md:text-left">
-                            Nume *
-                        </Label>
-                        <Input
-                            name="name"
-                            type="text"
-                            id="name"
-                            placeholder="eg. Carbonara"
-                            className="col-span-3"
-                            onChange={(e) => onChangeHandler(e)}
-                            value={product.name}
-                            required
-                        />
-                    </div>
-                </div>
-
-                <div className="grid gap-2">
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label htmlFor="price" className="md:text-left">
-                            Pret *
-                        </Label>
-                        <Input
-                            name="price"
-                            type="number"
-                            id="price"
-                            min={0}
-                            step={0.5} // Adjusted step for two decimal places
-                            pattern="^\d*(\.\d{0,2})?$"
-                            placeholder="eg. 23"
-                            className="col-span-3"
-                            onChange={(e) => {
-                                onChangeHandler(e);
-                            }}
-                            value={product.price}
-                            required
-                        />
-                    </div>
-                </div>
-
-                <div className="grid gap-2">
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label htmlFor="description" className="md:text-left">
-                            Descriere *
-                        </Label>
-                        <Input
-                            name="description"
-                            type="text"
-                            id="description"
-                            placeholder="eg. Best pasta in the world 😍"
-                            className="col-span-3"
-                            onChange={(e) => onChangeHandler(e)}
-                            value={product.description}
-                            required
-                        />
-                    </div>
-                </div>
-
-                <div className="grid gap-2">
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label htmlFor="nutritionalValues" className="md:text-left">
-                            Valori Nutritionale
-                        </Label>
-                        <div className="col-span-3 flex gap-2 flex-col">
-                            <textarea
-                                name="nutritionalValues"
-                                id="nutritionalValues"
-                                placeholder="eg. 310 kcal, 12g proteine, 15g lipide, 35g carbohidrati"
-                                className="flex-grow flex h-16 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                onChange={(e) => onChangeHandler(e)}
-                                value={product.nutritionalValues}
-                            />
-                            
-                            <p className="text-xs text-gray-500">
-                                Valorile generate cu AI sunt aproximative. Acestea se bazează pe gramajele alimentelor din descrierea produsului.
-                            </p>
-
-                            <Button type="button" className={`flex-1 ${isGenerating && "bg-yellow-400"} transition-colors`} onClick={handleGenerateNutritionalValues}>
-                                {isGenerating ? <Loader2 className="animate-spin" /> : <><Sparkles className="size-5 mr-1" /> Genereaza cu AI</>}
-                            </Button>
+        <>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogTrigger asChild>
+                    <>
+                    {!hasFinishedTutorial && (
+                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1000 }}>
+                            <TourGuideAddProduct menuId={menuId} />
                         </div>
-                    </div>
-                </div>
-
-                <div className="grid gap-2">
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label className="md:text-left">Alergeni:</Label>
-                        <div className="flex flex-wrap gap-1 col-span-3">
-                            {ALLERGENS.map((allergen) => (
-                                <Badge variant={product.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{getAllergenInRomanian(allergen)}</Badge>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid gap-2">
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label className="md:text-left">Pretul e redus?</Label>
-                        <Switch
-                            checked={product.isReduced}
-                            onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isReduced: e }))}
-                        />
-                    </div>
-                </div>
-
-                <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label htmlFor="reducedPrice" className="md:text-left">
-                            Reducere
-                        </Label>
-                        <Input
-                            name="reducedPrice"
-                            type="number"
-                            id="price"
-                            step={0.5} // Adjusted step for two decimal places
-                            pattern="^\d*(\.\d{0,2})?$"
-                            placeholder="eg. 23"
-                            className="col-span-3"
-                            onChange={(e) => {
-                                onChangeHandler(e);
-                            }}
-                            value={product.reducedPrice}
-                        />
-                    </div>
-                </div>
-
-                <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
-                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
-                        <Label className="md:text-left">Reducere procentuala? (%)</Label>
-                        <Switch
-                            checked={product.isDiscountProcentual}
-                            onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
-                        />
-                    </div>
-                </div>
-                <DialogFooter className="flex flex-col md:flex-row gap-2">
-                    <Button type="submit" onClick={handleSave} className="bg-purple-500">
-                        {isUpdating ? <Loader2 className="animate-spin" /> : "Salvează"}
-                    </Button>
-                    <DialogClose
-                        asChild
+                    )}
+                    <Button
+                        variant="outline"
+                        className="border-dashed border-gray-400 h-full add-product-button"
+                        onClick={() => setIsOpen(true)}
                     >
-                        <Button onClick={() => setIsOpen(false)}>Închide</Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                        <PlusIcon /> Produs
+                    </Button>
+                    
+                    </>
+                </DialogTrigger>
+                <DialogContent className="max-w-[90vw] md:max-w-[600px] overflow-auto max-h-[90vh]">
+                    <DialogHeader>
+                        <DialogTitle>Adauga un produs nou in categoria {categoryName}</DialogTitle>
+                        <DialogDescription>Introduceti datele si salvati.</DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                            <Label htmlFor="productPicture" className="md:text-left">
+                                Imagine
+                            </Label>
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                name="productPicture"
+                                id="productPicture"
+                                className="col-span-3"
+                                onChange={handleImageChange}
+                            />
+                            {imagePreview && (
+                                <>
+                                    <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"></span>{" "}
+                                    <Image alt="product image" src={imagePreview} width={100} height={100} />
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                            <Label htmlFor="name" className="md:text-left">
+                                Nume *
+                            </Label>
+                            <Input
+                                name="name"
+                                type="text"
+                                id="name"
+                                placeholder="eg. Carbonara"
+                                className="col-span-3 product-name-input"
+                                onChange={(e) => onChangeHandler(e)}
+                                value={product.name}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4 product-price-input">
+                            <Label htmlFor="price" className="md:text-left">
+                                Pret *
+                            </Label>
+                            <Input
+                                name="price"
+                                type="number"
+                                id="price"
+                                min={0}
+                                step={0.5} // Adjusted step for two decimal places
+                                pattern="^\d*(\.\d{0,2})?$"
+                                placeholder="eg. 23"
+                                className="col-span-3"
+                                onChange={(e) => {
+                                    onChangeHandler(e);
+                                }}
+                                value={product.price}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4 product-description-input">
+                            <Label htmlFor="description" className="md:text-left">
+                                Descriere *
+                            </Label>
+                            <Input
+                                name="description"
+                                type="text"
+                                id="description"
+                                placeholder="eg. Best pasta in the world 😍"
+                                className="col-span-3"
+                                onChange={(e) => onChangeHandler(e)}
+                                value={product.description}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4 product-nutritional-input">
+                            <Label htmlFor="nutritionalValues" className="md:text-left">
+                                Valori Nutritionale
+                            </Label>
+                            <div className="col-span-3 flex gap-2 flex-col">
+                                <textarea
+                                    name="nutritionalValues"
+                                    id="nutritionalValues"
+                                    placeholder="eg. 310 kcal, 12g proteine, 15g lipide, 35g carbohidrati"
+                                    className="flex-grow flex h-16 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    onChange={(e) => onChangeHandler(e)}
+                                    value={product.nutritionalValues}
+                                />
+                                
+                                <p className="text-xs text-gray-500">
+                                    Valorile generate cu AI sunt aproximative. Acestea se bazează pe gramajele alimentelor din descrierea produsului.
+                                </p>
+
+                                <Button type="button" className={`flex-1 ${isGenerating && "bg-yellow-400"} transition-colors`} onClick={handleGenerateNutritionalValues}>
+                                    {isGenerating ? <Loader2 className="animate-spin" /> : <><Sparkles className="size-5 mr-1" /> Genereaza cu AI</>}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                            <Label className="md:text-left">Alergeni:</Label>
+                            <div className="flex flex-wrap gap-1 col-span-3">
+                                {ALLERGENS.map((allergen) => (
+                                    <Badge variant={product.allergens?.includes(allergen) ? "default" : "outline"} key={`${generateSlug(product.name)}_alergen_${allergen}`} className="text-xs cursor-pointer" onClick={() => handleAllergenChange(allergen)}>{getAllergenInRomanian(allergen)}</Badge>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                            <Label className="md:text-left">Pretul e redus?</Label>
+                            <Switch
+                                checked={product.isReduced}
+                                onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isReduced: e }))}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                            <Label htmlFor="reducedPrice" className="md:text-left">
+                                Reducere
+                            </Label>
+                            <Input
+                                name="reducedPrice"
+                                type="number"
+                                id="price"
+                                step={0.5} // Adjusted step for two decimal places
+                                pattern="^\d*(\.\d{0,2})?$"
+                                placeholder="eg. 23"
+                                className="col-span-3"
+                                onChange={(e) => {
+                                    onChangeHandler(e);
+                                }}
+                                value={product.reducedPrice}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={`${product.isReduced ? "grid" : "hidden"} gap-2`}>
+                        <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                            <Label className="md:text-left">Reducere procentuala? (%)</Label>
+                            <Switch
+                                checked={product.isDiscountProcentual}
+                                onCheckedChange={(e) => setProduct((prev) => ({ ...prev, isDiscountProcentual: e }))}
+                            />
+                        </div>
+                    </div>
+                    <DialogFooter className="flex flex-col md:flex-row gap-2">
+                        <Button type="submit" onClick={handleSave} className="bg-purple-500 save-product-button">
+                            {isUpdating ? <Loader2 className="animate-spin" /> : "Salvează"}
+                        </Button>
+                        <DialogClose
+                            asChild
+                        >
+                            <Button onClick={() => setIsOpen(false)}>Închide</Button>
+                        </DialogClose>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+            </>
     );
 };
 

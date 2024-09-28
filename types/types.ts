@@ -1,5 +1,6 @@
 export type MenuType = {
     _id: string;
+    hasFinishedTutorial?:boolean;
     restaurantName: string;
     isLive: boolean;
     slug: string;

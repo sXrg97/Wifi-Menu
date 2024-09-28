@@ -18,6 +18,7 @@ import EditCategoryNameButton from "../Backend/EditCategoryNameButton";
 import ImportantUpdates from "./ImportantUpdates";
 import QRPreviewer from "./QRPreviewer";
 import ProductModal from '../Frontend/ProductModal';
+import TourGuideDashboard from "../Backend/TourGuideDashboard";
 
 const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
     const [menu, setMenu] = useState<null | MenuType>(null);
@@ -88,6 +89,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
     return (
         <div>
+        {menu && !menu.hasFinishedTutorial && <TourGuideDashboard />}
             <div className="w-full mb-8">{menu && <ImportantUpdates menuId={menu._id} />}</div>
             <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg relative mb-4">
                 {menu ? (
@@ -131,7 +133,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
             {menu && menu.tables && (
     <div className="flex items-center gap-x-8 gap-y-4 mb-6 flex-wrap">
         {menu.tables.map((table, i) => (
-            <div className="flex gap-2" key={`table_${table.tableNumber}`}>
+            <div className="flex gap-2 see-table-button" key={`table_${table.tableNumber}`}>
                 <Button variant={"outline"}>
                     <Link href={`/menu/${menu.slug}?table=${table.tableNumber}`}>
                         Vezi masa {table.tableNumber}
@@ -199,7 +201,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                                     />
                                 ))}
 
-                            <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} />
+                            <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} hasFinishedTutorial={menu.hasFinishedTutorial} />
                         </div>
                     </div>
                 ))}
