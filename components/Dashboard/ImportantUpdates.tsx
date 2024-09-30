@@ -30,8 +30,8 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
         catch (err) {
             toast({
                 variant: "destructive",
-                title: `Error! 😢`,
-                description: `There was an error calling the waiter`,
+                title: `Eroare! 😢`,
+                description: `A apărut o eroare la chemarea ospătarului`,
             })
             console.log("Error trying to call for waiter", err)
         }
@@ -43,7 +43,7 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
             toast({
                 variant: "success",
                 title: `Succes! 🎉`,
-                description: `Request bill request was resolved!`,
+                description: `Solicitarea notei a fost rezolvată!`,
             })
         }
         catch (err) {

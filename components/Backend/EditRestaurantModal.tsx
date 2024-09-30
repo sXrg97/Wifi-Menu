@@ -60,7 +60,7 @@ const EditRestaurantModal = ({
             toast({
                 variant: "success",
                 title: `Succes! 🎉`,
-                description: `Menu updated successfully!`,
+                description: `Meniul a fost actualizat cu succes!`,
             });
 
             setMenu(res.jsonifiedUpdatedMenu);

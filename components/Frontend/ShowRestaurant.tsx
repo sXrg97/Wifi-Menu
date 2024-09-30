@@ -50,15 +50,15 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
         toast({
           variant: "success",
           title: `Succes! 🎉`,
-          description: `Waiter called!`,
+          description: `Ospătarul a fost chemat!`,
         })
       }
 
     } catch (err) {
       toast({
         variant: "destructive",
-        title: `Error! 😢`,
-        description: `There was an error calling the waiter`,
+        title: `Eroare! 😢`,
+        description: `A apărut o eroare la chemarea ospătarului`,
       })
       console.log("Error trying to call for waiter", err)
     }
@@ -77,15 +77,15 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
         toast({
           variant: "success",
           title: `Succes! 🎉`,
-          description: `Bill requested!`,
+          description: `Nota a fost solicitată!`,
         })
       }
 
     } catch (err) {
       toast({
         variant: "destructive",
-        title: `Error! 😢`,
-        description: `There was an error requesting the bill`,
+        title: `Eroare! 😢`,
+        description: `A apărut o eroare la solicitarea notei`,
       })
 
       console.log("Error trying to call for waiter", err)
@@ -94,21 +94,18 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
 
   return (
   <>
-    <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4 ">
-      {menu ? (
-        <Image
-          className="bg-black w-full object-cover h-full"
-          alt={`Cover image for ${menu.restaurantName}`}
-          title={`${menu.restaurantName} cover image`}
-          src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
-          width={1600}
-          height={1200}
-        />
-      ) : (
-        <Skeleton className="w-full h-full bg-black" />
-      )}
-
-    </div>
+    {menu && menu.menuPreviewImage &&
+      <div className="w-full h-96 overflow-hidden shadow-lg relative mb-4 ">
+          <Image
+            className="bg-black w-full object-cover h-full"
+            alt={`Poza de coperta pentru ${menu.restaurantName}`}
+            title={`${menu.restaurantName} cover image`}
+            src={`${menu?.menuPreviewImage ? menu.menuPreviewImage : '/dashboard-cover.webp'}`}
+            width={1600}
+            height={1200}
+          />
+      </div>
+    }
     
     <div className="container mx-auto px-4 py-8">
 
@@ -174,14 +171,17 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
           tableNumber={searchParams.get('table')!}
       />
 
-      {menu && searchParams.get('table') && <CartSidebar menuId={menu._id} tableNumber={searchParams.get('table')!} isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
+      {/* {menu && searchParams.get('table') && <CartSidebar menuId={menu._id} tableNumber={searchParams.get('table')!} isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
 
-      <Button
-        className="fixed size-16 bottom-8 right-8 rounded-full p-3 bg-black hover:bg-gray-900 dark:bg-white dark:hover:bg-gray-200 transition-all duration-200"
-        onClick={() => setIsCartOpen(true)}
-      >
-        <ShoppingCart className="h-6 w-6 text-white dark:text-black" />
-      </Button>
+      {menu && searchParams.get('table') && 
+        <Button
+          className="fixed size-16 bottom-8 right-8 rounded-full p-3 bg-black hover:bg-gray-900 dark:bg-white dark:hover:bg-gray-200 transition-all duration-200"
+          onClick={() => setIsCartOpen(true)}
+        >
+          <ShoppingCart className="h-6 w-6 text-white dark:text-black" />
+        </Button>
+      } */}
+      {/* TODO: De activat cand terminam func. de comanda la masa  */}
     </div>
     </>
   );
