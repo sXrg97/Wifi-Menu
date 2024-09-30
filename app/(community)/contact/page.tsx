@@ -143,7 +143,7 @@ const Contact = () => {
             </div>
             <div className="mb-4 flex items-center">
               <Phone className="mr-2 text-purple-600" />
-              <a href="tel:+40773784220">+40 773 784 220</a>
+              <a href="tel:+40750255504">+40 750 255 504</a>
             </div>
           </div>
         </div>

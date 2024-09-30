@@ -35,14 +35,7 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       setSelectedProduct(null);
   };
 
-  useEffect(() => {
-    const tableNumber = searchParams.get('table');
-
-    if (!tableNumber) {
-      console.log('No table number found, redirecting to table 1');
-      router.replace('?table=1');
-    }
-  }, [searchParams, router]);
+  const tableNumber = searchParams.get('table');
 
   const handleCallWaiter = async () => {
     const tableNumber = Number(searchParams.get('table'));
@@ -126,47 +119,52 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
         {searchParams.get('table') &&
           <div className="flex max-w-7xl gap-4 mb-8 flex-wrap">
             <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center w-fit' onClick={handleCallWaiter}><ConciergeBell className='mr-2' /> Cheamă ospătarul</Button>
-            <Button className='call-for-waiter  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><Receipt className='mr-2' /> Cere nota</Button>
+            <Button className='request-bill  p-2 rounded-sm flex items-center justify-center' onClick={handleRequestBill}><Receipt className='mr-2' /> Cere nota</Button>
           </div>
         }
 
         <ul className='flex gap-6 mb-8 overflow-scroll no-scrollbar sticky top-0 py-4 bg-white dark:bg-gray-950 z-50'>
           {menu &&
             menu.categories.map((category, i) => (
-              <li key={`category_${i}`}>
-                <a className='dark:text-white dark:hover:text-gray-100  text-gray-500 hover:text-gray-600 transition-colors text-nowrap uppercase font-semibold' href={`#${generateSlug(category.name)}`}>{category.name}</a>
-              </li>
+              // Check if the category has products before rendering the link
+              category.products.length > 0 && (
+                <li key={`category_${i}`}>
+                  <a className='dark:text-white dark:hover:text-gray-100 text-gray-500 hover:text-gray-600 transition-colors text-nowrap uppercase font-semibold' href={`#${generateSlug(category.name)}`}>
+                    {category.name}
+                  </a>
+                </li>
+              )
             ))}
         </ul>
 
         {menu &&
           menu.categories.map((category, i) => (
-            <div className='mb-8' key={`category_${i}`} id={generateSlug(category.name)}>
-              <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
+            // Check if the category has products before rendering
+            category.products.length > 0 && (
+              <div className='mb-8' key={`category_${i}`} id={generateSlug(category.name)}>
+                <h3 className="categoryName font-bold text-2xl mb-2">{category.name}</h3>
 
-              <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
-  {category.products.map((product, j) => {
-    currentProductRendering++;
-    return (
-    <React.Fragment key={`${product.name}_${j}`}>
-      <div className={`product-box-wrapper ${j}`}>
-        <ProductBox product={product} admin={false} openModal={openModal}/>
-      </div>
+                <div className={`category-${category.name}-wrapper mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
+                  {category.products.map((product, j) => {
+                    currentProductRendering++;
+                    return (
+                      <React.Fragment key={`${product.name}_${j}`}>
+                        <div className={`product-box-wrapper ${j}`}>
+                          <ProductBox product={product} admin={false} openModal={openModal}/>
+                        </div>
 
-      {currentProductRendering % 5 === 0 && (
-        <div className="ad-wrapper col-span-1">
-          <AdSenseAd />
-        </div>
-      )}
-
-      
-    </React.Fragment>
-  )})}
-</div>
-
-            </div>
-          )
-          )}
+                        {currentProductRendering % 5 === 0 && new Date() > new Date(menu.subscriptionEndDate!) && (
+                          <div className="ad-wrapper col-span-1">
+                            <AdSenseAd />
+                          </div>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
+              </div>
+            )
+          ))}
       </div>
       <ProductModal
           isOpen={isModalOpen}

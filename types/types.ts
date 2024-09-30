@@ -11,6 +11,9 @@ export type MenuType = {
       products: ProductType[];
     }[];
     tables: [{tableNumber: number, callWaiter: boolean, requestBill: boolean}]
+    subscriptionEndDate?: string;
+    paymentStatus?:string;
+    stripeSessionId?:string;
   };
 
   export type ProductType = {

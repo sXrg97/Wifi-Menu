@@ -132,6 +132,13 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
             {menu && menu.tables && (
     <div className="flex items-center gap-x-8 gap-y-4 mb-6 flex-wrap">
+        <div className="flex gap-2 see-table-button">
+            <Button variant={"outline"}>
+                <Link href={`/menu/${menu.slug}`}>
+                    Vezi meniul
+                </Link>
+            </Button>
+        </div>
         {menu.tables.map((table, i) => (
             <div className="flex gap-2 see-table-button" key={`table_${table.tableNumber}`}>
                 <Button variant={"outline"}>
