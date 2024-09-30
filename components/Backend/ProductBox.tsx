@@ -18,6 +18,7 @@ interface ProductBoxProps {
     categoryName?: string;
     setMenu?: React.Dispatch<React.SetStateAction<MenuType | null>>;
     openModal: (product: ProductType) => void;
+    subscriptionEndDate?: string;
 }
 
 const ProductBox: React.FC<ProductBoxProps> = ({
@@ -26,7 +27,8 @@ const ProductBox: React.FC<ProductBoxProps> = ({
     menuId,
     categoryName,
     setMenu,
-    openModal
+    openModal,
+    subscriptionEndDate
 }) => {
     const { toast } = useToast();
 
@@ -122,7 +124,7 @@ const ProductBox: React.FC<ProductBoxProps> = ({
             {admin && (
                 <div className="p-4 bg-neutral-200 dark:bg-purple-800 flex justify-between items-center gap-2">
                 
-                    <EditProductModal product={product} menuId={menuId} categoryName={categoryName} setMenu={setMenu} />
+                    <EditProductModal product={product} menuId={menuId} categoryName={categoryName} setMenu={setMenu} subscriptionEndDate={subscriptionEndDate!} />
 
                     {product._id && menuId && categoryName && (
                         <Button

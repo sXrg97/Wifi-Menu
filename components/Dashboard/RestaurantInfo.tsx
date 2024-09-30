@@ -138,6 +138,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     Vezi meniul
                 </Link>
             </Button>
+            <QRPreviewer menuName={menu.restaurantName} slug={menu.slug} />
         </div>
         {menu.tables.map((table, i) => (
             <div className="flex gap-2 see-table-button" key={`table_${table.tableNumber}`}>
@@ -205,10 +206,11 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                                         categoryName={category.name}
                                         setMenu={setMenu}
                                         openModal={openModal}
+                                        subscriptionEndDate={menu.subscriptionEndDate}
                                     />
                                 ))}
 
-                            <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} hasFinishedTutorial={menu.hasFinishedTutorial} />
+                            <AddNewProductToCategory categoryName={category.name} menuId={menuId} setMenu={setMenu} hasFinishedTutorial={menu.hasFinishedTutorial} subscriptionEndDate={menu.subscriptionEndDate} />
                         </div>
                     </div>
                 ))}
@@ -217,13 +219,6 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
                     <Loader2Icon className="animate-spin text-black" size={64} />
                 </div>
             )}
-            <ProductModal
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                product={selectedProduct}
-                menuId={menuId!}
-                tableNumber={"1"}
-            />
         </div>
     );
 };

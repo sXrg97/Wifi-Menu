@@ -58,6 +58,7 @@ export default function PricingSection() {
       className="bg-white p-4 md:p-8 py-6 md:py-12 w-full dark:bg-gray-950 max-w-6xl mx-auto"
       data-aos="fade-up"
       data-aos-offset="200"
+      id="pricing-section"
     >
       <div className="mx-auto max-w-7xl px-0">
         <div className="mx-auto max-w-4xl text-center">

@@ -25,17 +25,21 @@ import { ALLERGENS, DEFAULT_PRODUCT } from "@/lib/constants";
 import { Badge } from "../ui/badge";
 import { generateSlug, getAllergenInRomanian } from "@/lib/utils";
 import TourGuideAddProduct from "../Backend/TourGuideAddProduct";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import Link from "next/link";
 
 const AddNewProductToCategory = ({
     categoryName,
     menuId,
     setMenu,
-    hasFinishedTutorial
+    hasFinishedTutorial,
+    subscriptionEndDate
 }: {
     categoryName: string;
     menuId: string | null;
     setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
     hasFinishedTutorial?: boolean;
+    subscriptionEndDate?: string;
 }) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -307,9 +311,21 @@ const AddNewProductToCategory = ({
                                     Valorile generate cu AI sunt aproximative. Acestea se bazează pe gramajele alimentelor din descrierea produsului.
                                 </p>
 
-                                <Button type="button" className={`flex-1 ${isGenerating && "bg-yellow-400"} transition-colors`} onClick={handleGenerateNutritionalValues}>
-                                    {isGenerating ? <Loader2 className="animate-spin" /> : <><Sparkles className="size-5 mr-1" /> Genereaza cu AI</>}
-                                </Button>
+                                {new Date() < new Date(subscriptionEndDate!)
+                                ? 
+                                    <Button type="button" className={`flex-1 ${isGenerating && "bg-yellow-400"} transition-colors`} onClick={handleGenerateNutritionalValues}>
+                                        {isGenerating ? <Loader2 className="animate-spin" /> : <><Sparkles className="size-5 mr-1" /> Genereaza cu AI</>}
+                                    </Button>
+                                :
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button variant="default" className="w-full"><Sparkles className="size-5 mr-1" /> Genereaza cu AI</Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <p>Aceasta este o functionalitate premium. <Link href={'/#pricing-section'} style={{textDecoration: 'underline'}}>Treceti la PRO</Link></p>
+                                        </PopoverContent>
+                                    </Popover>
+                            }
                             </div>
                         </div>
                     </div>
