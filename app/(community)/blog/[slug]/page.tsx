@@ -1,5 +1,6 @@
 import { getBlogPostBySlug } from '@/lib/actions/blog.actions'
 import Image from 'next/image'
+import { Metadata } from 'next';
 
 export interface Post {
   id: string;
@@ -9,11 +10,26 @@ export interface Post {
   // ... other properties
 }
 
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const post = await getBlogPostBySlug(params.slug);
+
+  return {
+    title: post ? `${post.title} - Wifi Menu` : "Post not found - Wifi Menu",
+    description: post ? `Citiți articolul "${post.title}" pe Wifi Menu` : "Articolul nu a fost găsit.",
+    openGraph: {
+      title: post ? `${post.title} - Wifi Menu` : "Post not found - Wifi Menu",
+      description: post ? `Citiți articolul "${post.title}" pe Wifi Menu` : "Articolul nu a fost găsit.",
+      url: `https://wifi-menu.ro/blog/${params.slug}`,
+      images: [post?.coverImage || '/default-image.jpg'], // Use a default image if coverImage is not available
+    },
+  };
+}
+
 export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = await getBlogPostBySlug(params.slug)
+  const post = await getBlogPostBySlug(params.slug);
 
   if (!post) {
-    return <div>Post not found</div> // Or handle the null case as appropriate
+    return <div>Post not found</div>; // Handle the null case as appropriate
   }
 
   // Ensure post is of type Post

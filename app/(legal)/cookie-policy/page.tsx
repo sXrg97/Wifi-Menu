@@ -1,3 +1,23 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Politica de Cookie-uri - Wifi Menu",
+    description: "Citiți politica de cookie-uri a Wifi Menu pentru a înțelege cum utilizăm cookie-urile.",
+    openGraph: {
+        title: "Politica de Cookie-uri - Wifi Menu",
+        description: "Citiți politica de cookie-uri a Wifi Menu pentru a înțelege cum utilizăm cookie-urile.",
+        url: "https://wifi-menu.ro/legal/cookie-policy",
+        images: [
+            {
+                url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png", // Logo URL
+                width: 1200,
+                height: 630,
+                alt: "Logo Wifi Menu"
+            }
+        ],
+    },
+};
+
 const CookiePolicy = () => {
     return (
         <div className="w-full bg-gray-100 text-gray-900 py-16">

@@ -1,3 +1,23 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Termeni și Condiții - Wifi Menu",
+  description: "Citiți termenii și condițiile de utilizare a serviciilor Wifi Menu.",
+  openGraph: {
+    title: "Termeni și Condiții - Wifi Menu",
+    description: "Citiți termenii și condițiile de utilizare a serviciilor Wifi Menu.",
+    url: "https://wifi-menu.ro/legal/terms-and-conditions",
+    images: [
+      {
+        url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png", // Logo URL
+        width: 1200,
+        height: 630,
+        alt: "Logo Wifi Menu"
+      }
+    ],
+  },
+};
+
 const TermsAndConditions = () => {
     return (
         <div className="w-full bg-gray-100 text-gray-900 py-16">

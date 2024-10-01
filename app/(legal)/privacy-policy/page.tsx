@@ -1,3 +1,22 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Politica de Confidențialitate - Wifi Menu",
+    description: "Citiți politica de confidențialitate a Wifi Menu pentru a înțelege cum colectăm, utilizăm și protejăm informațiile dvs. personale.",
+    openGraph: {
+        title: "Politica de Confidențialitate - Wifi Menu",
+        description: "Citiți politica de confidențialitate a Wifi Menu pentru a înțelege cum colectăm, utilizăm și protejăm informațiile dvs. personale.",
+        url: "https://wifi-menu.ro/legal/privacy-policy",
+        images: [
+            {
+                url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png", // Logo URL
+                width: 1200,
+                height: 630,
+                alt: "Logo Wifi Menu"
+            }
+        ],
+    },
+};
 
 const PrivacyPolicy = () => {
     return (

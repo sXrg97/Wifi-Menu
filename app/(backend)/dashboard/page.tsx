@@ -1,62 +1,34 @@
-'use client'
+import DashboardPageComponent from "./DashboardPageComponent";
 
-import { useEffect, useState, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
-import RestaurantInfo from '@/components/Dashboard/RestaurantInfo'
-import { checkUserOrCreate } from '@/lib/actions/user.actions'
-import { useUser } from '@clerk/nextjs'
-import RestaurantSetup from '@/components/Backend/RestaurantSetup'
-import { Loader } from 'lucide-react'
+export const metadata = {
+  title: "Panou de Control - Wifi Menu",
+  description: "Accesează și gestionează toate funcționalitățile aplicației Wifi Menu din panoul de control. Monitorizează activitatea, gestionează meniurile și optimizează experiența clienților.",
+  openGraph: {
+    title: "Panou de Control - Wifi Menu",
+    description: "Accesează și gestionează toate funcționalitățile aplicației Wifi Menu din panoul de control. Monitorizează activitatea, gestionează meniurile și optimizează experiența clienților.",
+    url: "https://wifi-menu.ro/dashboard",
+    type: "website",
+    locale: "ro_RO",
+    images: [
+      {
+        url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Panou de Control Wifi Menu"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Panou de Control - Wifi Menu",
+    description: "Accesează și gestionează toate funcționalitățile aplicației Wifi Menu din panoul de control. Monitorizează activitatea, gestionează meniurile și optimizează experiența clienților.",
+    image: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png"
+  }
+};
 
 const Dashboard = () => {
-  const [menuId, setMenuId] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const { isLoaded, isSignedIn, user } = useUser()
-  const router = useRouter()
-
-  const createOrGetMenu = useCallback(async () => {
-    if (isSignedIn) {
-      try {
-        const id = user?.id
-        const email = user?.primaryEmailAddress?.emailAddress
-        const thisMenuId = await checkUserOrCreate(id, email || "")
-        setMenuId(thisMenuId)
-      } catch (error) {
-        console.error('Error creating or retrieving menu:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-  }, [isSignedIn, user?.id, user?.primaryEmailAddress?.emailAddress]);
-
-  useEffect(() => {
-    async function fetchData() {
-      console.log("checking")
-      await createOrGetMenu()
-    }
-    fetchData()
-  }, [isLoaded, isSignedIn, user, createOrGetMenu]) // Added createOrGetMenu to the dependency array
-
-  if (loading) {
-    return <div className='min-h-[60vh] flex w-full items-center justify-center'><Loader className='animate-spin size-8 text-purple-600' /></div>
-  }
-
-  if (!menuId) {
-    return <RestaurantSetup createOrGetMenu={createOrGetMenu} />
-  }
-
   return (
-    <main>
-      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
-        <h1 className='text-4xl font-bold mb-4 dashboard-title'>
-          Dashboard
-        </h1>
-        
-        <main>
-          <RestaurantInfo menuId={menuId} />
-        </main>
-      </div>
-    </main>
+    <DashboardPageComponent />
   )
 }
 

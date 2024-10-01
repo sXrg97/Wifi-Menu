@@ -1,47 +1,46 @@
-"use client"
+import { Metadata, ResolvingMetadata } from 'next';
+import { fetchMenuBySlug } from '@/lib/actions/menu.actions'; // Adjust the import based on your file structure
+import FrontendMenu from '@/components/Frontend/FrontendMenu';
 
-import FrontendMenu from "@/components/Frontend/FrontendMenu";
-import Cookies from 'js-cookie';
-import { useEffect } from "react";
-import { fetchMenuBySlug, increaseMenuViews } from "@/lib/actions/menu.actions";
-import { useParams } from "next/navigation";
-
-const Menu = () => {
-    const checkAndIncreaseViews = async (menuId: string) => {
-        const lastVisited = Cookies.get(`lastVisited_${menuId}`);
-
-        if (!lastVisited || (Date.now() - parseInt(lastVisited)) > 20 * 60 * 1000) {
-            // Set new "lastVisited" cookie
-            Cookies.set(`lastVisited_${menuId}`, Date.now().toString());
-
-            // Call increaseMenuViews function
-            await increaseMenuViews(menuId);
-        }
-    };
-
-    // Call the function on component mount
-    const { slug } = useParams();
-
-
-    useEffect(() => {
-        let menuId;
-        const getMenuId = async () => {
-            try {
-                const menu = await fetchMenuBySlug(slug as string);
-                menuId = menu._id;
-                checkAndIncreaseViews(menuId);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        getMenuId();
-    }, [slug]);
-
-    return (
-        <>
-            <FrontendMenu />
-        </>
-    );
+type Props = {
+	params: { slug: string };
+	searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export default Menu;
+export async function generateMetadata(
+	{ params, searchParams }: Props,
+	parent: ResolvingMetadata
+): Promise<Metadata> {
+	const slug = params.slug;
+
+	// Fetch menu data
+	const menu = await fetchMenuBySlug(slug);
+
+	// Optionally access and extend (rather than replace) parent metadata
+	const previousImages = (await parent).openGraph?.images || [];
+
+	return {
+		title: menu ? `${menu.restaurantName} - Wifi Menu` : "Meniu Inexistent - Wifi Menu",
+		openGraph: {
+			title: menu ? `${menu.restaurantName} - Wifi Menu` : "Meniu Inexistent - Wifi Menu",
+			description: menu ? `Descoperă meniul restaurantului ${menu.restaurantName} cu Wifi Menu.` : "Meniul solicitat nu a fost găsit.",
+			url: `https://wifi-menu.ro/menu/${slug}`,
+			images: [`${menu.menuPreviewImage}`, ...previousImages],
+		},
+	};
+}
+
+export default async function Page({ params, searchParams }: Props) {
+	const slug = params.slug;
+	const menu = await fetchMenuBySlug(slug);
+
+	if (!menu) {
+		return <div>Meniul nu a fost găsit.</div>; // Handle the case where the menu is not found
+	}
+
+	return (
+		<main>
+			<FrontendMenu menu={menu} />
+		</main>
+	);
+}

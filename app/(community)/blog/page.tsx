@@ -1,9 +1,35 @@
 import { getBlogPosts } from '@/lib/actions/blog.actions'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Post } from './[slug]/page'
 import { CalendarIcon, ClockIcon } from 'lucide-react'
 import { currentUser } from '@clerk/nextjs/server'
+
+export const metadata = {
+  title: "Blog - Wifi Menu",
+  description: "Explorează cele mai recente articole și informații despre Wifi Menu. Află cum tehnologia poate transforma experiența ta de dining.",
+  openGraph: {
+    title: "Blog - Wifi Menu",
+    description: "Explorează cele mai recente articole și informații despre Wifi Menu. Află cum tehnologia poate transforma experiența ta de dining.",
+    url: "https://wifi-menu.ro/blog",
+    type: "website",
+    locale: "ro_RO",
+    images: [
+      {
+        url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Blog Wifi Menu"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog - Wifi Menu",
+    description: "Explorează cele mai recente articole și informații despre Wifi Menu. Află cum tehnologia poate transforma experiența ta de dining.",
+    image: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png"
+  }
+};
+
 
 export default async function Blog() {
   const posts: any = await getBlogPosts()

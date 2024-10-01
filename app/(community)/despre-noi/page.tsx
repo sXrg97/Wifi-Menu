@@ -1,6 +1,32 @@
 import Image from "next/image"
 import { Coffee, Utensils, QrCode, Smartphone, Star } from "lucide-react"
 
+export const metadata = {
+  title: "Despre Noi - Wifi Menu",
+  description: "Află mai multe despre Wifi Menu, soluția inovatoare care transformă experiența de dining, aducând meniurile restaurantelor în era digitală.",
+  openGraph: {
+    title: "Despre Noi - Wifi Menu",
+    description: "Află mai multe despre Wifi Menu, soluția inovatoare care transformă experiența de dining, aducând meniurile restaurantelor în era digitală.",
+    url: "https://wifi-menu.ro/despre-noi",
+    type: "website",
+    locale: "ro_RO",
+    images: [
+      {
+        url: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Despre Wifi Menu"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Despre Noi - Wifi Menu",
+    description: "Află mai multe despre Wifi Menu, soluția inovatoare care transformă experiența de dining, aducând meniurile restaurantelor în era digitală.",
+    image: "https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png"
+  }
+};
+
 const DespreNoi = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-start p-4 md:p-24">

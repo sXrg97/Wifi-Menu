@@ -1,28 +1,31 @@
 "use client";
 
-import { fetchMenuBySlug } from "@/lib/actions/menu.actions";
+import { increaseMenuViews } from "@/lib/actions/menu.actions";
 import { MenuType } from "@/types/types";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ShowRestaurant from "./ShowRestaurant";
 import { Loader2 } from "lucide-react";
+import Cookies from 'js-cookie';
 
-const FrontendMenu = () => {
+const FrontendMenu = ({menu} : {menu:MenuType}) => {
     const { slug } = useParams();
-    const [menu, setMenu] = useState<null | MenuType>(null);
+
+    const checkAndIncreaseViews = async (menuId: string) => {
+        const lastVisited = Cookies.get(`lastVisited_${menuId}`);
+
+        if (!lastVisited || (Date.now() - parseInt(lastVisited)) > 20 * 60 * 1000) {
+            // Set new "lastVisited" cookie
+            Cookies.set(`lastVisited_${menuId}`, Date.now().toString());
+
+            // Call increaseMenuViews function
+            await increaseMenuViews(menuId);
+        }
+    };
 
     useEffect(() => {
-        const getMenu = async () => {
-            try {
-                const menu = await fetchMenuBySlug(slug as string);
-                setMenu(menu);
-                console.log(menu);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        getMenu();
-    }, [slug]);
+        checkAndIncreaseViews(menu._id)
+    }, [menu._id]);
     return (
         <>
             {menu ? (

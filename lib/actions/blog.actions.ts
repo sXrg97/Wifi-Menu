@@ -3,6 +3,7 @@ import { collection, getDocs, query, where, orderBy, limit, doc, getDoc } from '
 import { addDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { storage } from '@/utils/firebase'
+import { Post } from '@/app/(community)/blog/[slug]/page'
 
 export async function getBlogPosts(limitCount = 10) {
   const postsRef = collection(db, 'blog_posts')
@@ -16,7 +17,7 @@ export async function getBlogPostBySlug(slug: string) {
   const q = query(postsRef, where('slug', '==', slug), where('published', '==', true), limit(1))
   const snapshot = await getDocs(q)
   if (snapshot.empty) return null
-  return { id: snapshot.docs[0].id, ...snapshot.docs[0].data() }
+  return ({ id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Post)
 }
 
 export async function createBlogPost(formData: FormData) {
