@@ -12,6 +12,7 @@ import GoogleAdsense from "@/components/GoogleAds/GoogleAdsense";
 import GoogleTagManager from "@/components/GoogleAds/GoogleTag";
 import GoogleAnalyticsTag from "@/components/GoogleAds/GoogleAnalyticsTag";
 import { Providers } from "@/components/Providers";
+import { roRO } from '@clerk/localizations'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,7 +48,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <ClerkProvider>
+        <ClerkProvider localization={roRO}>
                 <html lang="ro" suppressHydrationWarning>
                     <head>
                         <GoogleTagManager googleTagManagerId={"GTM-KMKX6JNX"} />
