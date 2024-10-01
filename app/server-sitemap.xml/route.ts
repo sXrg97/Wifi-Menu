@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     // Map menus and blog posts to URLs for the sitemap
     const fields = [
       ...menus.map((menu: MenuType) => ({
-        loc: `https://wifi-menu.ro/menu/${menu._id}`,
+        loc: `https://wifi-menu.ro/menu/${menu.slug}`,
         lastmod: new Date().toISOString(),
       })),
       ...blogPosts.map((post: any) => ({
