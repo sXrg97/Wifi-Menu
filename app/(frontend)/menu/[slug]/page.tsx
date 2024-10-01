@@ -25,7 +25,7 @@ export async function generateMetadata(
 			title: menu ? `${menu.restaurantName} - Wifi Menu` : "Meniu Inexistent - Wifi Menu",
 			description: menu ? `Descoperă meniul restaurantului ${menu.restaurantName} cu Wifi Menu.` : "Meniul solicitat nu a fost găsit.",
 			url: `https://wifi-menu.ro/menu/${slug}`,
-			images: [`${menu.menuPreviewImage}`, ...previousImages],
+			images: [menu.menuPreviewImage ? menu.menuPreviewImage : 'https://wifi-menu.ro/wifi-menu-logo-white-on-purple-bg-og.png', ...previousImages],
 		},
 	};
 }
