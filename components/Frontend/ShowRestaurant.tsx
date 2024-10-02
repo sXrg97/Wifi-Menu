@@ -149,8 +149,8 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
                         <div className={`product-box-wrapper ${j}`}>
                           <ProductBox product={product} admin={false} openModal={openModal}/>
                         </div>
-
-                        {currentProductRendering % 5 === 0 && new Date() > new Date(menu.subscriptionEndDate!) && (
+                        {menu.subscriptionEndDate}
+                        {currentProductRendering % 5 === 0 && (new Date() > new Date(menu.subscriptionEndDate!) || !menu.subscriptionEndDate) && (
                           <div className="ad-wrapper col-span-1">
                             <AdSenseAd />
                           </div>
