@@ -163,24 +163,29 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
             )
           ))}
       </div>
-      <ProductModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          product={selectedProduct}
-          menuId={menu._id}
-          tableNumber={searchParams.get('table')!}
-      />
+      {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) &&
+        <ProductModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            product={selectedProduct}
+            menuId={menu._id}
+            tableNumber={searchParams.get('table')!}
+            orderFromMenu={menu.orderFromMenu}
+            subscriptionEndDate={menu.subscriptionEndDate}
+        />
+      }
 
-      {/* {menu && searchParams.get('table') && <CartSidebar menuId={menu._id} tableNumber={searchParams.get('table')!} isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
+      {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) && searchParams.get('table') && 
+      <CartSidebar menuId={menu._id} tableNumber={searchParams.get('table')!} isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
 
-      {menu && searchParams.get('table') && 
+      {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) && searchParams.get('table') && 
         <Button
           className="fixed size-16 bottom-8 right-8 rounded-full p-3 bg-black hover:bg-gray-900 dark:bg-white dark:hover:bg-gray-200 transition-all duration-200"
           onClick={() => setIsCartOpen(true)}
         >
           <ShoppingCart className="h-6 w-6 text-white dark:text-black" />
         </Button>
-      } */}
+      }
       {/* TODO: De activat cand terminam func. de comanda la masa  */}
     </div>
     </>

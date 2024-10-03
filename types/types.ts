@@ -14,6 +14,7 @@ export type MenuType = {
     subscriptionEndDate?: string;
     paymentStatus?:string;
     stripeSessionId?:string;
+    orderFromMenu?: boolean;
   };
 
   export type ProductType = {

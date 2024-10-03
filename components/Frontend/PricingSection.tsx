@@ -95,9 +95,9 @@ export default function PricingSection() {
             {
               name: "Basic",
               id: "tier-basic",
-              priceMonthly: "99 lei",
+              priceMonthly: "199 lei",
               priceRecurrance: "lună",
-              priceId: "price_1PzICsLX5dxGMJYtRRuy64r2",
+              priceId: "price_1Q5llOLX5dxGMJYtxa8pqtY6",
               description:
                 "Ideal pentru restaurante mici care doresc o experiență fără reclame și funcționalități AI de bază.",
               features: [
@@ -115,10 +115,10 @@ export default function PricingSection() {
             {
               name: "Pro",
               id: "tier-pro",
-              priceMonthly: "799 lei",
+              priceMonthly: "1899 lei",
               priceRecurrance: "an",
               offer: "4 luni gratis",
-              priceId: "price_1PzICsLX5dxGMJYti65UuOQ6",
+              priceId: "price_1Q5llsLX5dxGMJYtab6ocGeF",
               description:
                 "Perfect pentru restaurante în creștere care au nevoie de suport prioritar, funcționalități AI și imagini de calitate superioară.",
               features: [
@@ -191,7 +191,7 @@ export default function PricingSection() {
               ) : (
                 <Button
                   aria-describedby={tier.id}
-                  className="mt-8 block w-full dark:bg-purple-200 bg-purple-600 dark:bg-purple-600 hover:bg-purple-700"
+                  className="mt-8 block w-full bg-purple-600 dark:bg-purple-600 hover:bg-purple-700"
                   onClick={() => handleClick(tier.priceId, tier.id)}
                 >
                   Începeți cu {tier.name}

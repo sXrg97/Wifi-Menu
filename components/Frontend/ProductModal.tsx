@@ -20,9 +20,11 @@ interface ProductModalProps {
   product: ProductType | null;
   menuId: string;
   tableNumber: string;
+  orderFromMenu?: boolean;
+  subscriptionEndDate?: string;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, menuId, tableNumber }) => {
+const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, menuId, tableNumber, orderFromMenu, subscriptionEndDate }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const dispatch = useDispatch();
@@ -105,7 +107,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, m
         </div>
       </DialogContent>
     </Dialog>
-    <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} menuId={menuId} tableNumber={tableNumber} />
+    {orderFromMenu && subscriptionEndDate && new Date() <= new Date(subscriptionEndDate) && <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} menuId={menuId} tableNumber={tableNumber} />}
     </>
   );
 };
