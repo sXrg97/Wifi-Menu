@@ -126,9 +126,12 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
                                                 <ul className="list-disc list-inside">
                                                     {order.order.map((item: any, itemIndex: number) => (
                                                         <li key={itemIndex} className="text-sm">
-                                                            {item.quantity}x {item.name}
+                                                            {item.quantity}x {item.name} - {item.price} RON
                                                         </li>
                                                     ))}
+                                                    <li className="text-sm font-bold">
+                                                        Total Price: {order.totalPrice} RON
+                                                    </li>
                                                 </ul>
                                             </div>
                                         ))}

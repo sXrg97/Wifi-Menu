@@ -1,15 +1,22 @@
 "use client";
 
-import { increaseMenuViews } from "@/lib/actions/menu.actions";
+import { fetchMenuBySlug, increaseMenuViews } from "@/lib/actions/menu.actions";
 import { MenuType } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ShowRestaurant from "./ShowRestaurant";
 import { Loader2 } from "lucide-react";
 import Cookies from 'js-cookie';
+import { useDocumentData } from "react-firebase-hooks/firestore";
+import { doc } from "firebase/firestore";
+import { db } from "@/utils/firebase";
 
-const FrontendMenu = ({menu} : {menu:MenuType}) => {
+const FrontendMenu = ({menuId}:{menuId: string}) => {
     const { slug } = useParams();
+
+	// Use useDocumentData to fetch menu data in real-time using the slug
+	const [liveMenu, loading, error] = useDocumentData(doc(db, 'menus', menuId));
+    console.log({liveMenu})
 
     const checkAndIncreaseViews = async (menuId: string) => {
         const lastVisited = Cookies.get(`lastVisited_${menuId}`);
@@ -24,13 +31,13 @@ const FrontendMenu = ({menu} : {menu:MenuType}) => {
     };
 
     useEffect(() => {
-        checkAndIncreaseViews(menu._id)
-    }, [menu._id]);
+        liveMenu && checkAndIncreaseViews(liveMenu._id)
+    }, [liveMenu]);
     return (
         <>
-            {menu ? (
+            {liveMenu ? (
                 <div className="mx-auto max-w-full w-full">
-                    <ShowRestaurant menu={menu} />
+                    <ShowRestaurant menu={liveMenu as MenuType} />
                 </div>
             ) : (
                 <div className="mx-auto max-w-7xl p-8 flex justify-center">

@@ -11,22 +11,21 @@ import { getAllergenInRomanian, calculateDiscountedPrice } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
 import { addToCart } from '@/store/cartSlice';
 import { RootState } from '@/store/store';
-import CartSidebar from './CartSidebar';
-import { table } from 'console';
 
 interface ProductModalProps {
   isOpen: boolean;
+  setIsCartOpen: (boolean: boolean) => void;
   onClose: () => void;
   product: ProductType | null;
   menuId: string;
   tableNumber: string;
   orderFromMenu?: boolean;
   subscriptionEndDate?: string;
+  handleAddToCartActiveState: () => void;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, menuId, tableNumber, orderFromMenu, subscriptionEndDate }) => {
+const ProductModal: React.FC<ProductModalProps> = ({ isOpen, setIsCartOpen, onClose, product, menuId, tableNumber, orderFromMenu, subscriptionEndDate, handleAddToCartActiveState }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
@@ -37,8 +36,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, m
   if (!product) return null;
 
   const handleAddToCart = () => {
+    handleAddToCartActiveState();
     dispatch(addToCart({ product, quantity: 1 }));
-    setTimeout(() => setIsCartOpen(true), 100);
+    setTimeout(() => {
+      setIsCartOpen(true)
+    }, 100);
   };
 
   return (
@@ -107,7 +109,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, m
         </div>
       </DialogContent>
     </Dialog>
-    {orderFromMenu && subscriptionEndDate && new Date() <= new Date(subscriptionEndDate) && <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} menuId={menuId} tableNumber={tableNumber} />}
     </>
   );
 };

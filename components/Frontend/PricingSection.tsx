@@ -89,7 +89,6 @@ export default function PricingSection() {
                 "Generare coduri QR nelimitate",
                 "Actualizări de meniu instante",
                 "Suport 24/7",
-                "Reclame în meniu",
               ],
             },
             {
@@ -106,7 +105,7 @@ export default function PricingSection() {
                 "Mese nelimitate",
                 "Generare coduri QR nelimitate",
                 "Actualizări de meniu instante",
-                "Suport 24/7 prioritar",
+                "Suport 24/7",
                 "Fără reclame în meniu",
                 "Poze de calitate înaltă",
                 "Funcționalități AI",
@@ -117,7 +116,7 @@ export default function PricingSection() {
               id: "tier-pro",
               priceMonthly: "1899 lei",
               priceRecurrance: "an",
-              offer: "4 luni gratis",
+              offer: "-20%",
               priceId: "price_1Q5llsLX5dxGMJYtab6ocGeF",
               description:
                 "Perfect pentru restaurante în creștere care au nevoie de suport prioritar, funcționalități AI și imagini de calitate superioară.",

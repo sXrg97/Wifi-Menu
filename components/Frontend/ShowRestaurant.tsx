@@ -14,6 +14,8 @@ import { ConciergeBell, Receipt, User, ShoppingCart } from 'lucide-react';
 import AdSenseAd from '../GoogleAds/AdSenseAd';
 import ProductModal from './ProductModal';
 import CartSidebar from './CartSidebar';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const searchParams = useSearchParams();
@@ -22,8 +24,9 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-
+  const { name: userName } = useSelector((state: RootState) => state.user);
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState('cart'); // State for active tab
 
   const openModal = (product: ProductType) => {
       setSelectedProduct(product);
@@ -91,6 +94,20 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       console.log("Error trying to call for waiter", err)
     }
   }
+
+  const handleAddToCartActiveState = () => {
+    if (activeTab === 'orders') {
+      setActiveTab('cart'); // Switch to cart tab
+    }
+    setIsCartOpen(true); // Open the cart sidebar
+  };
+
+  const orders = menu.tables.flatMap(table => 
+    table.orders?.filter((order: { user: string, table: number }) => 
+      order.user === userName && table.tableNumber === Number(tableNumber)
+    ) || []
+  ); // Extract orders from menu data filtered by userName and tableNumber
+  console.log({orders})
 
   return (
   <>
@@ -166,19 +183,29 @@ const ShowRestaurant = ({ menu }: { menu: MenuType }) => {
       {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) &&
         <ProductModal
             isOpen={isModalOpen}
+            setIsCartOpen={setIsCartOpen}
             onClose={closeModal}
             product={selectedProduct}
             menuId={menu._id}
             tableNumber={searchParams.get('table')!}
             orderFromMenu={menu.orderFromMenu}
             subscriptionEndDate={menu.subscriptionEndDate}
+            handleAddToCartActiveState={handleAddToCartActiveState}
         />
       }
 
-      {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) && searchParams.get('table') && 
-      <CartSidebar menuId={menu._id} tableNumber={searchParams.get('table')!} isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
+      {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) && tableNumber && 
+      <CartSidebar 
+          menuId={menu._id} 
+          tableNumber={tableNumber} 
+          isOpen={isCartOpen} 
+          onClose={() => setIsCartOpen(false)} 
+          orders={orders} 
+          activeTab={activeTab} // Pass activeTab to CartSidebar
+          setActiveTab={setActiveTab} // Pass setActiveTab to CartSidebar
+      />}
 
-      {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) && searchParams.get('table') && 
+      {menu.orderFromMenu && menu.subscriptionEndDate && new Date() <= new Date(menu.subscriptionEndDate) && tableNumber && 
         <Button
           className="fixed size-16 bottom-8 right-8 rounded-full p-3 bg-black hover:bg-gray-900 dark:bg-white dark:hover:bg-gray-200 transition-all duration-200"
           onClick={() => setIsCartOpen(true)}

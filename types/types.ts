@@ -10,7 +10,7 @@ export type MenuType = {
       name: string;
       products: ProductType[];
     }[];
-    tables: [{tableNumber: number, callWaiter: boolean, requestBill: boolean}]
+    tables: [{tableNumber: number, callWaiter: boolean, requestBill: boolean, orders?:[]}]
     subscriptionEndDate?: string;
     paymentStatus?:string;
     stripeSessionId?:string;

@@ -134,7 +134,8 @@ export const UpdateMenuInfo = async (
   newRestaurantName: string,
   slug: string,
   tables: number,
-  formData: FormData
+  formData: FormData,
+  orderFromMenu: boolean
 ) => {
   if (!menuId) return { status: 400, message: "Invalid menuId" };
 
@@ -162,6 +163,7 @@ export const UpdateMenuInfo = async (
         callWaiter: false,
         requestBill: false,
       })),
+      orderFromMenu: Boolean(orderFromMenu)
     };
 
     if (formData.get("restaurantCoverImage")) {
@@ -843,7 +845,7 @@ export const getTables = async (menuId: string) => {
   }
 };
 
-export const sendUserOrder = async (menuId: string, tableNumber: string, userName: string, order: any[]) => {
+export const sendUserOrder = async (menuId: string, tableNumber: string, userName: string, order: any[], totalPrice: string) => {
   try {
     const menuRef = doc(db, 'menus', menuId);
     const menuDoc = await getDoc(menuRef);
@@ -863,6 +865,7 @@ export const sendUserOrder = async (menuId: string, tableNumber: string, userNam
     const newOrder = {
       user: userName,
       order: [...order],
+      totalPrice,
       // timestamp: serverTimestamp(), TODO: FIX THIS
       status: 'pending'
     };

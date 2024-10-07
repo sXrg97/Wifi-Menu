@@ -31,16 +31,13 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params, searchParams }: Props) {
-	const slug = params.slug;
+    const { slug } = params;
 	const menu = await fetchMenuBySlug(slug);
 
-	if (!menu) {
-		return <div>Meniul nu a fost găsit.</div>; // Handle the case where the menu is not found
-	}
 
 	return (
 		<main>
-			<FrontendMenu menu={menu} />
+			<FrontendMenu menuId={menu._id} />
 		</main>
 	);
 }

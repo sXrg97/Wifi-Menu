@@ -20,6 +20,7 @@ import { UpdateMenuInfo } from "@/lib/actions/menu.actions";
 import { Loader2, PenIcon } from "lucide-react";
 import { generateSlug } from "@/lib/utils";
 import Image from "next/image";
+import { Switch } from "../ui/switch";
 
 const EditRestaurantModal = ({
     menu,
@@ -28,12 +29,13 @@ const EditRestaurantModal = ({
     menu: MenuType;
     setMenu: React.Dispatch<React.SetStateAction<MenuType | null>>;
 }) => {
-    const { _id, restaurantName, slug, tables, menuPreviewImage } = menu;
+    const { _id, restaurantName, slug, tables, menuPreviewImage, orderFromMenu } = menu;
 
     const [formFields, setFormFields] = useState({
         restaurantName,
         slug,
         tables: tables.length,
+        orderFromMenu: menu.orderFromMenu || false
     });
 
     const [restaurantCoverImage, setRestaurantCoverImage] = useState<File | null>(null);
@@ -48,7 +50,7 @@ const EditRestaurantModal = ({
             formData.append("restaurantCoverImage", restaurantCoverImage);
         }
 
-        const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug, formFields.tables, formData);
+        const res = await UpdateMenuInfo(_id, formFields.restaurantName, formFields.slug, formFields.tables, formData, formFields.orderFromMenu);
 
         if (res.status !== 200) {
             toast({
@@ -155,6 +157,24 @@ const EditRestaurantModal = ({
                 <div className="grid gap-2">
                     <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
                         <Label htmlFor="tables" className="text-left">
+                            Comanda din Meniu
+                        </Label>
+                        <Switch
+                            name="orderFromMenu"
+                            checked={formFields.orderFromMenu}
+                            onCheckedChange={(checked) => onChangeHandler({ 
+                                target: { 
+                                    name: "orderFromMenu", 
+                                    value: checked // {{ edit_1 }} Change to boolean
+                                } as unknown as HTMLInputElement, // Cast to unknown first
+                            } as ChangeEvent<HTMLInputElement>)}
+                        />
+                    </div>
+                </div>
+
+                <div className="grid gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-4 items-center gap-4">
+                        <Label htmlFor="tables" className="text-left">
                             Mese
                         </Label>
                         <Input
@@ -175,7 +195,7 @@ const EditRestaurantModal = ({
                     </Button>
 
                     <DialogClose asChild>
-                        <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length })}>
+                        <Button onClick={() => setFormFields({ restaurantName, slug, tables: tables.length, orderFromMenu: orderFromMenu ?? false })}>
                             Închide
                         </Button>
                     </DialogClose>
