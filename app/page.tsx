@@ -30,7 +30,7 @@ export default function Home() {
         <div className="flex items-center justify-center gap-20">
           <a href="https://asproject.ro/" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/asproject-logo.webp" // Replace with the actual path to the logo
+              src="/parteneri/asproject-logo.webp" // Replace with the actual path to the logo
               alt="AS Project Logo"
               width={80} // Adjust width as needed
               height={80} // Adjust height as needed
