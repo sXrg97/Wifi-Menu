@@ -52,7 +52,7 @@ export default function ClientsCarousel() {
               <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
                 {menu.restaurantName}
               </h3>
-              <Link href={`/menu/${menu.slug}`} passHref>
+              <Link href={`/menu/${menu.slug}?table=1`} passHref>
                 <Button size="lg">
                   Vezi Meniul
                 </Button>
