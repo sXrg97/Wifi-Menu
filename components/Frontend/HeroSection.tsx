@@ -292,12 +292,12 @@ export default function HeroSection() {
 
                 <div className="relative" data-aos="fade-right" data-aos-offset="100">
                     <dt>
-                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-400 text-white">
+                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-400 text-white">
                         <ShoppingCart className="h-6 w-6" aria-hidden="true" />
                     </div>
                     <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white flex items-center">
                         Comandă Directă de la Masă
-                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full text-nowrap">În curând</span>
+                        <span className="ml-2 px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full text-nowrap">Beta</span>
                     </p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">

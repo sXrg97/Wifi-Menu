@@ -109,6 +109,9 @@ export default function PricingSection() {
                 "Fără reclame în meniu",
                 "Poze de calitate înaltă",
                 "Funcționalități AI",
+                "Functionalitate cheama chelnerul la masa",
+                "Functionalitatea cere nota de plata",
+                "Comanda direct din meniu",
               ],
             },
             {
@@ -130,6 +133,9 @@ export default function PricingSection() {
                 "Fără reclame în meniu",
                 "Poze de calitate înaltă",
                 "Funcționalități AI",
+                "Functionalitate cheama chelnerul la masa",
+                "Functionalitatea cere nota de plata",
+                "Comanda direct din meniu",
               ],
             },
           ].map((tier, i) => (
