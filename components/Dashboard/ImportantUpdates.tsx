@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { callWaiter, requestBill } from "@/lib/actions/menu.actions"
+import { callWaiter, requestBill, updateOrderStatusInDB } from "@/lib/actions/menu.actions"
 import { Button } from "../ui/button"
 import { ConciergeBell, Receipt, X } from "lucide-react"
 import { doc } from "firebase/firestore"
@@ -17,6 +17,27 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
     const [docs, loading, error] = useDocumentData(
         doc(db, 'menus', menuId)
     );
+
+    const updateOrderStatus = async (menuId: any, tableNumber:number, id:string) => {
+        try {
+            const res = await updateOrderStatusInDB(menuId, tableNumber, id);
+            if (res.success) {
+                toast({
+                    variant: "success",
+                    title: `Succes! 🎉`,
+                    description: `Solicitarea a fost rezolvata!`,
+                })
+            }
+        }
+        catch (err) {
+            toast({
+                variant: "destructive",
+                title: `Eroare! 😢`,
+                description: `A apărut o eroare la chemarea ospătarului`,
+            })
+            console.log("Error trying to call for waiter", err)
+        }
+    }
 
     const waiterOnTheWay = async (tableNumber: number) => {
         try {
@@ -132,6 +153,25 @@ const ImportantUpdates = ({menuId}:{menuId: string}) => {
                                                     <li className="text-sm font-bold">
                                                         Total Price: {order.totalPrice} RON
                                                     </li>
+
+                                                    <div className='flex items-center gap-4 flex-wrap'>
+                                                        <span>
+                                                            Status: <span style={{color: order.status === 'pending' ? 'red' : order.status === 'preparing' ? 'orange' : 'green'}}>{order.status === 'pending' ? "În așteptare" : order.status === 'preparing' ? "Preluată" : "Finalizată"}</span>
+                                                        </span>
+                                                        <Button
+                                                            variant="default"
+                                                            
+                                                            onClick={() => {
+                                                                if (order.status === 'pending') {
+                                                                    updateOrderStatus(menuId, table.tableNumber, order.id);
+                                                                } else if (order.status === 'preparing') {
+                                                                    updateOrderStatus(menuId, table.tableNumber, order.id);
+                                                                }
+                                                            }}
+                                                        >
+                                                            {order.status === 'pending' ? 'Preia comanda' : 'Finalizeaza comanda'}
+                                                        </Button>
+                                                    </div>
                                                 </ul>
                                             </div>
                                         ))}

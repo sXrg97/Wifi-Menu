@@ -862,12 +862,15 @@ export const sendUserOrder = async (menuId: string, tableNumber: string, userNam
       throw new Error('Table not found');
     }
 
+    const id = userName + new Date().getTime();
+
     const newOrder = {
       user: userName,
       order: [...order],
       totalPrice,
       // timestamp: serverTimestamp(), TODO: FIX THIS
-      status: 'pending'
+      status: 'pending',
+      id 
     };
 
     if (!tables[tableIndex].orders) {
@@ -882,5 +885,55 @@ export const sendUserOrder = async (menuId: string, tableNumber: string, userNam
   } catch (error) {
     console.error('Error sending order:', error);
     return { success: false, error: error instanceof Error ? error.message : String(error) };
+  }
+};
+
+export const updateOrderStatusInDB = async (
+  menuId: string,
+  tableNumber: number,
+  orderId: string,
+) => {
+  try {
+    const menuRef = doc(db, "menus", menuId);
+    const menuSnapshot = await getDoc(menuRef);
+
+    if (!menuSnapshot.exists()) {
+      throw new Error("Menu not found");
+    }
+
+    const menuData = menuSnapshot.data();
+    const tables = menuData.tables || [];
+    const tableIndex = tables.findIndex((table: any) => table.tableNumber === tableNumber);
+    
+    if (tableIndex === -1) {
+      throw new Error("Table not found");
+    }
+
+    const orders = tables[tableIndex].orders || [];
+    const orderIndex = orders.findIndex((order: any) => order.id === orderId);
+
+    if (orderIndex === -1) {
+      throw new Error("Order not found");
+    }
+
+    const currentStatus = orders[orderIndex].status;
+
+    // Update the order status based on the current status
+    if (currentStatus === 'pending') {
+      orders[orderIndex].status = 'preparing';
+    } else if (currentStatus === 'preparing') {
+      orders[orderIndex].status = 'delivered';
+    }
+
+    // Update the menu document with the new orders array
+    await updateDoc(menuRef, {
+      tables: tables,
+      lastModifiedAt: serverTimestamp(),
+    });
+
+    return { success: true, updatedOrder: orders[orderIndex] };
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    throw error;
   }
 };

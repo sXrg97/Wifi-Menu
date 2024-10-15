@@ -275,7 +275,7 @@ export default function CartSidebar({ menuId, tableNumber, isOpen, onClose, orde
                         ))}
                       </ul>
                       <p className="text-sm font-bold">Total: {order.totalPrice} RON</p>
-                      <p className={`text-sm ${order.status === 'pending' ? "text-blue-500" : order.status === 'cooking' ? "text-yellow-500" : order.status === 'delivered' ? "text-green-500" : ""}`}>Status: {order.status === 'pending' ? "Comanda trimisa" : order.status === 'cooking' ? "Comanda ta este in curs de preparare" : order.status === 'delivered' ? "Comanda ta este gata" : ""}</p>
+                      <p className={`text-sm ${order.status === 'pending' ? "text-blue-500" : order.status === 'preparing' ? "text-yellow-500" : order.status === 'delivered' ? "text-green-500" : ""}`}>Status: {order.status === 'pending' ? "Comanda trimisa" : order.status === 'preparing' ? "Comanda ta este in curs de preparare" : order.status === 'delivered' ? "Comanda ta este gata" : ""}</p>
                     </div>
                   ))}
                 </div>
@@ -288,13 +288,13 @@ export default function CartSidebar({ menuId, tableNumber, isOpen, onClose, orde
         </Tabs>
         <SheetFooter className="px-6 py-4 border-t">
           {activeTab === 'cart' && (
-            <>
+            <div className='flex flex-col flex-1'>
               <p className="text-lg font-semibold my-2">Total: {calculateTotal().toFixed(2)} RON</p>
               <div className="flex gap-2 w-full">
-                <Button className="flex-1" onClick={handleSendOrder}>Finalizează comanda</Button>
+                <Button className="flex-1 text-nowrap" onClick={handleSendOrder}>Finalizează comanda</Button>
                 <Button variant="destructive" onClick={handleEmptyCart}>Golește coșul</Button>
               </div>
-            </>
+            </div>
           )}
         </SheetFooter>
       </SheetContent>
