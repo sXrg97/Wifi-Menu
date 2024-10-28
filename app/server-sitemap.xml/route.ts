@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       })),
       ...blogPosts.map((post: any) => ({
         loc: `https://wifi-menu.ro/blog/${post.slug}`,
-        lastmod: post.updatedAt || new Date().toISOString().split('T')[0],
+        lastmod: new Date(post.updatedAt.seconds*1000).toISOString().split('T')[0],
       }))
     ];
 
