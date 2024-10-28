@@ -12,11 +12,11 @@ export async function GET(request: Request) {
     const fields = [
       ...menus.map((menu: MenuType) => ({
         loc: `https://wifi-menu.ro/menu/${menu.slug}`,
-        lastmod: new Date().toISOString(),
+        lastmod: new Date().toISOString().split('T')[0],
       })),
       ...blogPosts.map((post: any) => ({
         loc: `https://wifi-menu.ro/blog/${post.slug}`,
-        lastmod: post.updatedAt || new Date().toISOString(),
+        lastmod: post.updatedAt || new Date().toISOString().split('T')[0],
       }))
     ];
 

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { deleteCategory, fetchMenu } from "@/lib/actions/menu.actions";
+import { deleteCategory, fetchMenu, setNewMenuDb } from "@/lib/actions/menu.actions";
 import { LinkIcon, Loader2Icon, Trash2Icon } from "lucide-react";
 import { MenuType, ProductType } from "@/types/types";
 import { useToast } from "../ui/use-toast";
@@ -27,6 +27,15 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
     const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const setNewMenu =  (menuId: string) => {
+        try {
+            console.log("trying")
+            setNewMenuDb(menuId);
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         const getMenu = async () => {
@@ -121,7 +130,7 @@ const RestaurantInfo = ({ menuId }: { menuId: string | null }) => {
 
             {menu && <span className="italic text-gray-400 mb-4 block">Vizualizari: {menu.lifetimeViews}</span>}
 
-
+<div onClick={() => setNewMenu(menuId!)}>aici</div>
             <div className="flex items-center gap-4 mb-6">
                 {menuId && (
                     <>

@@ -55,6 +55,7 @@ export async function POST(req: Request) {
       },
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`, // Redirect on successful payment
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/`, // Redirect on payment cancellation
+      locale: "ro"
     });
 
     return NextResponse.json({ url: session.url });
